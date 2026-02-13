@@ -1,0 +1,80 @@
+.about-page {
+  padding-top: 70px;
+  background: #f2f2f2;
+}
+
+/* Hero */
+.about-hero img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Text */
+.about-text {
+  padding: 25px 20px;
+  text-align: center;
+  color: #555;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* Grey Image Cards */
+.about-card-image {
+  padding: 0 15px 30px;
+}
+
+.about-card-image img {
+  width: 100%;
+  border-radius: 12px;
+  background: #ddd;
+}
+
+/* Section */
+.about-section {
+  padding: 0 20px 30px;
+  text-align: center;
+}
+
+/* Divider Title */
+.section-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.section-divider span {
+  font-weight: 700;
+  font-size: 14px;
+  position: relative;
+  padding: 0 10px;
+}
+
+.section-divider::before,
+.section-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #ccc;
+}
+
+/* Paragraph */
+.about-section p {
+  color: #555;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* List */
+.about-section ul {
+  text-align: left;
+  padding-left: 18px;
+  color: #555;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.about-section li {
+  margin-bottom: 15px;
+}

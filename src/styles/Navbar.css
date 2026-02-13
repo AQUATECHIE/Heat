@@ -89,3 +89,91 @@
   cursor: pointer;
 }
 
+/* Sidebar full style */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 280px;
+  height: 100vh;
+  background: #f2f2f2;
+  transition: left 0.4s ease;
+  z-index: 1002;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+/* Header */
+.sidebar-header {
+  background: #0d0d0d;
+  padding: 20px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebar-close {
+  position: absolute;
+  left: 20px;
+  background: #333;
+  border: none;
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.sidebar-logo {
+  height: 35px;
+}
+
+/* Links */
+.sidebar-links {
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.sidebar-links a {
+  text-decoration: none;
+  color: #222;
+  font-size: 15px;
+}
+
+/* Active link */
+.sidebar-links a.active {
+  font-weight: 700;
+}
+
+/* Divider */
+.sidebar-divider {
+  height: 1px;
+  background: #ddd;
+  margin: 10px 0;
+}
+
+/* Extra */
+.sidebar-extra {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  font-size: 14px;
+}
+
+.sidebar-extra a {
+  text-decoration: none;
+  color: #222;
+}
+
+.sidebar-extra p {
+  color: #555;
+  font-size: 13px;
+}
