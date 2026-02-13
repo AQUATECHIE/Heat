@@ -7,6 +7,7 @@ import BagsCollection from "./pages/BagsCollection";
 import ClothesCollection from "./pages/ClothesCollection";
 import CollectiblesItemCollection from "./pages/CollectiblesItemCollection";
 import About from "./components/About";
+import ProductDetails from "./pages/ProductsDetails";
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/clothes" element={<ClothesCollection />} />
         <Route path="/collectibles" element={<CollectiblesItemCollection />} />
         <Route path="/about" element={<About />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
       </Routes>
     </Router>
   );
