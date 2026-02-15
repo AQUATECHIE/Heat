@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useState } from "react";
+import { useCart } from "../context/CartContext.jsx"; 
 import "../styles/ProductDetails.css";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
@@ -36,24 +37,45 @@ const ProductDetails = () => {
   const { id } = useParams();
   const product = dummyProducts.find((p) => p.id === id);
 
+  const { addToCart } = useCart(); // 👈 USE GLOBAL CART
+
   const [currentImage, setCurrentImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState(null);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
+  const [sizeError, setSizeError] = useState(false);
 
   if (!product) return <div>Product not found</div>;
 
   const nextImage = () => {
     setCurrentImage((prev) =>
-      prev === product.images.length - 1 ? 0 : prev + 1,
+      prev === product.images.length - 1 ? 0 : prev + 1
     );
   };
 
   const prevImage = () => {
     setCurrentImage((prev) =>
-      prev === 0 ? product.images.length - 1 : prev - 1,
+      prev === 0 ? product.images.length - 1 : prev - 1
     );
   };
+
+  const handleAddToCart = () => {
+  if (product.category === "shoes" && !selectedSize) {
+    setSizeError(true);
+    return;
+  }
+
+  setSizeError(false);
+
+  addToCart({
+    id: product.id,
+    name: product.name,
+    price: product.price,
+    images: product.images,   
+    selectedSize,
+    quantity,
+  });
+};
 
   return (
     <>
@@ -98,12 +120,21 @@ const ProductDetails = () => {
                 <button
                   key={size}
                   className={selectedSize === size ? "active" : ""}
-                  onClick={() => setSelectedSize(size)}
+                  onClick={() => {
+                    setSelectedSize(size);
+                    setSizeError(false);
+                  }}
                 >
                   {size}
                 </button>
               ))}
             </div>
+
+            {sizeError && (
+              <p className="size-error">
+                Please select a size before adding to cart.
+              </p>
+            )}
           </div>
         )}
 
@@ -118,7 +149,16 @@ const ProductDetails = () => {
             <button onClick={() => setQuantity(quantity + 1)}>+</button>
           </div>
 
-          <button className="add-to-cart">ADD TO CART</button>
+          <button
+            className={`add-to-cart ${
+              product.category === "shoes" && !selectedSize
+                ? "disabled"
+                : ""
+            }`}
+            onClick={handleAddToCart}
+          >
+            ADD TO CART
+          </button>
         </div>
 
         <button className="buy-now">BUY NOW</button>
@@ -132,156 +172,7 @@ const ProductDetails = () => {
             <li>Free returns in 30 days</li>
           </ul>
         </div>
-
-        {/* Related */}
-        <div className="related">
-          <h3>YOU MAY ALSO LIKE</h3>
-          <div className="related-grid">
-            <div className="related-card">
-              <img src={hoodie} alt="" />
-              <p>PRADA NORDSTROM</p>
-              <span>R1,700</span>
-            </div>
-
-            <div className="related-card">
-              <img src={glasses} alt="" />
-              <p>NIKE AIR JORDAN 1 RETRO</p>
-              <span>R1,200</span>
-            </div>
-          </div>
-        </div>
       </div>
-
-      {/* SIZE GUIDE MODAL → ONLY FOR SHOES */}
-      {product.category === "shoes" && sizeGuideOpen && (
-        <div
-          className="size-guide-overlay"
-          onClick={() => setSizeGuideOpen(false)}
-        >
-          <div
-            className="size-guide-modal"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="modal-header">
-              <button onClick={() => setSizeGuideOpen(false)}>✕</button>
-              <h3>SIZE GUIDE</h3>
-            </div>
-
-            <div className="modal-content">
-              {/* Table */}
-              <table>
-                <tbody>
-                  <tr>
-                    <th>Size</th>
-                    <td>39</td>
-                    <td>40</td>
-                    <td>41</td>
-                    <td>42</td>
-                    <td>43</td>
-                    <td>44</td>
-                    <td>45</td>
-                    <td>46</td>
-                    <td>47</td>
-                    <td>48</td>
-                  </tr>
-                  <tr>
-                    <th>US</th>
-                    <td>6</td>
-                    <td>7</td>
-                    <td>8</td>
-                    <td>9</td>
-                    <td>10</td>
-                    <td>11</td>
-                    <td>12</td>
-                    <td>13</td>
-                    <td>14</td>
-                    <td>15</td>
-                  </tr>
-                  <tr>
-                    <th>EUR</th>
-                    <td>39</td>
-                    <td>40</td>
-                    <td>41</td>
-                    <td>42</td>
-                    <td>43</td>
-                    <td>44</td>
-                    <td>45</td>
-                    <td>46</td>
-                    <td>47</td>
-                    <td>48</td>
-                  </tr>
-                  <tr>
-                    <th>UK</th>
-                    <td>5</td>
-                    <td>6</td>
-                    <td>7</td>
-                    <td>8</td>
-                    <td>9</td>
-                    <td>10</td>
-                    <td>11</td>
-                    <td>12</td>
-                    <td>13</td>
-                    <td>14</td>
-                  </tr>
-                  <tr>
-                    <th>JP</th>
-                    <td>26</td>
-                    <td>26.5</td>
-                    <td>27</td>
-                    <td>27.5</td>
-                    <td>28.5</td>
-                    <td>29</td>
-                    <td>29.5</td>
-                    <td>30</td>
-                    <td>30.5</td>
-                    <td>31</td>
-                  </tr>
-                  <tr>
-                    <th>KR</th>
-                    <td>245</td>
-                    <td>250</td>
-                    <td>260</td>
-                    <td>270</td>
-                    <td>280</td>
-                    <td>290</td>
-                    <td>300</td>
-                    <td>310</td>
-                    <td>320</td>
-                    <td>330</td>
-                  </tr>
-                </tbody>
-              </table>
-
-              {/* How to Measure */}
-              <h4>HOW TO MEASURE</h4>
-
-              <p>
-                In order to select the correct shoe size, we recommend you
-                measure your feet using the following guidelines.
-              </p>
-
-              <ul>
-                <li>
-                  Wear the kind of socks or tights you would normally wear with
-                  this type of shoe.
-                </li>
-                <li>
-                  Stand up straight on a flat surface with your heel against a
-                  wall.
-                </li>
-                <li>
-                  Measure from the base of your heel to the tip of your longest
-                  toe.
-                </li>
-                <li>
-                  Always measure both feet and use your longest foot as your
-                  benchmark.
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      )}
 
       <Footer />
     </>

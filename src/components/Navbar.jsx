@@ -1,6 +1,8 @@
 import logo from "../assets/hero-logo.png";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useCart } from "../context/CartContext"; 
+import { Link } from "react-router-dom";
 import "../styles/Navbar.css";
 import {
   FaBars,
@@ -14,20 +16,21 @@ const Navbar = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  const { cartItems } = useCart(); // 👈 GET CART STATE
+
+  // Calculate total quantity (not just number of items)
+  const totalQuantity = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0,
+  );
+
   return (
     <>
       <nav className="navbar">
         <div className="nav-left">
-          {/* 🔥 Hamburger now triggers sidebar */}
-          <FaBars
-            className="icon"
-            onClick={() => setSidebarOpen(true)}
-          />
+          <FaBars className="icon" onClick={() => setSidebarOpen(true)} />
 
-          <FaSearch
-            className="icon"
-            onClick={() => setSearchOpen(true)}
-          />
+          <FaSearch className="icon" onClick={() => setSearchOpen(true)} />
         </div>
 
         <div className="nav-logo">
@@ -36,11 +39,18 @@ const Navbar = () => {
 
         <div className="nav-right">
           <FaUser className="icon" />
-          <FaShoppingBag className="icon" />
+
+          {/* 🔥 CART WITH BADGE */}
+          <Link to="/cart" className="cart-wrapper">
+            <FaShoppingBag className="icon" />
+            {totalQuantity > 0 && (
+              <span className="cart-badge">{totalQuantity}</span>
+            )}
+          </Link>
         </div>
       </nav>
 
-      {/* 🔥 Overlay */}
+      {/* Overlay */}
       {(searchOpen || sidebarOpen) && (
         <div
           className="overlay"
@@ -51,16 +61,13 @@ const Navbar = () => {
         ></div>
       )}
 
-      {/* 🔎 SEARCH DROPDOWN */}
+      {/* SEARCH DROPDOWN */}
       {searchOpen && (
         <div className="search-dropdown">
           <div className="search-top">
             <div className="search-input-wrapper">
               <FaSearch className="search-icon" />
-              <input
-                type="text"
-                placeholder="WHAT ARE YOU LOOKING FOR?"
-              />
+              <input type="text" placeholder="WHAT ARE YOU LOOKING FOR?" />
             </div>
             <FaTimes
               className="close-icon"
@@ -77,7 +84,7 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* 📂 SIDEBAR */}
+      {/* SIDEBAR */}
       <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
         <div className="sidebar-header">
           <button

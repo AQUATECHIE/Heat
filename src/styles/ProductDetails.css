@@ -214,3 +214,14 @@
 .modal-content ul {
   padding-left: 18px;
 }
+
+.size-error {
+  color: red;
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+.add-to-cart.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}

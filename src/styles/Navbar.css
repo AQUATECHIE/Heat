@@ -177,3 +177,17 @@
   color: #555;
   font-size: 13px;
 }
+.cart-wrapper {
+  position: relative;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: red;
+  color: #fff;
+  font-size: 10px;
+  padding: 3px 6px;
+  border-radius: 50%;
+}
