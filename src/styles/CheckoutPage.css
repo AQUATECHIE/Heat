@@ -1,0 +1,167 @@
+.checkout-page {
+  background: #f3f3f3;
+  padding: 15px;
+  font-family: sans-serif;
+}
+
+/* HEADER */
+.checkout-header {
+  background: #000;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.checkout-header img {
+  height: 30px;
+}
+
+.checkout-header svg {
+  color: #fff;
+  font-size: 18px;
+}
+
+/* ORDER SUMMARY */
+.order-summary {
+  background: #fff;
+  padding: 15px;
+  margin-top: 10px;
+}
+
+.order-summary h3 {
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.summary-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.summary-img-wrapper {
+  position: relative;
+}
+
+.summary-img-wrapper img {
+  width: 60px;
+  border-radius: 6px;
+}
+
+.quantity-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #000;
+  color: #fff;
+  font-size: 12px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.summary-details {
+  flex: 1;
+  margin-left: 10px;
+}
+
+.summary-details span {
+  font-size: 12px;
+  color: gray;
+}
+
+.summary-price {
+  font-weight: bold;
+}
+
+.summary-totals {
+  margin-top: 15px;
+}
+
+.summary-totals div {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.total-row {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* SECTIONS */
+.checkout-section {
+  background: #fff;
+  padding: 15px;
+  margin-top: 15px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.signin {
+  font-size: 14px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.checkout-section input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.checkbox input {
+  margin-right: 8px;
+}
+
+/* PAYMENT */
+.secure-text {
+  font-size: 13px;
+  color: gray;
+  margin-bottom: 10px;
+}
+
+.payment-option {
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.stripe {
+  font-weight: bold;
+  color: #635bff;
+}
+
+.whatsapp {
+  color: green;
+}
+
+.pay-btn {
+  background: #000;
+  color: #fff;
+  width: 100%;
+  padding: 14px;
+  border: none;
+  margin-top: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}

@@ -1,4 +1,5 @@
 import { useCart } from "../context/CartContext";
+import { useNavigate } from "react-router-dom";
 import "../styles/CartPage.css";
 import { FaTrash } from "react-icons/fa";
 import Footer from "../components/Footer";
@@ -8,6 +9,7 @@ import sneaker2 from "../assets/shoe.png";
 
 const CartPage = () => {
   const { cartItems, removeFromCart, updateQuantity } = useCart();
+  const navigate = useNavigate();
 
   const total = cartItems.reduce(
     (sum, item) =>
@@ -17,7 +19,7 @@ const CartPage = () => {
 
   return (
     <>
-      <div className="cart-page">
+      <div className="cart-page" style={{marginTop: "20px"}}>
         <h2>My Cart</h2>
 
         <div className="cart-header">
@@ -74,7 +76,7 @@ const CartPage = () => {
         ))}
 
         {/* Checkout */}
-        <button className="checkout-btn">
+        <button className="checkout-btn" onClick={() => navigate("/checkout")}>
           CHECKOUT • R{total.toLocaleString()}
         </button>
 
