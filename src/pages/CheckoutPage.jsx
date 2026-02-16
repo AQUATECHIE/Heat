@@ -74,7 +74,7 @@ Shipping: R${shipping}
 
     const encodedMessage = encodeURIComponent(message);
 
-    const whatsappNumber = "08024962596";
+    const whatsappNumber = "2348024962596";
 
     window.open(
       `https://wa.me/${whatsappNumber}?text=${encodedMessage}`,
