@@ -1,9 +1,12 @@
 import "../styles/ProductGrid.css";
 import { FaRegBookmark } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useWishlist } from "../context/WishlistContext";
 
 const ProductGrid = ({ title, products }) => {
-  
+  const { toggleWishlist, isInWishlist } = useWishlist();
+  const active = isInWishlist(products.id)
+
   return (
     <section className="product-page">
       <h2 className="page-title">{title}</h2>
@@ -16,20 +19,17 @@ const ProductGrid = ({ title, products }) => {
 
       <div className="grid">
         {products.map((item) => (
-          <Link
-            key={item.id}
-            to={`/product/${item.id}`}
-            className="card-link"
-          >
+          <Link key={item.id} to={`/product/${item.id}`} className="card-link">
             <div className="card">
-              <div className="bookmark">
+              <div
+                className={`wishlist-btn ${active ? "active" : ""}`}
+                onClick={() => toggleWishlist(products)}
+              >
                 <FaRegBookmark />
               </div>
 
               {item.discount && (
-                <div className="discount">
-                  -{item.discount}%
-                </div>
+                <div className="discount">-{item.discount}%</div>
               )}
 
               <img src={item.image} alt={item.name} />

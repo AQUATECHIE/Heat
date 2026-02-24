@@ -1,0 +1,44 @@
+.orders-page {
+  padding: 20px;
+  background: #f3f3f3;
+  min-height: 100vh;
+  margin-top: 50px;
+}
+
+.orders-page h2 {
+  margin-bottom: 20px;
+}
+
+.no-orders {
+  text-align: center;
+  color: gray;
+}
+
+.order-card {
+  background: #fff;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.order-total {
+  font-weight: bold;
+}
+
+.order-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.order-item img {
+  width: 60px;
+  margin-right: 10px;
+  border-radius: 6px;
+}

@@ -11,15 +11,17 @@ const CartPage = () => {
   const { cartItems, removeFromCart, updateQuantity } = useCart();
   const navigate = useNavigate();
 
-  const total = cartItems.reduce(
-    (sum, item) =>
-      sum + item.quantity * parseInt(item.price.replace(/[^0-9]/g, "")),
-    0,
-  );
+  const total = cartItems.reduce((sum, item) => {
+    if (!item.price) return sum;
+
+    const numericPrice = parseInt(item.price.replace(/[^0-9]/g, ""));
+
+    return sum + item.quantity * numericPrice;
+  }, 0);
 
   return (
     <>
-      <div className="cart-page" style={{marginTop: "20px"}}>
+      <div className="cart-page" style={{ marginTop: "20px" }}>
         <h2>My Cart</h2>
 
         <div className="cart-header">
@@ -70,7 +72,12 @@ const CartPage = () => {
             </div>
 
             <div className="cart-price">
-              R{item.quantity * parseInt(item.price.replace(/[^0-9]/g, ""))}
+              R
+              {item.price
+                ? (
+                    item.quantity * parseInt(item.price.replace(/[^0-9]/g, ""))
+                  ).toLocaleString()
+                : 0}
             </div>
           </div>
         ))}

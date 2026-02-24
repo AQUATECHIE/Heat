@@ -4,7 +4,7 @@ import "../styles/CheckoutPage.css";
 import Footer from "../components/Footer";
 
 const CheckoutPage = () => {
-  const { cartItems } = useCart();
+  const { cartItems, clearCart } = useCart();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -25,9 +25,8 @@ const CheckoutPage = () => {
   const subtotal = cartItems.reduce(
     (acc, item) =>
       acc +
-      Number(item.price.replace("R", "").replace(",", "")) *
-        item.quantity,
-    0
+      Number(item.price.replace("R", "").replace(",", "")) * item.quantity,
+    0,
   );
 
   const shipping = cartItems.length > 0 ? 70 : 0;
@@ -40,22 +39,36 @@ const CheckoutPage = () => {
   const handleWhatsAppCheckout = () => {
     if (cartItems.length === 0) return;
 
-    const itemsText = cartItems
-      .map(
-        (item, index) =>
-          `${index + 1}. ${item.name}
-Size: ${item.size || "N/A"}
-Qty: ${item.quantity}
-Price: R${
-            Number(
-              item.price.replace("R", "").replace(",", "")
-            ) * item.quantity
-          }\n`
-      )
-      .join("\n");
+    const orderRef = `HTO-${Date.now().toString().slice(-6)}`;
 
+    const orderData = {
+      id: orderRef,
+      date: new Date().toLocaleString(),
+      customer: {
+        name: `${formData.firstName} ${formData.lastName}`,
+        email: formData.email,
+        phone: formData.phone,
+        address: `${formData.address}, ${formData.city}`,
+      },
+      items: cartItems,
+      subtotal,
+      shipping,
+      total,
+    };
+
+    // 🔥 Save to localStorage
+    const existingOrders = JSON.parse(localStorage.getItem("orders")) || [];
+
+    localStorage.setItem(
+      "orders",
+      JSON.stringify([orderData, ...existingOrders]),
+    );
+
+    // WhatsApp message logic here...
     const message = `
 🛒 *NEW ORDER - HEATONLY*
+
+📦 Order Ref: *${orderRef}*
 
 👤 Name: ${formData.firstName} ${formData.lastName}
 📧 Email: ${formData.email}
@@ -65,7 +78,7 @@ Price: R${
 ---------------------------
 📦 ORDER DETAILS
 ---------------------------
-${itemsText}
+
 
 Subtotal: R${subtotal}
 Shipping: R${shipping}
@@ -73,13 +86,19 @@ Shipping: R${shipping}
 `;
 
     const encodedMessage = encodeURIComponent(message);
-
     const whatsappNumber = "2348024962596";
 
+    // 🔥 Open WhatsApp
     window.open(
       `https://wa.me/${whatsappNumber}?text=${encodedMessage}`,
-      "_blank"
+      "_blank",
     );
+
+    clearCart();
+
+    setTimeout(() => {
+      window.location.href = "/orders";
+    }, 1000);
   };
 
   return (
@@ -93,9 +112,7 @@ Shipping: R${shipping}
             <div key={index} className="summary-item">
               <div className="summary-img-wrapper">
                 <img src={item.images?.[0]} alt={item.name} />
-                <span className="quantity-badge">
-                  {item.quantity}
-                </span>
+                <span className="quantity-badge">{item.quantity}</span>
               </div>
 
               <div className="summary-details">
@@ -106,9 +123,8 @@ Shipping: R${shipping}
               <div className="summary-price">
                 R
                 {(
-                  Number(
-                    item.price.replace("R", "").replace(",", "")
-                  ) * item.quantity
+                  Number(item.price.replace("R", "").replace(",", "")) *
+                  item.quantity
                 ).toLocaleString()}
               </div>
             </div>
@@ -134,43 +150,19 @@ Shipping: R${shipping}
         <div className="checkout-section">
           <h3>Contact</h3>
 
-          <input
-            type="text"
-            placeholder="email"
-            onChange={handleChange}
-          />
+          <input type="text" placeholder="email" onChange={handleChange} />
 
-          <input
-            type="text"
-            placeholder="phone"
-            onChange={handleChange}
-          />
+          <input type="text" placeholder="phone" onChange={handleChange} />
         </div>
 
         {/* DELIVERY */}
         <div className="checkout-section">
           <h3>Delivery</h3>
 
-          <input
-            type="text"
-            placeholder="firstName"
-            onChange={handleChange}
-          />
-          <input
-            type="text"
-            placeholder="lastName"
-            onChange={handleChange}
-          />
-          <input
-            type="text"
-            placeholder="address"
-            onChange={handleChange}
-          />
-          <input
-            type="text"
-            placeholder="city"
-            onChange={handleChange}
-          />
+          <input type="text" placeholder="firstName" onChange={handleChange} />
+          <input type="text" placeholder="lastName" onChange={handleChange} />
+          <input type="text" placeholder="address" onChange={handleChange} />
+          <input type="text" placeholder="city" onChange={handleChange} />
         </div>
 
         {/* PAYMENT */}
@@ -185,10 +177,7 @@ Shipping: R${shipping}
             Complete order via WhatsApp
           </div>
 
-          <button
-            className="pay-btn"
-            onClick={handleWhatsAppCheckout}
-          >
+          <button className="pay-btn" onClick={handleWhatsAppCheckout}>
             PAY NOW
           </button>
         </div>

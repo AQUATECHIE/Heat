@@ -33,9 +33,9 @@ const Navbar = () => {
           <FaSearch className="icon" onClick={() => setSearchOpen(true)} />
         </div>
 
-        <div className="nav-logo">
+        <Link to="/" className="nav-logo">
           <img src={logo} alt="Brand Logo" />
-        </div>
+        </Link>
 
         <div className="nav-right">
           <FaUser className="icon" />
@@ -115,6 +115,9 @@ const Navbar = () => {
           </NavLink>
           <NavLink to="/collectibles" onClick={() => setSidebarOpen(false)}>
             Collectible items
+          </NavLink>
+          <NavLink to="/orders" onClick={() => setSidebarOpen(false)}>
+            Order history
           </NavLink>
         </div>
 

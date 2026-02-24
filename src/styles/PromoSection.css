@@ -8,11 +8,12 @@
 
 /* Individual Card */
 .promo-card {
-  background: #f2f2f2;
+  background: white;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 20px;
 }
 
 .promo-card img {
