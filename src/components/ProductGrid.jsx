@@ -3,9 +3,8 @@ import { FaRegBookmark } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useWishlist } from "../context/WishlistContext";
 
-const ProductGrid = ({ title, products }) => {
+const ProductGrid = ({ title, products = [] }) => {
   const { toggleWishlist, isInWishlist } = useWishlist();
-  const active = isInWishlist(products.id)
 
   return (
     <section className="product-page">
@@ -18,26 +17,42 @@ const ProductGrid = ({ title, products }) => {
       <p className="item-count">{products.length} items</p>
 
       <div className="grid">
-        {products.map((item) => (
-          <Link key={item.id} to={`/product/${item.id}`} className="card-link">
-            <div className="card">
+        {products.map((item) => {
+          const active = isInWishlist(item._id);
+
+          return (
+            <div key={item._id} className="card">
+              
+              {/* Wishlist Button */}
               <div
                 className={`wishlist-btn ${active ? "active" : ""}`}
-                onClick={() => toggleWishlist(products)}
+                onClick={(e) => {
+                  e.preventDefault(); // prevent link navigation
+                  toggleWishlist(item);
+                }}
               >
                 <FaRegBookmark />
               </div>
 
+              {/* Discount if exists */}
               {item.discount && (
                 <div className="discount">-{item.discount}%</div>
               )}
 
-              <img src={item.image} alt={item.name} />
-              <h4>{item.name}</h4>
-              <p className="price">{item.price}</p>
+              <Link to={`/product/${item._id}`} className="card-link">
+                <img
+                  src={item.images?.[0]?.url}
+                  alt={item.name}
+                />
+                <h4>{item.name}</h4>
+                <p className="price">
+                  ₦{Number(item.price).toLocaleString()}
+                </p>
+              </Link>
+
             </div>
-          </Link>
-        ))}
+          );
+        })}
       </div>
 
       <button className="see-all-btn">SEE ALL</button>

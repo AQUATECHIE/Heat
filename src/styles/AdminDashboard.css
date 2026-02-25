@@ -1,0 +1,118 @@
+.admin-dashboard {
+  padding: 30px;
+  background: #111;
+  min-height: 100vh;
+  color: white;
+}
+
+.admin-title {
+  font-size: 28px;
+  margin-bottom: 30px;
+}
+
+.orders-title {
+  margin: 40px 0 20px;
+}
+
+/* ======================
+   STATS CARDS
+====================== */
+
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  background: #1e1e1e;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.stat-card h4 {
+  font-size: 14px;
+  color: #aaa;
+  margin-bottom: 10px;
+}
+
+.stat-card p {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* ======================
+   ORDER GRID
+====================== */
+
+.orders-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.admin-order-card {
+  background: #1c1c1c;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #2a2a2a;
+  transition: 0.3s;
+}
+
+.admin-order-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.order-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.email {
+  font-size: 13px;
+  color: #aaa;
+}
+
+.order-details {
+  margin: 15px 0;
+  font-size: 14px;
+}
+
+.order-actions select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  background: #333;
+  color: white;
+  cursor: pointer;
+}
+
+/* ======================
+   STATUS BADGES
+====================== */
+
+.status-badge {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+.status-badge.pending {
+  background: #ff9800;
+}
+
+.status-badge.paid {
+  background: #4caf50;
+}
+
+.status-badge.shipped {
+  background: #2196f3;
+}
+
+.status-badge.delivered {
+  background: #9c27b0;
+}

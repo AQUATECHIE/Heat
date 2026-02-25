@@ -1,10 +1,11 @@
 import { useCart } from "../context/CartContext";
 import { useState } from "react";
 import "../styles/CheckoutPage.css";
+import api from "../api/axios";
 import Footer from "../components/Footer";
 
 const CheckoutPage = () => {
-  const { cartItems, clearCart } = useCart();
+  const { cart } = useCart();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -18,57 +19,56 @@ const CheckoutPage = () => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.placeholder]: e.target.value,
+      [e.target.name]: e.target.value,
     });
   };
 
-  const subtotal = cartItems.reduce(
-    (acc, item) =>
-      acc +
-      Number(item.price.replace("R", "").replace(",", "")) * item.quantity,
+  // 🔥 REAL SUBTOTAL
+  const subtotal = cart.reduce(
+    (acc, item) => acc + item.product.price * item.quantity,
     0,
   );
 
-  const shipping = cartItems.length > 0 ? 70 : 0;
+  const shipping = cart.length > 0 ? 2000 : 0;
   const total = subtotal + shipping;
 
-  /* ===========================
-     WHATSAPP ORDER GENERATOR
-  ============================ */
+  const handleWhatsAppCheckout = async () => {
+    if (cart.length === 0) return;
 
-  const handleWhatsAppCheckout = () => {
-    if (cartItems.length === 0) return;
+    try {
+      const token = localStorage.getItem("token");
 
-    const orderRef = `HTO-${Date.now().toString().slice(-6)}`;
+      if (!token) {
+        alert("Please login first");
+        return;
+      }
 
-    const orderData = {
-      id: orderRef,
-      date: new Date().toLocaleString(),
-      customer: {
-        name: `${formData.firstName} ${formData.lastName}`,
-        email: formData.email,
-        phone: formData.phone,
-        address: `${formData.address}, ${formData.city}`,
-      },
-      items: cartItems,
-      subtotal,
-      shipping,
-      total,
-    };
+      // 🔥 CREATE ORDER IN BACKEND
+      const { data: order } = await api.post(
+        "/orders",
+        {
+          shippingAddress: {
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            email: formData.email,
+            phone: formData.phone,
+            address: formData.address,
+            city: formData.city,
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
 
-    // 🔥 Save to localStorage
-    const existingOrders = JSON.parse(localStorage.getItem("orders")) || [];
-
-    localStorage.setItem(
-      "orders",
-      JSON.stringify([orderData, ...existingOrders]),
-    );
-
-    // WhatsApp message logic here...
-    const message = `
+      // 🔥 Generate WhatsApp message using saved order
+      const message = `
 🛒 *NEW ORDER - HEATONLY*
 
-📦 Order Ref: *${orderRef}*
+📦 Order Ref: *${order._id}*
+📅 Date: ${new Date(order.createdAt).toLocaleString()}
 
 👤 Name: ${formData.firstName} ${formData.lastName}
 📧 Email: ${formData.email}
@@ -79,26 +79,38 @@ const CheckoutPage = () => {
 📦 ORDER DETAILS
 ---------------------------
 
+${order.orderItems
+  .map(
+    (item) =>
+      `• ${item.name} (x${item.quantity}) - ₦${(
+        item.price * item.quantity
+      ).toLocaleString()}`,
+  )
+  .join("\n")}
 
-Subtotal: R${subtotal}
-Shipping: R${shipping}
-*Total: R${total}*
+---------------------------
+Subtotal: ₦${order.subtotal.toLocaleString()}
+Shipping: ₦${order.shipping.toLocaleString()}
+*Total: ₦${order.totalAmount.toLocaleString()}*
 `;
 
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappNumber = "2348024962596";
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappNumber = "2348024962596";
 
-    // 🔥 Open WhatsApp
-    window.open(
-      `https://wa.me/${whatsappNumber}?text=${encodedMessage}`,
-      "_blank",
-    );
+      window.open(
+        `https://wa.me/${whatsappNumber}?text=${encodedMessage}`,
+        "_blank",
+      );
 
-    clearCart();
+      alert("Order placed successfully 🔥");
 
-    setTimeout(() => {
-      window.location.href = "/orders";
-    }, 1000);
+      setTimeout(() => {
+        window.location.href = "/orders";
+      }, 1000);
+    } catch (error) {
+      console.error(error);
+      alert("Order failed. Please try again.");
+    }
   };
 
   return (
@@ -108,24 +120,22 @@ Shipping: R${shipping}
         <div className="order-summary" style={{ marginTop: "50px" }}>
           <h3>ORDER SUMMARY</h3>
 
-          {cartItems.map((item, index) => (
-            <div key={index} className="summary-item">
+          {cart.map((item) => (
+            <div key={item.product._id} className="summary-item">
               <div className="summary-img-wrapper">
-                <img src={item.images?.[0]} alt={item.name} />
+                <img
+                  src={item.product.images?.[0]?.url}
+                  alt={item.product.name}
+                />
                 <span className="quantity-badge">{item.quantity}</span>
               </div>
 
               <div className="summary-details">
-                <p>{item.name}</p>
-                {item.size && <span>Size - {item.size}</span>}
+                <p>{item.product.name}</p>
               </div>
 
               <div className="summary-price">
-                R
-                {(
-                  Number(item.price.replace("R", "").replace(",", "")) *
-                  item.quantity
-                ).toLocaleString()}
+                ₦{(item.product.price * item.quantity).toLocaleString()}
               </div>
             </div>
           ))}
@@ -133,15 +143,15 @@ Shipping: R${shipping}
           <div className="summary-totals">
             <div>
               <span>Subtotal</span>
-              <span>R{subtotal.toLocaleString()}</span>
+              <span>₦{subtotal.toLocaleString()}</span>
             </div>
             <div>
               <span>Shipping</span>
-              <span>R{shipping}</span>
+              <span>₦{shipping.toLocaleString()}</span>
             </div>
             <div className="total-row">
               <span>Total</span>
-              <span>R{total.toLocaleString()}</span>
+              <span>₦{total.toLocaleString()}</span>
             </div>
           </div>
         </div>
@@ -150,19 +160,49 @@ Shipping: R${shipping}
         <div className="checkout-section">
           <h3>Contact</h3>
 
-          <input type="text" placeholder="email" onChange={handleChange} />
+          <input
+            type="text"
+            name="email"
+            placeholder="Email"
+            onChange={handleChange}
+          />
 
-          <input type="text" placeholder="phone" onChange={handleChange} />
+          <input
+            type="text"
+            name="phone"
+            placeholder="Phone"
+            onChange={handleChange}
+          />
         </div>
 
         {/* DELIVERY */}
         <div className="checkout-section">
           <h3>Delivery</h3>
 
-          <input type="text" placeholder="firstName" onChange={handleChange} />
-          <input type="text" placeholder="lastName" onChange={handleChange} />
-          <input type="text" placeholder="address" onChange={handleChange} />
-          <input type="text" placeholder="city" onChange={handleChange} />
+          <input
+            type="text"
+            name="firstName"
+            placeholder="First Name"
+            onChange={handleChange}
+          />
+          <input
+            type="text"
+            name="lastName"
+            placeholder="Last Name"
+            onChange={handleChange}
+          />
+          <input
+            type="text"
+            name="address"
+            placeholder="Address"
+            onChange={handleChange}
+          />
+          <input
+            type="text"
+            name="city"
+            placeholder="City"
+            onChange={handleChange}
+          />
         </div>
 
         {/* PAYMENT */}

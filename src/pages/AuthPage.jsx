@@ -10,11 +10,11 @@ const AuthPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { login, user } = useAuth();
   console.log("AuthPage user:", user);
- useEffect(() => {
-  if (user) {
-    navigate("/profile", { replace: true });
-  }
-}, [user, navigate]);
+  useEffect(() => {
+    if (user) {
+      navigate("/profile", { replace: true });
+    }
+  }, [user, navigate]);
 
   const [activeTab, setActiveTab] = useState("signin");
   const [showOTP, setShowOTP] = useState(false);
@@ -146,11 +146,18 @@ const AuthPage = () => {
           id: data._id,
           name: data.name,
           email: data.email,
+          role: data.role,
         },
         data.token,
       );
-      console.log("Login response:", data);
-      navigate("/");
+      console.log("ROLE:", data.role);
+      console.log("Navigating to:", data.role === "admin" ? "/admin" : "/");
+
+      if (data.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
     } catch (err) {
       console.log(err);
     }

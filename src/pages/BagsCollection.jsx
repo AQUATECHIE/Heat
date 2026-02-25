@@ -1,23 +1,39 @@
-import React from 'react'
-import ProductGrid from '../components/ProductGrid';
-import bagImage from "../assets/bag.png";
-import jacketImage from "../assets/jac.png";
-import Footer from '../components/Footer';
+import { useEffect, useState } from "react";
+import api from "../api/axios"; 
+
+import ProductGrid from "../components/ProductGrid";
+import Footer from "../components/Footer";
+
 const BagsCollection = () => {
-  
-  const products = [
-    { id: 1, name: "BOSPHORE WEARABLE WALLET", price: "R2,400", image: bagImage },
-    { id: 2, name: "BOSPHORE WEARABLE WALLET", price: "R2,400", image: jacketImage },
-    { id: 3, name: "BOSPHORE WEARABLE WALLET", price: "R2,400", image: bagImage },
-    { id: 4, name: "BOSPHORE WEARABLE WALLET", price: "R2,400", image: jacketImage },
-  ];
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchBags = async () => {
+    try {
+      const { data } = await api.get("/products?category=bags");
+
+      setProducts(data.products || data);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBags();
+  }, []);
+
+  if (loading) {
+    return <h2 style={{ textAlign: "center" }}>Loading Bags...</h2>;
+  }
 
   return (
     <>
-        <ProductGrid title="BAGS" products={products} />
-        <Footer />
+      <ProductGrid title="BAGS" products={products} />
+      <Footer />
     </>
   );
-}
+};
 
-export default BagsCollection
+export default BagsCollection;

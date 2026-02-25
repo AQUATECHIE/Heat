@@ -1,50 +1,39 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
-import { useCart } from "../context/CartContext.jsx"; 
+import { useEffect, useState } from "react";
+import api from "../api/axios";
 import "../styles/ProductDetails.css";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-
-import hoodie from "../assets/jac.png";
-import glasses from "../assets/shoe.png";
 import Footer from "../components/Footer";
-
-const dummyProducts = [
-  {
-    id: "1",
-    name: "ADIDA ADICOLOR OVERSIZE Full-Zip Hoodie",
-    price: "R700",
-    images: [hoodie, hoodie],
-    category: "clothes",
-  },
-  {
-    id: "2",
-    name: "RAY-BAN META HEADLINER (GEN2) GLASSES",
-    price: "R1,000",
-    images: [glasses, glasses],
-    category: "accessories",
-  },
-  {
-    id: "3",
-    name: "LV TRAINER SNEAKER",
-    price: "R1,800",
-    images: [glasses, glasses],
-    category: "shoes",
-    sizes: ["39", "40", "41", "42", "43", "44", "45", "46"],
-  },
-];
+import { useCart } from "../context/CartContext";
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const product = dummyProducts.find((p) => p.id === id);
+  const { addToCart } = useCart();
 
-  const { addToCart } = useCart(); // 👈 USE GLOBAL CART
-
+  const [product, setProduct] = useState(null);
   const [currentImage, setCurrentImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
   const [sizeError, setSizeError] = useState(false);
+  const [loading, setLoading] = useState(true);
 
+  // 🔥 FETCH PRODUCT FROM BACKEND
+  const fetchProduct = async () => {
+    try {
+      const { data } = await api.get(`/products/${id}`);
+      setProduct(data);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProduct();
+  }, [id]);
+
+  if (loading) return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
   if (!product) return <div>Product not found</div>;
 
   const nextImage = () => {
@@ -59,7 +48,8 @@ const ProductDetails = () => {
     );
   };
 
-  const handleAddToCart = () => {
+  // 🔥 CONNECTED TO BACKEND CART
+ const handleAddToCart = async () => {
   if (product.category === "shoes" && !selectedSize) {
     setSizeError(true);
     return;
@@ -67,14 +57,9 @@ const ProductDetails = () => {
 
   setSizeError(false);
 
-  addToCart({
-    id: product.id,
-    name: product.name,
-    price: product.price,
-    images: product.images,   
-    selectedSize,
-    quantity,
-  });
+  await addToCart(product._id, quantity, selectedSize);
+
+  // alert("Added to cart 🔥");
 };
 
   return (
@@ -83,7 +68,10 @@ const ProductDetails = () => {
         {/* Image Slider */}
         <div className="slider">
           <FaChevronLeft className="arrow left" onClick={prevImage} />
-          <img src={product.images[currentImage]} alt="product" />
+          <img
+            src={product.images?.[currentImage]?.url}
+            alt={product.name}
+          />
           <FaChevronRight className="arrow right" onClick={nextImage} />
 
           <div className="dots">
@@ -99,44 +87,41 @@ const ProductDetails = () => {
         {/* Product Info */}
         <div className="product-info">
           <h3>{product.name}</h3>
-          <p className="price">{product.price}</p>
+          <p className="price">
+            ₦{Number(product.price).toLocaleString()}
+          </p>
         </div>
 
         {/* SIZE SECTION → ONLY FOR SHOES */}
-        {product.category === "shoes" && (
-          <div className="sizes">
-            <div className="size-header">
-              <span>SIZE:</span>
-              <span
-                className="size-guide"
-                onClick={() => setSizeGuideOpen(true)}
-              >
-                Size Guide
-              </span>
-            </div>
+        {product.category === "shoes" &&
+          product.specifications?.size && (
+            <div className="sizes">
+              <div className="size-header">
+                <span>SIZE:</span>
+              </div>
 
-            <div className="size-options">
-              {product.sizes.map((size) => (
-                <button
-                  key={size}
-                  className={selectedSize === size ? "active" : ""}
-                  onClick={() => {
-                    setSelectedSize(size);
-                    setSizeError(false);
-                  }}
-                >
-                  {size}
-                </button>
-              ))}
-            </div>
+              <div className="size-options">
+                {product.specifications.size.map((size) => (
+                  <button
+                    key={size}
+                    className={selectedSize === size ? "active" : ""}
+                    onClick={() => {
+                      setSelectedSize(size);
+                      setSizeError(false);
+                    }}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
 
-            {sizeError && (
-              <p className="size-error">
-                Please select a size before adding to cart.
-              </p>
-            )}
-          </div>
-        )}
+              {sizeError && (
+                <p className="size-error">
+                  Please select a size before adding to cart.
+                </p>
+              )}
+            </div>
+          )}
 
         {/* Quantity */}
         <div className="quantity-section">
@@ -149,14 +134,7 @@ const ProductDetails = () => {
             <button onClick={() => setQuantity(quantity + 1)}>+</button>
           </div>
 
-          <button
-            className={`add-to-cart ${
-              product.category === "shoes" && !selectedSize
-                ? "disabled"
-                : ""
-            }`}
-            onClick={handleAddToCart}
-          >
+          <button className="add-to-cart" onClick={handleAddToCart}>
             ADD TO CART
           </button>
         </div>

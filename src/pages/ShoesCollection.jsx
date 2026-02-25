@@ -1,24 +1,38 @@
-import React from 'react'
-import ProductGrid from '../components/ProductGrid';
-import shoe1 from "../assets/shoe.png";
-import shoe2 from "../assets/shoe2.png";
-import Footer from '../components/Footer';
+import { useEffect, useState } from "react";
+import api from "../api/axios";
+import ProductGrid from "../components/ProductGrid";
+import Footer from "../components/Footer";
 
 const ShoesCollection = () => {
-   const products = [
-    { id: 1, name: "NEW BALANCE 9060", price: "R1,200", image: shoe1 },
-    { id: 2, name: "LV TRAINER SNEAKER", price: "R1,800", image: shoe2, discount: 14 },
-    { id: 3, name: "NEW BALANCE 9060", price: "R1,200", image: shoe1 },
-    { id: 4, name: "LV TRAINER SNEAKER", price: "R1,800", image: shoe2, discount: 14 },
-  ];
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchShoes = async () => {
+    try {
+      const { data } = await api.get("/products?category=shoes");
+
+      setProducts(data.products || data);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchShoes();
+  }, []);
+
+  if (loading) {
+    return <h2 style={{ textAlign: "center" }}>Loading Sneakers...</h2>;
+  }
 
   return (
     <>
-        <ProductGrid title="SNEAKERS" products={products} />
-        <Footer />
+      <ProductGrid title="SNEAKERS" products={products} />
+      <Footer />
     </>
   );
 };
 
-
-export default ShoesCollection
+export default ShoesCollection;

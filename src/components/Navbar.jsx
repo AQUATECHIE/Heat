@@ -16,14 +16,9 @@ const Navbar = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const { cartItems } = useCart();
+  const { cartCount } = useCart(); // ✅ from backend context
   const { user } = useAuth();
-  console.log("User:", user);
-
-  const totalQuantity = cartItems.reduce(
-    (total, item) => total + item.quantity,
-    0,
-  );
+  console.log(user);
 
   return (
     <>
@@ -38,17 +33,20 @@ const Navbar = () => {
         </Link>
 
         <div className="nav-right">
-          {/* 🔥 USER ICON ROUTING */}
-          <Link to={user ? "/profile" : "/auth"} className="icon-link">
+          {/* USER ICON */}
+          <Link
+            to={
+              user ? (user.role === "admin" ? "/admin" : "/profile") : "/auth"
+            }
+            className="icon-link"
+          >
             <FaUser className="icon" />
           </Link>
 
           {/* CART */}
           <Link to="/cart" className="cart-wrapper">
             <FaShoppingBag className="icon" />
-            {totalQuantity > 0 && (
-              <span className="cart-badge">{totalQuantity}</span>
-            )}
+            {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
           </Link>
         </div>
       </nav>
@@ -63,6 +61,7 @@ const Navbar = () => {
           }}
         ></div>
       )}
+
       {/* SEARCH DROPDOWN */}
       {searchOpen && (
         <div className="search-dropdown">
@@ -85,6 +84,7 @@ const Navbar = () => {
           </div>
         </div>
       )}
+
       {/* SIDEBAR */}
       <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
         <div className="sidebar-header">

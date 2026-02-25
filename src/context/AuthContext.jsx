@@ -6,23 +6,29 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // ✅ add this
 
- useEffect(() => {
-  const token = localStorage.getItem("token");
-  const storedUser = localStorage.getItem("user");
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const storedUser = localStorage.getItem("user");
 
-  if (!token || !storedUser) return;
+    if (!token || !storedUser) {
+      setLoading(false);
+      return;
+    }
 
-  try {
-    const parsedUser = JSON.parse(storedUser);
-    setUser(parsedUser);
-  } catch {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-  }
-}, []);
+    try {
+      const parsedUser = JSON.parse(storedUser);
+      setUser(parsedUser);
+    } catch {
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+    }
 
- const login = (userData, token) => {
+    setLoading(false); // ✅ important
+  }, []);
+
+  const login = (userData, token) => {
   console.log("LOGIN CALLED:", userData);
 
   if (!userData) {
@@ -32,7 +38,9 @@ export const AuthProvider = ({ children }) => {
 
   localStorage.setItem("token", token);
   localStorage.setItem("user", JSON.stringify(userData));
+
   setUser(userData);
+  setLoading(false);   // ✅ ADD THIS
 };
 
   const logout = () => {
@@ -42,7 +50,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );

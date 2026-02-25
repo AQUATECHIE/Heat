@@ -17,6 +17,8 @@ import WishlistPage from "./pages/WishList.jsx";
 import AuthPage from "./pages/AuthPage.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminRoute from "./components/AdminRoute";
 
 function App() {
   return (
@@ -44,6 +46,14 @@ function App() {
               <Route path="/wishlist" element={<WishlistPage />} />
               <Route path="/auth" element={<AuthPage />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route
+                path="/admin"
+                element={
+                  <AdminRoute>
+                    <AdminDashboard />
+                  </AdminRoute>
+                }
+              />
             </Routes>
           </Router>
         </WishlistProvider>

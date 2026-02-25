@@ -4,20 +4,14 @@ import "../styles/CartPage.css";
 import { FaTrash } from "react-icons/fa";
 import Footer from "../components/Footer";
 
-import sneaker1 from "../assets/jac.png";
-import sneaker2 from "../assets/shoe.png";
-
 const CartPage = () => {
-  const { cartItems, removeFromCart, updateQuantity } = useCart();
+  const { cart, updateCartItem, removeCartItem } = useCart();
   const navigate = useNavigate();
 
-  const total = cartItems.reduce((sum, item) => {
-    if (!item.price) return sum;
-
-    const numericPrice = parseInt(item.price.replace(/[^0-9]/g, ""));
-
-    return sum + item.quantity * numericPrice;
-  }, 0);
+  const total = cart.reduce(
+    (sum, item) => sum + item.quantity * item.product.price,
+    0
+  );
 
   return (
     <>
@@ -29,26 +23,31 @@ const CartPage = () => {
           <span>TOTAL</span>
         </div>
 
-        {cartItems.map((item) => (
-          <div key={item.id + item.selectedSize} className="cart-item">
+        {cart.length === 0 && <p>Your cart is empty</p>}
+
+        {cart.map((item) => (
+          <div
+            key={item.product._id}
+            className="cart-item"
+          >
             <div className="cart-left">
               <img
-                src={item.images ? item.images[0] : "/fallback.png"}
-                alt=""
+                src={item.product.images?.[0]?.url}
+                alt={item.product.name}
               />
 
               <div className="cart-info">
-                <h4>{item.name}</h4>
-
-                {item.selectedSize && (
-                  <p className="size-text">Size - {item.selectedSize}</p>
-                )}
+                <h4>{item.product.name}</h4>
 
                 <div className="quantity-controls">
                   <button
                     onClick={() =>
-                      updateQuantity(item.id, item.size, item.quantity - 1)
+                      updateCartItem(
+                        item.product._id,
+                        item.quantity - 1
+                      )
                     }
+                    disabled={item.quantity <= 1}
                   >
                     -
                   </button>
@@ -57,7 +56,10 @@ const CartPage = () => {
 
                   <button
                     onClick={() =>
-                      updateQuantity(item.id, item.size, item.quantity + 1)
+                      updateCartItem(
+                        item.product._id,
+                        item.quantity + 1
+                      )
                     }
                   >
                     +
@@ -65,46 +67,29 @@ const CartPage = () => {
 
                   <FaTrash
                     className="delete-icon"
-                    onClick={() => removeFromCart(item.id, item.size)}
+                    onClick={() =>
+                      removeCartItem(item.product._id)
+                    }
                   />
                 </div>
               </div>
             </div>
 
             <div className="cart-price">
-              R
-              {item.price
-                ? (
-                    item.quantity * parseInt(item.price.replace(/[^0-9]/g, ""))
-                  ).toLocaleString()
-                : 0}
+              ₦
+              {(item.quantity * item.product.price).toLocaleString()}
             </div>
           </div>
         ))}
 
-        {/* Checkout */}
-        <button className="checkout-btn" onClick={() => navigate("/checkout")}>
-          CHECKOUT • R{total.toLocaleString()}
-        </button>
-
-        {/* Related */}
-        <div className="related-section">
-          <h3>YOU MAY ALSO LIKE</h3>
-
-          <div className="related-grid">
-            <div className="related-card">
-              <img src={sneaker1} alt="" />
-              <p>NIKE AIR JORDAN 1 RETRO</p>
-              <span>R1,200</span>
-            </div>
-
-            <div className="related-card">
-              <img src={sneaker2} alt="" />
-              <p>PRADA NORDSTROM</p>
-              <span>R1,700</span>
-            </div>
-          </div>
-        </div>
+        {cart.length > 0 && (
+          <button
+            className="checkout-btn"
+            onClick={() => navigate("/checkout")}
+          >
+            CHECKOUT • ₦{total.toLocaleString()}
+          </button>
+        )}
       </div>
 
       <Footer />
