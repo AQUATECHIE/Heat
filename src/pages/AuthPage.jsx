@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "../styles/AuthPage.css";
@@ -9,9 +9,10 @@ const AuthPage = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const { login, user } = useAuth();
-  useEffect(() => {
+  console.log("AuthPage user:", user);
+ useEffect(() => {
   if (user) {
-    navigate("/profile");
+    navigate("/profile", { replace: true });
   }
 }, [user, navigate]);
 
