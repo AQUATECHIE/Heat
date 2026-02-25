@@ -14,36 +14,41 @@ import CheckoutPage from "./pages/CheckoutPage.jsx";
 import OrdersHistory from "./pages/OrderHistory.jsx";
 import { WishlistProvider } from "./context/WishlistContext.jsx";
 import WishlistPage from "./pages/WishList.jsx";
+import AuthPage from "./pages/AuthPage.jsx";
+import { AuthProvider } from "./context/AuthContext.jsx";
+import ProfilePage from "./pages/ProfilePage.jsx";
 
 function App() {
   return (
-    <CartProvider>
-      {" "}
-      {/* 👈 WRAP EVERYTHING */}
-      <WishlistProvider>
-        <Router>
-          <Navbar />
+    <AuthProvider>
+      <CartProvider>
+        <WishlistProvider>
+          <Router>
+            <Navbar />
 
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/products" element={<AllProductsCollection />} />
-            <Route path="/sneakers" element={<ShoesCollection />} />
-            <Route path="/bags" element={<BagsCollection />} />
-            <Route path="/clothes" element={<ClothesCollection />} />
-            <Route
-              path="/collectibles"
-              element={<CollectiblesItemCollection />}
-            />
-            <Route path="/about" element={<About />} />
-            <Route path="/product/:id" element={<ProductDetails />} />
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="/checkout" element={<CheckoutPage />} />
-            <Route path="/orders" element={<OrdersHistory />} />
-            <Route path="/wishlist" element={<WishlistPage />} />
-          </Routes>
-        </Router>
-      </WishlistProvider>
-    </CartProvider>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/products" element={<AllProductsCollection />} />
+              <Route path="/sneakers" element={<ShoesCollection />} />
+              <Route path="/bags" element={<BagsCollection />} />
+              <Route path="/clothes" element={<ClothesCollection />} />
+              <Route
+                path="/collectibles"
+                element={<CollectiblesItemCollection />}
+              />
+              <Route path="/about" element={<About />} />
+              <Route path="/product/:id" element={<ProductDetails />} />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="/checkout" element={<CheckoutPage />} />
+              <Route path="/orders" element={<OrdersHistory />} />
+              <Route path="/wishlist" element={<WishlistPage />} />
+              <Route path="/auth" element={<AuthPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+            </Routes>
+          </Router>
+        </WishlistProvider>
+      </CartProvider>
+    </AuthProvider>
   );
 }
 

@@ -1,8 +1,8 @@
 import logo from "../assets/hero-logo.png";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
-import { useCart } from "../context/CartContext"; 
-import { Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
+import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 import "../styles/Navbar.css";
 import {
   FaBars,
@@ -16,9 +16,10 @@ const Navbar = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const { cartItems } = useCart(); // 👈 GET CART STATE
+  const { cartItems } = useCart();
+  const { user } = useAuth();
+  console.log("User:", user);
 
-  // Calculate total quantity (not just number of items)
   const totalQuantity = cartItems.reduce(
     (total, item) => total + item.quantity,
     0,
@@ -29,7 +30,6 @@ const Navbar = () => {
       <nav className="navbar">
         <div className="nav-left">
           <FaBars className="icon" onClick={() => setSidebarOpen(true)} />
-
           <FaSearch className="icon" onClick={() => setSearchOpen(true)} />
         </div>
 
@@ -38,9 +38,12 @@ const Navbar = () => {
         </Link>
 
         <div className="nav-right">
-          <FaUser className="icon" />
+          {/* 🔥 USER ICON ROUTING */}
+          <Link to={user ? "/profile" : "/auth"} className="icon-link">
+            <FaUser className="icon" />
+          </Link>
 
-          {/* 🔥 CART WITH BADGE */}
+          {/* CART */}
           <Link to="/cart" className="cart-wrapper">
             <FaShoppingBag className="icon" />
             {totalQuantity > 0 && (
@@ -60,7 +63,6 @@ const Navbar = () => {
           }}
         ></div>
       )}
-
       {/* SEARCH DROPDOWN */}
       {searchOpen && (
         <div className="search-dropdown">
@@ -83,7 +85,6 @@ const Navbar = () => {
           </div>
         </div>
       )}
-
       {/* SIDEBAR */}
       <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
         <div className="sidebar-header">
