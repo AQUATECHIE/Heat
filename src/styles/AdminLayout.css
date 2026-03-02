@@ -1,0 +1,236 @@
+/* ======================
+   CONTAINER
+====================== */
+
+.admin-container {
+    display: flex;
+    min-height: 100vh;
+    background: #111;
+    color: white;
+    position: relative;
+}
+
+/* ======================
+   SIDEBAR
+====================== */
+
+.admin-sidebar {
+    width: 240px;
+    background: #1b1b1b;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+}
+
+.admin-sidebar.collapsed {
+    width: 80px;
+}
+
+.admin-logo {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.admin-logo img {
+    width: 120px;
+    transition: 0.3s;
+}
+
+.admin-sidebar.collapsed .admin-logo img {
+    width: 60px;
+}
+
+.admin-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.admin-nav a {
+    text-decoration: none;
+    color: #aaa;
+    padding: 10px;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.admin-nav a.active {
+    background: black;
+    color: white;
+}
+
+.admin-nav a:hover {
+    background: #2a2a2a;
+}
+
+/* ======================
+   MAIN AREA
+====================== */
+
+.admin-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-topbar {
+    height: 60px;
+    background: #1e1e1e;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.left-controls {
+    display: flex;
+    gap: 15px;
+}
+
+.toggle-btn {
+    cursor: pointer;
+}
+
+.mobile-toggle {
+    display: none;
+    cursor: pointer;
+}
+
+.admin-content {
+    padding: 30px;
+}
+
+/* ======================
+   DROPDOWN
+====================== */
+
+.admin-profile {
+    position: relative;
+    cursor: pointer;
+}
+
+.admin-dropdown {
+    position: absolute;
+    right: 0;
+    top: 35px;
+    background: #222;
+    padding: 15px;
+    border-radius: 8px;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+}
+
+.admin-dropdown button {
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+    text-align: left;
+}
+
+/* ======================
+   MOBILE RESPONSIVE
+====================== */
+
+.admin-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 99;
+}
+
+@media (max-width: 900px) {
+    .admin-sidebar {
+        position: fixed;
+        left: -250px;
+        top: 0;
+        height: 100vh;
+        z-index: 100;
+    }
+
+    .admin-sidebar.mobile-open {
+        left: 0;
+    }
+
+    .mobile-toggle {
+        display: block;
+    }
+
+    .toggle-btn {
+        display: none;
+    }
+}
+
+/* ======================
+   NAV LINKS
+====================== */
+
+.admin-nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: #aaa;
+  padding: 12px;
+  border-radius: 6px;
+  transition: 0.3s;
+  position: relative;
+}
+
+.admin-nav a svg {
+  font-size: 16px;
+}
+
+.admin-nav a span {
+  font-size: 14px;
+}
+
+.admin-nav a.active {
+  background: black;
+  color: white;
+}
+
+.admin-nav a:hover {
+  background: #2a2a2a;
+}
+
+/* ======================
+   COLLAPSED STATE
+====================== */
+
+.admin-sidebar.collapsed .admin-nav a {
+  justify-content: center;
+}
+
+.admin-sidebar.collapsed .admin-nav a span {
+  display: none;
+}
+
+/* ======================
+   TOOLTIP
+====================== */
+
+.tooltip {
+  position: absolute;
+  left: 70px;
+  background: #222;
+  color: white;
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius: 6px;
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  transform: translateX(-5px);
+  transition: 0.2s ease;
+}
+
+.admin-sidebar.collapsed .admin-nav a:hover .tooltip {
+  opacity: 1;
+  transform: translateX(0);
+}

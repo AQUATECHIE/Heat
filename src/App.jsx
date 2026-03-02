@@ -1,5 +1,14 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
+
 import { CartProvider } from "./context/CartContext.jsx";
+import { WishlistProvider } from "./context/WishlistContext.jsx";
+import { AuthProvider } from "./context/AuthContext.jsx";
+
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import AllProductsCollection from "./pages/AllProductsCollection";
@@ -12,13 +21,58 @@ import ProductDetails from "./pages/ProductsDetails";
 import CartPage from "./pages/CartPage.jsx";
 import CheckoutPage from "./pages/CheckoutPage.jsx";
 import OrdersHistory from "./pages/OrderHistory.jsx";
-import { WishlistProvider } from "./context/WishlistContext.jsx";
 import WishlistPage from "./pages/WishList.jsx";
 import AuthPage from "./pages/AuthPage.jsx";
-import { AuthProvider } from "./context/AuthContext.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import AdminDashboard from "./pages/AdminDashboard";
-import AdminRoute from "./components/AdminRoute";
+import AdminLayout from "./Layouts/AdminLayout.jsx";
+import AdminAnalytics from "./pages/AdminAnalytics.jsx";
+import AdminProducts from "./pages/AdminProducts.jsx";
+import AdminCreateProduct from "./pages/AdminCreateProduct.jsx";
+
+function LayoutWrapper() {
+  const location = useLocation();
+
+  const isAdminRoute = location.pathname.startsWith("/admin");
+
+  return (
+    <>
+      {/* 🔥 Hide Navbar on Admin Routes */}
+      {!isAdminRoute && <Navbar />}
+
+      <Routes>
+        {/* PUBLIC ROUTES */}
+        <Route path="/" element={<Home />} />
+        <Route path="/products" element={<AllProductsCollection />} />
+        <Route path="/sneakers" element={<ShoesCollection />} />
+        <Route path="/bags" element={<BagsCollection />} />
+        <Route path="/clothes" element={<ClothesCollection />} />
+        <Route
+          path="/collectibles"
+          element={<CollectiblesItemCollection />}
+        />
+        <Route path="/about" element={<About />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/orders" element={<OrdersHistory />} />
+        <Route path="/wishlist" element={<WishlistPage />} />
+        <Route path="/auth" element={<AuthPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+
+        {/* ADMIN ROUTES */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="orders" element={<AdminDashboard />} />
+          <Route path="users" element={<div>Users Page</div>} />
+          <Route path="products" element={<AdminProducts />} />
+          <Route path="analytics" element={<AdminAnalytics />} />
+          <Route path="new" element={<AdminCreateProduct />} />
+        </Route>
+      </Routes>
+    </>
+  );
+}
 
 function App() {
   return (
@@ -26,35 +80,7 @@ function App() {
       <CartProvider>
         <WishlistProvider>
           <Router>
-            <Navbar />
-
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/products" element={<AllProductsCollection />} />
-              <Route path="/sneakers" element={<ShoesCollection />} />
-              <Route path="/bags" element={<BagsCollection />} />
-              <Route path="/clothes" element={<ClothesCollection />} />
-              <Route
-                path="/collectibles"
-                element={<CollectiblesItemCollection />}
-              />
-              <Route path="/about" element={<About />} />
-              <Route path="/product/:id" element={<ProductDetails />} />
-              <Route path="/cart" element={<CartPage />} />
-              <Route path="/checkout" element={<CheckoutPage />} />
-              <Route path="/orders" element={<OrdersHistory />} />
-              <Route path="/wishlist" element={<WishlistPage />} />
-              <Route path="/auth" element={<AuthPage />} />
-              <Route path="/profile" element={<ProfilePage />} />
-              <Route
-                path="/admin"
-                element={
-                  <AdminRoute>
-                    <AdminDashboard />
-                  </AdminRoute>
-                }
-              />
-            </Routes>
+            <LayoutWrapper />
           </Router>
         </WishlistProvider>
       </CartProvider>

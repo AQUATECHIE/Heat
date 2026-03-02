@@ -1,0 +1,155 @@
+/* =========================
+   PAGE CONTAINER
+========================= */
+
+.admin-products {
+  color: white;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.admin-products-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.admin-products-header h2 {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.create-btn {
+  background: black;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: 0.3s ease;
+  border: 1px solid #333;
+}
+
+.create-btn:hover {
+  background: #222;
+}
+
+/* =========================
+   GRID
+========================= */
+
+.products-grid {
+  display: grid;
+  gap: 20px;
+}
+
+/* =========================
+   PRODUCT CARD
+========================= */
+
+.admin-product-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: #1c1c1c;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #2a2a2a;
+  transition: 0.3s ease;
+}
+
+.admin-product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* =========================
+   IMAGE
+========================= */
+
+.product-img img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* =========================
+   INFO
+========================= */
+
+.product-info {
+  flex: 1;
+}
+
+.product-info h4 {
+  margin-bottom: 6px;
+  font-size: 16px;
+}
+
+.price {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.stock {
+  font-size: 13px;
+  color: #aaa;
+}
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+
+.admin-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-btn {
+  background: #2a2a2a;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: 0.3s ease;
+}
+
+.edit-btn:hover {
+  background: #444;
+}
+
+.delete-btn {
+  background: #3b0000;
+  color: #ff4d4d;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: 0.3s ease;
+}
+
+.delete-btn:hover {
+  background: #5c0000;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .admin-product-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .admin-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

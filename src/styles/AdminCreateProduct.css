@@ -1,0 +1,121 @@
+/* =========================
+   PAGE CONTAINER
+========================= */
+
+.admin-create {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+  color: white;
+}
+
+/* =========================
+   FORM CARD
+========================= */
+
+.create-card {
+  background: #1c1c1c;
+  padding: 30px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 700px;
+  border: 1px solid #2a2a2a;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.create-card h2 {
+  margin-bottom: 25px;
+  font-weight: 600;
+}
+
+/* =========================
+   FORM LAYOUT
+========================= */
+
+.create-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+.create-form input,
+.create-form select,
+.create-form textarea {
+  background: #111;
+  border: 1px solid #2a2a2a;
+  padding: 12px 14px;
+  border-radius: 8px;
+  color: white;
+  font-size: 14px;
+  transition: 0.3s ease;
+  outline: none;
+}
+
+.create-form input:focus,
+.create-form select:focus,
+.create-form textarea:focus {
+  border-color: #444;
+  background: #181818;
+}
+
+/* =========================
+   TEXTAREA
+========================= */
+
+.create-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* =========================
+   SELECT
+========================= */
+
+.create-form select {
+  cursor: pointer;
+}
+
+/* =========================
+   FILE INPUT
+========================= */
+
+.create-form input[type="file"] {
+  padding: 10px;
+  background: #141414;
+  border: 1px dashed #333;
+  cursor: pointer;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.create-form button {
+  margin-top: 10px;
+  background: black;
+  border: 1px solid #333;
+  padding: 14px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.create-form button:hover {
+  background: #222;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .create-card {
+    padding: 20px;
+  }
+}
