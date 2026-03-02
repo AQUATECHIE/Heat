@@ -47,10 +47,7 @@ function LayoutWrapper() {
         <Route path="/sneakers" element={<ShoesCollection />} />
         <Route path="/bags" element={<BagsCollection />} />
         <Route path="/clothes" element={<ClothesCollection />} />
-        <Route
-          path="/collectibles"
-          element={<CollectiblesItemCollection />}
-        />
+        <Route path="/collectibles" element={<CollectiblesItemCollection />} />
         <Route path="/about" element={<About />} />
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<CartPage />} />
@@ -61,13 +58,18 @@ function LayoutWrapper() {
         <Route path="/profile" element={<ProfilePage />} />
 
         {/* ADMIN ROUTES */}
+        {/* ADMIN ROUTES */}
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboard />} />
+
           <Route path="orders" element={<AdminDashboard />} />
           <Route path="users" element={<div>Users Page</div>} />
+
+          {/* PRODUCTS */}
           <Route path="products" element={<AdminProducts />} />
+          <Route path="products/new" element={<AdminCreateProduct />} />
+
           <Route path="analytics" element={<AdminAnalytics />} />
-          <Route path="new" element={<AdminCreateProduct />} />
         </Route>
       </Routes>
     </>

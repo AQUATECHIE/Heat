@@ -1,7 +1,7 @@
 import { useState } from "react";
 import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
-import "../styles/AdminCreateProduct.css"
+import "../styles/AdminCreateProduct.css";
 
 const AdminCreateProduct = () => {
   const navigate = useNavigate();
@@ -17,6 +17,8 @@ const AdminCreateProduct = () => {
   });
 
   const [images, setImages] = useState([]);
+  const [successModal, setSuccessModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
     setForm({
@@ -28,23 +30,40 @@ const AdminCreateProduct = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const token = localStorage.getItem("token");
+    try {
+      const token = localStorage.getItem("token");
 
-    const formData = new FormData();
+      if (!token) {
+        setErrorMessage("Admin not authenticated");
+        return;
+      }
 
-    Object.keys(form).forEach((key) => formData.append(key, form[key]));
+      const formData = new FormData();
 
-    for (let i = 0; i < images.length; i++) {
-      formData.append("images", images[i]);
+      Object.keys(form).forEach((key) => {
+        formData.append(key, form[key]);
+      });
+
+      for (let i = 0; i < images.length; i++) {
+        formData.append("images", images[i]);
+      }
+
+      await api.post("/products", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setSuccessModal(true);
+    } catch (error) {
+      setErrorMessage(
+        error.response?.data?.message || "Something went wrong"
+      );
     }
+  };
 
-    await api.post("/products", formData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
-      },
-    });
-
+  const handleCloseModal = () => {
+    setSuccessModal(false);
     navigate("/admin/products");
   };
 
@@ -54,15 +73,11 @@ const AdminCreateProduct = () => {
         <h2>Create Product</h2>
 
         <form onSubmit={handleSubmit} className="create-form">
-          <input name="name" placeholder="Name" onChange={handleChange} />
-          <input
-            name="description"
-            placeholder="Description"
-            onChange={handleChange}
-          />
-          <input name="price" placeholder="Price" onChange={handleChange} />
-          <input name="brand" placeholder="Brand" onChange={handleChange} />
-          <input name="stock" placeholder="Stock" onChange={handleChange} />
+          <input name="name" placeholder="Name" onChange={handleChange} required />
+          <input name="description" placeholder="Description" onChange={handleChange} required />
+          <input name="price" placeholder="Price" onChange={handleChange} required />
+          <input name="brand" placeholder="Brand" onChange={handleChange} required />
+          <input name="stock" placeholder="Stock" onChange={handleChange} required />
 
           <select name="category" onChange={handleChange}>
             <option value="shoes">Shoes</option>
@@ -84,7 +99,25 @@ const AdminCreateProduct = () => {
 
           <button type="submit">Create Product</button>
         </form>
+
+        {errorMessage && (
+          <p className="form-error">{errorMessage}</p>
+        )}
       </div>
+
+      {/* SUCCESS MODAL */}
+      {successModal && (
+        <div className="modal-overlay">
+          <div className="success-modal">
+            <h3>🎉 Product Created Successfully!</h3>
+            <p>Your product has been added to the store.</p>
+
+            <button onClick={handleCloseModal}>
+              Back to Products
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
