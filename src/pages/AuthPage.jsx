@@ -4,12 +4,13 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "../styles/AuthPage.css";
 import logo from "../assets/hero-logo.png";
 import { useAuth } from "../context/AuthContext";
+import api from "../api/axios"; // ✅ IMPORTED
 
 const AuthPage = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const { login, user } = useAuth();
-  console.log("AuthPage user:", user);
+
   useEffect(() => {
     if (user) {
       navigate("/profile", { replace: true });
@@ -45,43 +46,11 @@ const AuthPage = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        alert(data.message);
-        return;
-      }
+      const { data } = await api.post("/auth/register", formData);
 
       setShowOTP(true);
     } catch (err) {
-      console.log(err);
-    }
-  };
-
-  /* =======================
-     OTP INPUT HANDLING
-  ======================== */
-  const handleOtpChange = (value, index) => {
-    if (!/^[0-9]?$/.test(value)) return;
-
-    const newOtp = [...otp];
-    newOtp[index] = value;
-    setOtp(newOtp);
-
-    if (value && index < 5) {
-      inputsRef.current[index + 1].focus();
-    }
-  };
-
-  const handleKeyDown = (e, index) => {
-    if (e.key === "Backspace" && !otp[index] && index > 0) {
-      inputsRef.current[index - 1].focus();
+      alert(err.response?.data?.message || "Registration failed");
     }
   };
 
@@ -94,27 +63,16 @@ const AuthPage = () => {
     const otpCode = otp.join("");
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/verify-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: formData.email,
-          otp: otpCode,
-        }),
+      await api.post("/auth/verify-otp", {
+        email: formData.email,
+        otp: otpCode,
       });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        alert(data.message);
-        return;
-      }
 
       alert("Verification successful!");
       setShowOTP(false);
       setActiveTab("signin");
     } catch (err) {
-      console.log(err);
+      alert(err.response?.data?.message || "OTP verification failed");
     }
   };
 
@@ -125,21 +83,10 @@ const AuthPage = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
+      const { data } = await api.post("/auth/login", {
+        email: formData.email,
+        password: formData.password,
       });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        alert(data.message);
-        return;
-      }
 
       login(
         {
@@ -148,10 +95,8 @@ const AuthPage = () => {
           email: data.email,
           role: data.role,
         },
-        data.token,
+        data.token
       );
-      console.log("ROLE:", data.role);
-      console.log("Navigating to:", data.role === "admin" ? "/admin" : "/");
 
       if (data.role === "admin") {
         navigate("/admin");
@@ -159,7 +104,7 @@ const AuthPage = () => {
         navigate("/");
       }
     } catch (err) {
-      console.log(err);
+      alert(err.response?.data?.message || "Login failed");
     }
   };
 
@@ -170,7 +115,6 @@ const AuthPage = () => {
     return (
       <div className="auth-container">
         <img src={logo} alt="logo" className="auth-logo" />
-
         <h2>Enter code</h2>
         <p className="sub-text">Sent to {formData.email}</p>
 
@@ -183,8 +127,20 @@ const AuthPage = () => {
                 maxLength="1"
                 value={digit}
                 ref={(el) => (inputsRef.current[index] = el)}
-                onChange={(e) => handleOtpChange(e.target.value, index)}
-                onKeyDown={(e) => handleKeyDown(e, index)}
+                onChange={(e) => {
+                  if (!/^[0-9]?$/.test(e.target.value)) return;
+                  const newOtp = [...otp];
+                  newOtp[index] = e.target.value;
+                  setOtp(newOtp);
+                  if (e.target.value && index < 5) {
+                    inputsRef.current[index + 1].focus();
+                  }
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Backspace" && !otp[index] && index > 0) {
+                    inputsRef.current[index - 1].focus();
+                  }
+                }}
               />
             ))}
           </div>
@@ -202,10 +158,11 @@ const AuthPage = () => {
     <div className="auth-container">
       <img src={logo} alt="logo" className="auth-logo" />
 
-      {/* TABS */}
       <div className="auth-tabs">
         <div
-          className={`tab-indicator ${activeTab === "register" ? "right" : ""}`}
+          className={`tab-indicator ${
+            activeTab === "register" ? "right" : ""
+          }`}
         ></div>
 
         <span

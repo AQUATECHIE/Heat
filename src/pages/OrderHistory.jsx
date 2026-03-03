@@ -11,10 +11,7 @@ const OrdersHistory = () => {
     try {
       const token = localStorage.getItem("token");
 
-      if (!token) {
-        setLoading(false);
-        return;
-      }
+      if (!token) return;
 
       const { data } = await api.get("/orders/my-orders", {
         headers: {
@@ -22,11 +19,13 @@ const OrdersHistory = () => {
         },
       });
 
-      setOrders(data);
-      setLoading(false);
+      setOrders(data || []);
     } catch (error) {
-      console.error(error);
-      setLoading(false);
+      console.error(
+        error.response?.data?.message || "Failed to fetch orders"
+      );
+    } finally {
+      setLoading(false); // ✅ always stop loading
     }
   };
 
@@ -38,7 +37,7 @@ const OrdersHistory = () => {
     return <h2 style={{ textAlign: "center" }}>Loading orders...</h2>;
   }
 
-  if (orders.length === 0) {
+  if (!orders || orders.length === 0) {
     return (
       <>
         <div className="orders-page">
@@ -61,19 +60,21 @@ const OrdersHistory = () => {
               <div>
                 <strong>Order ID:</strong> {order._id}
               </div>
+
               <div>
                 <strong>Status:</strong>{" "}
                 <span className={`status ${order.status}`}>
                   {order.status}
                 </span>
               </div>
+
               <div>
                 {new Date(order.createdAt).toLocaleDateString()}
               </div>
             </div>
 
             <div className="order-items">
-              {order.orderItems.map((item, index) => (
+              {order.orderItems?.map((item, index) => (
                 <div key={index} className="order-item">
                   <img src={item.image} alt={item.name} />
                   <div>

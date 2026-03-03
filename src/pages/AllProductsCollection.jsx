@@ -9,9 +9,7 @@ const AllProductsCollection = () => {
 
   const fetchProducts = async () => {
     try {
-      const { data } = await axios.get(
-        "http://localhost:5000/api/products"
-      );
+      const { data } = await axios.get("/api/products");
 
       // If you're returning pagination object
       setProducts(data.products || data);

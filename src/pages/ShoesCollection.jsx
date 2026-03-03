@@ -9,13 +9,17 @@ const ShoesCollection = () => {
 
   const fetchShoes = async () => {
     try {
-      const { data } = await api.get("/products?category=shoes");
+      const { data } = await api.get("/products", {
+        params: { category: "shoes" }, // ✅ cleaner query handling
+      });
 
       setProducts(data.products || data);
-      setLoading(false);
     } catch (error) {
-      console.error(error);
-      setLoading(false);
+      console.error(
+        error.response?.data?.message || "Failed to fetch shoes"
+      );
+    } finally {
+      setLoading(false); // ✅ always stop loading
     }
   };
 

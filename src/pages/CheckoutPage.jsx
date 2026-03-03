@@ -17,21 +17,26 @@ const CheckoutPage = () => {
   });
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [e.target.name]: e.target.value,
-    });
+    }));
   };
 
-  // 🔥 REAL SUBTOTAL
+  /* ======================
+     CALCULATIONS
+  ====================== */
   const subtotal = cart.reduce(
     (acc, item) => acc + item.product.price * item.quantity,
-    0,
+    0
   );
 
   const shipping = cart.length > 0 ? 2000 : 0;
   const total = subtotal + shipping;
 
+  /* ======================
+     WHATSAPP CHECKOUT
+  ====================== */
   const handleWhatsAppCheckout = async () => {
     if (cart.length === 0) return;
 
@@ -43,7 +48,7 @@ const CheckoutPage = () => {
         return;
       }
 
-      // 🔥 CREATE ORDER IN BACKEND
+      // ✅ Create order in backend
       const { data: order } = await api.post(
         "/orders",
         {
@@ -60,10 +65,10 @@ const CheckoutPage = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
 
-      // 🔥 Generate WhatsApp message using saved order
+      // ✅ Generate WhatsApp message
       const message = `
 🛒 *NEW ORDER - HEATONLY*
 
@@ -84,7 +89,7 @@ ${order.orderItems
     (item) =>
       `• ${item.name} (x${item.quantity}) - ₦${(
         item.price * item.quantity
-      ).toLocaleString()}`,
+      ).toLocaleString()}`
   )
   .join("\n")}
 
@@ -99,7 +104,7 @@ Shipping: ₦${order.shipping.toLocaleString()}
 
       window.open(
         `https://wa.me/${whatsappNumber}?text=${encodedMessage}`,
-        "_blank",
+        "_blank"
       );
 
       alert("Order placed successfully 🔥");
@@ -108,8 +113,10 @@ Shipping: ₦${order.shipping.toLocaleString()}
         window.location.href = "/orders";
       }, 1000);
     } catch (error) {
-      console.error(error);
-      alert("Order failed. Please try again.");
+      console.error(error.response?.data?.message || error.message);
+      alert(
+        error.response?.data?.message || "Order failed. Please try again."
+      );
     }
   };
 

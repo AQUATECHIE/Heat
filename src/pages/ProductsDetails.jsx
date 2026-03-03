@@ -17,14 +17,18 @@ const ProductDetails = () => {
   const [sizeError, setSizeError] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // 🔥 FETCH PRODUCT FROM BACKEND
+  /* =========================
+     FETCH PRODUCT
+  ========================== */
   const fetchProduct = async () => {
     try {
       const { data } = await api.get(`/products/${id}`);
       setProduct(data);
-      setLoading(false);
     } catch (error) {
-      console.error(error);
+      console.error(
+        error.response?.data?.message || "Failed to fetch product"
+      );
+    } finally {
       setLoading(false);
     }
   };
@@ -33,49 +37,64 @@ const ProductDetails = () => {
     fetchProduct();
   }, [id]);
 
-  if (loading) return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
+  if (loading)
+    return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
+
   if (!product) return <div>Product not found</div>;
 
+  /* =========================
+     IMAGE NAVIGATION
+  ========================== */
   const nextImage = () => {
     setCurrentImage((prev) =>
-      prev === product.images.length - 1 ? 0 : prev + 1
+      prev === (product.images?.length || 1) - 1 ? 0 : prev + 1
     );
   };
 
   const prevImage = () => {
     setCurrentImage((prev) =>
-      prev === 0 ? product.images.length - 1 : prev - 1
+      prev === 0
+        ? (product.images?.length || 1) - 1
+        : prev - 1
     );
   };
 
-  // 🔥 CONNECTED TO BACKEND CART
- const handleAddToCart = async () => {
-  if (product.category === "shoes" && !selectedSize) {
-    setSizeError(true);
-    return;
-  }
+  /* =========================
+     ADD TO CART
+  ========================== */
+  const handleAddToCart = async () => {
+    if (product.category === "shoes" && !selectedSize) {
+      setSizeError(true);
+      return;
+    }
 
-  setSizeError(false);
+    setSizeError(false);
 
-  await addToCart(product._id, quantity, selectedSize);
-
-  // alert("Added to cart 🔥");
-};
+    try {
+      await addToCart(product._id, quantity, selectedSize);
+    } catch (error) {
+      console.error(
+        error.response?.data?.message || "Failed to add to cart"
+      );
+    }
+  };
 
   return (
     <>
       <div className="product-details">
-        {/* Image Slider */}
+        {/* IMAGE SLIDER */}
         <div className="slider">
           <FaChevronLeft className="arrow left" onClick={prevImage} />
+
           <img
             src={product.images?.[currentImage]?.url}
             alt={product.name}
           />
+
           <FaChevronRight className="arrow right" onClick={nextImage} />
 
           <div className="dots">
-            {product.images.map((_, index) => (
+            {product.images?.map((_, index) => (
               <span
                 key={index}
                 className={index === currentImage ? "dot active" : "dot"}
@@ -84,7 +103,7 @@ const ProductDetails = () => {
           </div>
         </div>
 
-        {/* Product Info */}
+        {/* PRODUCT INFO */}
         <div className="product-info">
           <h3>{product.name}</h3>
           <p className="price">
@@ -92,7 +111,7 @@ const ProductDetails = () => {
           </p>
         </div>
 
-        {/* SIZE SECTION → ONLY FOR SHOES */}
+        {/* SIZE SECTION (SHOES ONLY) */}
         {product.category === "shoes" &&
           product.specifications?.size && (
             <div className="sizes">
@@ -123,25 +142,33 @@ const ProductDetails = () => {
             </div>
           )}
 
-        {/* Quantity */}
+        {/* QUANTITY */}
         <div className="quantity-section">
           <span>QUANTITY:</span>
+
           <div className="quantity-controls">
             <button onClick={() => setQuantity(Math.max(1, quantity - 1))}>
               -
             </button>
+
             <span>{quantity}</span>
-            <button onClick={() => setQuantity(quantity + 1)}>+</button>
+
+            <button onClick={() => setQuantity(quantity + 1)}>
+              +
+            </button>
           </div>
 
-          <button className="add-to-cart" onClick={handleAddToCart}>
+          <button
+            className="add-to-cart"
+            onClick={handleAddToCart}
+          >
             ADD TO CART
           </button>
         </div>
 
         <button className="buy-now">BUY NOW</button>
 
-        {/* Shipping */}
+        {/* SHIPPING */}
         <div className="shipping">
           <h4>Shipping & Returns</h4>
           <ul>

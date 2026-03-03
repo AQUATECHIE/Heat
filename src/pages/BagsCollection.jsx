@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import api from "../api/axios"; 
-
+import api from "../api/axios";
 import ProductGrid from "../components/ProductGrid";
 import Footer from "../components/Footer";
 
@@ -10,13 +9,17 @@ const BagsCollection = () => {
 
   const fetchBags = async () => {
     try {
-      const { data } = await api.get("/products?category=bags");
+      const { data } = await api.get("/products", {
+        params: { category: "bags" }, // ✅ cleaner query handling
+      });
 
       setProducts(data.products || data);
-      setLoading(false);
     } catch (error) {
-      console.error(error);
-      setLoading(false);
+      console.error(
+        error.response?.data?.message || "Failed to fetch bags"
+      );
+    } finally {
+      setLoading(false); // ✅ always stop loading
     }
   };
 
