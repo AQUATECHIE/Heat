@@ -82,6 +82,7 @@ const AuthPage = () => {
       });
 
       showModal("Verification successful! You can now login.");
+      
     } catch (err) {
       showModal(err.response?.data?.message || "OTP verification failed", "error");
     }
