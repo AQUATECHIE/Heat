@@ -7,12 +7,17 @@ const AllProductsCollection = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
   const fetchProducts = async () => {
     try {
-      const { data } = await axios.get("/api/products");
+      const { data } = await axios.get(
+        `/api/products?page=${page}&limit=10`
+      );
 
-      // If you're returning pagination object
-      setProducts(data.products || data);
+      setProducts(data.products);
+      setTotalPages(data.totalPages);
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -22,7 +27,7 @@ const AllProductsCollection = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [page]);
 
   if (loading) {
     return <h2 style={{ textAlign: "center" }}>Loading products...</h2>;
@@ -31,6 +36,28 @@ const AllProductsCollection = () => {
   return (
     <>
       <ProductGrid title="ALL PRODUCTS" products={products} />
+
+      {/* PAGINATION */}
+      <div className="pagination">
+        <button
+          disabled={page === 1}
+          onClick={() => setPage(page - 1)}
+        >
+          Prev
+        </button>
+
+        <span>
+          Page {page} of {totalPages}
+        </span>
+
+        <button
+          disabled={page === totalPages}
+          onClick={() => setPage(page + 1)}
+        >
+          Next
+        </button>
+      </div>
+
       <Footer />
     </>
   );

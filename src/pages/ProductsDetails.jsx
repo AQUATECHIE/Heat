@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../api/axios";
 import "../styles/ProductDetails.css";
@@ -8,6 +8,7 @@ import { useCart } from "../context/CartContext";
 
 const ProductDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { addToCart } = useCart();
 
   const [product, setProduct] = useState(null);
@@ -17,9 +18,10 @@ const ProductDetails = () => {
   const [sizeError, setSizeError] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  /* =========================
-     FETCH PRODUCT
-  ========================== */
+  const [cartModal, setCartModal] = useState(false);
+
+  /* FETCH PRODUCT */
+
   const fetchProduct = async () => {
     try {
       const { data } = await api.get(`/products/${id}`);
@@ -37,14 +39,12 @@ const ProductDetails = () => {
     fetchProduct();
   }, [id]);
 
-  if (loading)
-    return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
+  if (loading) return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
 
   if (!product) return <div>Product not found</div>;
 
-  /* =========================
-     IMAGE NAVIGATION
-  ========================== */
+  /* IMAGE NAVIGATION */
+
   const nextImage = () => {
     setCurrentImage((prev) =>
       prev === (product.images?.length || 1) - 1 ? 0 : prev + 1
@@ -53,15 +53,12 @@ const ProductDetails = () => {
 
   const prevImage = () => {
     setCurrentImage((prev) =>
-      prev === 0
-        ? (product.images?.length || 1) - 1
-        : prev - 1
+      prev === 0 ? (product.images?.length || 1) - 1 : prev - 1
     );
   };
 
-  /* =========================
-     ADD TO CART
-  ========================== */
+  /* ADD TO CART */
+
   const handleAddToCart = async () => {
     if (product.category === "shoes" && !selectedSize) {
       setSizeError(true);
@@ -72,6 +69,9 @@ const ProductDetails = () => {
 
     try {
       await addToCart(product._id, quantity, selectedSize);
+
+      /* 🔥 SHOW MODAL */
+      setCartModal(true);
     } catch (error) {
       console.error(
         error.response?.data?.message || "Failed to add to cart"
@@ -111,7 +111,7 @@ const ProductDetails = () => {
           </p>
         </div>
 
-        {/* SIZE SECTION (SHOES ONLY) */}
+        {/* SIZE SECTION */}
         {product.category === "shoes" &&
           product.specifications?.size && (
             <div className="sizes">
@@ -158,10 +158,7 @@ const ProductDetails = () => {
             </button>
           </div>
 
-          <button
-            className="add-to-cart"
-            onClick={handleAddToCart}
-          >
+          <button className="add-to-cart" onClick={handleAddToCart}>
             ADD TO CART
           </button>
         </div>
@@ -178,6 +175,32 @@ const ProductDetails = () => {
           </ul>
         </div>
       </div>
+
+      {/* CART MODAL */}
+      {cartModal && (
+        <div className="cart-modal-overlay">
+          <div className="cart-modal">
+            <h3>Added to Cart 🛒</h3>
+            <p>{product.name} was added to your cart.</p>
+
+            <div className="cart-modal-actions">
+              <button
+                className="continue-btn"
+                onClick={() => setCartModal(false)}
+              >
+                Continue Shopping
+              </button>
+
+              <button
+                className="go-cart-btn"
+                onClick={() => navigate("/cart")}
+              >
+                Go to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <Footer />
     </>

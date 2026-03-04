@@ -4,21 +4,19 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "../styles/AuthPage.css";
 import logo from "../assets/hero-logo.png";
 import { useAuth } from "../context/AuthContext";
-import api from "../api/axios"; // ✅ IMPORTED
+import api from "../api/axios";
 
 const AuthPage = () => {
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
   const { login, user } = useAuth();
 
-  useEffect(() => {
-    if (user) {
-      navigate("/profile", { replace: true });
-    }
-  }, [user, navigate]);
-
+  const [showPassword, setShowPassword] = useState(false);
   const [activeTab, setActiveTab] = useState("signin");
   const [showOTP, setShowOTP] = useState(false);
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalType, setModalType] = useState("success");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -29,9 +27,27 @@ const AuthPage = () => {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const inputsRef = useRef([]);
 
-  /* =======================
-     HANDLE INPUT CHANGE
-  ======================== */
+  useEffect(() => {
+    if (user) {
+      navigate("/", { replace: true });
+    }
+  }, [user, navigate]);
+
+  const showModal = (message, type = "success") => {
+    setModalMessage(message);
+    setModalType(type);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+
+    if (modalType === "success") {
+      setShowOTP(false);
+      setActiveTab("signin");
+    }
+  };
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -39,24 +55,21 @@ const AuthPage = () => {
     });
   };
 
-  /* =======================
-     REGISTER
-  ======================== */
+  /* REGISTER */
+
   const handleRegister = async (e) => {
     e.preventDefault();
 
     try {
-      const { data } = await api.post("/auth/register", formData);
-
+      await api.post("/auth/register", formData);
       setShowOTP(true);
     } catch (err) {
-      alert(err.response?.data?.message || "Registration failed");
+      showModal(err.response?.data?.message || "Registration failed", "error");
     }
   };
 
-  /* =======================
-     VERIFY OTP
-  ======================== */
+  /* VERIFY OTP */
+
   const handleVerifyOTP = async (e) => {
     e.preventDefault();
 
@@ -68,17 +81,14 @@ const AuthPage = () => {
         otp: otpCode,
       });
 
-      alert("Verification successful!");
-      setShowOTP(false);
-      setActiveTab("signin");
+      showModal("Verification successful! You can now login.");
     } catch (err) {
-      alert(err.response?.data?.message || "OTP verification failed");
+      showModal(err.response?.data?.message || "OTP verification failed", "error");
     }
   };
 
-  /* =======================
-     LOGIN
-  ======================== */
+  /* LOGIN */
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -104,17 +114,17 @@ const AuthPage = () => {
         navigate("/");
       }
     } catch (err) {
-      alert(err.response?.data?.message || "Login failed");
+      showModal(err.response?.data?.message || "Login failed", "error");
     }
   };
 
-  /* =======================
-     OTP SCREEN
-  ======================== */
+  /* OTP SCREEN */
+
   if (showOTP) {
     return (
       <div className="auth-container">
         <img src={logo} alt="logo" className="auth-logo" />
+
         <h2>Enter code</h2>
         <p className="sub-text">Sent to {formData.email}</p>
 
@@ -129,9 +139,11 @@ const AuthPage = () => {
                 ref={(el) => (inputsRef.current[index] = el)}
                 onChange={(e) => {
                   if (!/^[0-9]?$/.test(e.target.value)) return;
+
                   const newOtp = [...otp];
                   newOtp[index] = e.target.value;
                   setOtp(newOtp);
+
                   if (e.target.value && index < 5) {
                     inputsRef.current[index + 1].focus();
                   }
@@ -147,22 +159,30 @@ const AuthPage = () => {
 
           <button type="submit">SUBMIT</button>
         </form>
+
+        {modalOpen && (
+          <div className="auth-modal-overlay">
+            <div className="auth-modal">
+              <h3>{modalType === "success" ? "Success" : "Error"}</h3>
+              <p>{modalMessage}</p>
+
+              <button onClick={closeModal}>OK</button>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
 
-  /* =======================
-     AUTH SCREEN
-  ======================== */
+  /* AUTH SCREEN */
+
   return (
     <div className="auth-container">
       <img src={logo} alt="logo" className="auth-logo" />
 
       <div className="auth-tabs">
         <div
-          className={`tab-indicator ${
-            activeTab === "register" ? "right" : ""
-          }`}
+          className={`tab-indicator ${activeTab === "register" ? "right" : ""}`}
         ></div>
 
         <span
@@ -255,6 +275,17 @@ const AuthPage = () => {
             <button type="submit">REGISTER</button>
           </form>
         </>
+      )}
+
+      {modalOpen && (
+        <div className="auth-modal-overlay">
+          <div className="auth-modal">
+            <h3>{modalType === "success" ? "Success" : "Error"}</h3>
+            <p>{modalMessage}</p>
+
+            <button onClick={closeModal}>OK</button>
+          </div>
+        </div>
       )}
     </div>
   );

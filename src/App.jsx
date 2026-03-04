@@ -29,6 +29,8 @@ import AdminLayout from "./Layouts/AdminLayout.jsx";
 import AdminAnalytics from "./pages/AdminAnalytics.jsx";
 import AdminProducts from "./pages/AdminProducts.jsx";
 import AdminCreateProduct from "./pages/AdminCreateProduct.jsx";
+import AdminRoute from "./components/AdminRoute.jsx";
+import AdminUsers from "./pages/AdminUsers.jsx";
 
 function LayoutWrapper() {
   const location = useLocation();
@@ -63,13 +65,22 @@ function LayoutWrapper() {
           <Route index element={<AdminDashboard />} />
 
           <Route path="orders" element={<AdminDashboard />} />
-          <Route path="users" element={<div>Users Page</div>} />
+          {/* <Route path="users" element={<div>Users Page</div>} /> */}
 
           {/* PRODUCTS */}
           <Route path="products" element={<AdminProducts />} />
           <Route path="products/new" element={<AdminCreateProduct />} />
 
           <Route path="analytics" element={<AdminAnalytics />} />
+          <Route
+            path="users"
+            element={
+              <AdminRoute>
+                <AdminUsers />
+              </AdminRoute>  
+              
+            }
+          />
         </Route>
       </Routes>
     </>

@@ -157,3 +157,50 @@
 .toggle-password:hover {
   color: black;
 }
+
+.auth-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.auth-modal {
+  background: #1c1c1c;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  width: 320px;
+  border: 1px solid #2a2a2a;
+  animation: fadeInScale .25s ease;
+}
+
+.auth-modal h3 {
+  margin-bottom: 10px;
+}
+
+.auth-modal p {
+  color: #aaa;
+  margin-bottom: 20px;
+}
+
+.auth-modal button {
+  background: black;
+  border: 1px solid #333;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.auth-modal button:hover {
+  background: #222;
+}
+
+@keyframes fadeInScale {
+  from {opacity:0; transform:scale(.95);}
+  to {opacity:1; transform:scale(1);}
+}

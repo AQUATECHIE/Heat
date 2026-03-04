@@ -1,10 +1,9 @@
 .hero {
   margin-top: 70px;
   width: 100%;
-  height: 90vh;
+  height: calc(100vh - 70px);
   position: relative;
   overflow: hidden;
-  object-fit: cover;
 }
 
 /* Each slide stacked */
@@ -26,8 +25,9 @@
 .hero-slide img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  animation: slowZoom 10s ease-in-out infinite;
+  object-fit: contain;
+  background: black;
+  animation: slowZoom 12s ease-in-out infinite;
 }
 
 /* Dark luxury overlay */
@@ -50,9 +50,36 @@
     transform: scale(1);
   }
   50% {
-    transform: scale(1.08);
+    transform: scale(1.05);
   }
   100% {
     transform: scale(1);
   }
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+
+.hero{
+  height: calc(95vh - 70px);
+}
+
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+
+.hero{
+  height: calc(90vh - 70px);
+}
+
+}
+
+/* Large Screens */
+@media (min-width: 1400px) {
+
+.hero{
+  height: calc(85vh - 70px);
+}
+
 }

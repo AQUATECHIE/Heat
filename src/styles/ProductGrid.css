@@ -106,3 +106,27 @@
 .wishlist-btn.active svg {
   color: red;
 }
+
+.filter-panel {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  width: 250px;
+  margin-bottom: 20px;
+}
+
+.filter-panel input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+.filter-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.filter-actions button {
+  padding: 6px 12px;
+  cursor: pointer;
+}

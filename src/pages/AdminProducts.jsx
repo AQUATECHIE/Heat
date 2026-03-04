@@ -6,27 +6,59 @@ import "../styles/AdminProducts.css";
 const AdminProducts = () => {
   const [products, setProducts] = useState([]);
 
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("");
+
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
   const fetchProducts = async () => {
-    const { data } = await api.get("/products");
-    setProducts(data.products || data);
+    try {
+      const { data } = await api.get("/products", {
+        params: {
+          page,
+          limit: 20,
+          keyword: search,
+          category: category,
+        },
+      });
+
+      setProducts(data.products);
+      setTotalPages(data.totalPages);
+    } catch (error) {
+      console.error("Failed to fetch products");
+    }
   };
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [page, search, category]);
 
-  const deleteProduct = async (id) => {
-    const token = localStorage.getItem("token");
+  const confirmDelete = (product) => {
+    setSelectedProduct(product);
+    setDeleteModal(true);
+  };
 
-    if (!window.confirm("Delete this product?")) return;
+  const deleteProduct = async () => {
+    try {
+      const token = localStorage.getItem("token");
 
-    await api.delete(`/products/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+      await api.delete(`/products/${selectedProduct._id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    fetchProducts();
+      setDeleteModal(false);
+      setSelectedProduct(null);
+
+      fetchProducts();
+    } catch (error) {
+      console.error("Delete failed");
+    }
   };
 
   return (
@@ -39,6 +71,33 @@ const AdminProducts = () => {
         </Link>
       </div>
 
+      {/* SEARCH + FILTER */}
+      <div className="admin-filters">
+        <input
+          type="text"
+          placeholder="Search product..."
+          value={search}
+          onChange={(e) => {
+            setPage(1);
+            setSearch(e.target.value);
+          }}
+        />
+
+        <select
+          value={category}
+          onChange={(e) => {
+            setPage(1);
+            setCategory(e.target.value);
+          }}
+        >
+          <option value="">All Categories</option>
+          <option value="shoes">Shoes</option>
+          <option value="bags">Bags</option>
+          <option value="clothes">Clothes</option>
+        </select>
+      </div>
+
+      {/* PRODUCTS GRID */}
       <div className="products-grid">
         {products.map((product) => (
           <div key={product._id} className="admin-product-card">
@@ -51,9 +110,11 @@ const AdminProducts = () => {
 
             <div className="product-info">
               <h4>{product.name}</h4>
+
               <p className="price">
                 ₦{product.price.toLocaleString()}
               </p>
+
               <p className="stock">
                 Stock: {product.stock}
               </p>
@@ -69,7 +130,7 @@ const AdminProducts = () => {
 
               <button
                 className="delete-btn"
-                onClick={() => deleteProduct(product._id)}
+                onClick={() => confirmDelete(product)}
               >
                 Delete
               </button>
@@ -77,6 +138,57 @@ const AdminProducts = () => {
           </div>
         ))}
       </div>
+
+      {/* PAGINATION */}
+      <div className="pagination">
+        <button
+          disabled={page === 1}
+          onClick={() => setPage(page - 1)}
+        >
+          Prev
+        </button>
+
+        <span>
+          Page {page} of {totalPages}
+        </span>
+
+        <button
+          disabled={page === totalPages}
+          onClick={() => setPage(page + 1)}
+        >
+          Next
+        </button>
+      </div>
+
+      {/* DELETE MODAL */}
+      {deleteModal && (
+        <div className="modal-overlay">
+          <div className="delete-modal">
+            <h3>Delete Product</h3>
+
+            <p>
+              Are you sure you want to delete{" "}
+              <strong>{selectedProduct?.name}</strong>?
+            </p>
+
+            <div className="modal-actions">
+              <button
+                className="cancel-btn"
+                onClick={() => setDeleteModal(false)}
+              >
+                Cancel
+              </button>
+
+              <button
+                className="confirm-delete"
+                onClick={deleteProduct}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

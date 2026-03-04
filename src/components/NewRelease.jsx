@@ -1,10 +1,13 @@
 import "../styles/NewRelease.css";
 import { FaRegBookmark } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 import shoe1 from "../assets/shoe.png";
 import shoe2 from "../assets/shoe2.png";
 
 const NewRelease = () => {
+  const navigate = useNavigate();
+
   const products = [
     {
       id: 1,
@@ -24,7 +27,15 @@ const NewRelease = () => {
     <section className="new-release">
       <div className="section-header">
         <h2>NEW RELEASE</h2>
-        <span>See All →</span>
+
+        {/* 🔥 CLICKABLE */}
+        <span
+          className="see-all"
+          onClick={() => navigate("/products")}
+          style={{ cursor: "pointer" }}
+        >
+          See All →
+        </span>
       </div>
 
       <div className="product-grid">

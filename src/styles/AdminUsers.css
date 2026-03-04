@@ -2,140 +2,108 @@
    PAGE CONTAINER
 ========================= */
 
-.admin-products {
+.admin-users {
   color: white;
 }
 
-/* =========================
-   HEADER
-========================= */
-
-.admin-products-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-}
-
-.admin-products-header h2 {
+.admin-users h2 {
+  margin-bottom: 25px;
   font-size: 22px;
   font-weight: 600;
 }
 
-.create-btn {
-  background: black;
-  color: white;
-  padding: 10px 16px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-size: 14px;
-  transition: 0.3s ease;
-  border: 1px solid #333;
-}
-
-.create-btn:hover {
-  background: #222;
-}
-
 /* =========================
-   GRID
+   TABLE CONTAINER
 ========================= */
 
-.products-grid {
-  display: grid;
-  gap: 20px;
-}
-
-/* =========================
-   PRODUCT CARD
-========================= */
-
-.admin-product-card {
-  display: flex;
-  align-items: center;
-  gap: 20px;
+.users-table {
   background: #1c1c1c;
-  padding: 20px;
   border-radius: 10px;
   border: 1px solid #2a2a2a;
-  transition: 0.3s ease;
-}
-
-.admin-product-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
 }
 
 /* =========================
-   IMAGE
+   HEADER ROW
 ========================= */
 
-.product-img img {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-/* =========================
-   INFO
-========================= */
-
-.product-info {
-  flex: 1;
-}
-
-.product-info h4 {
-  margin-bottom: 6px;
-  font-size: 16px;
-}
-
-.price {
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
-.stock {
+.users-header {
+  display: grid;
+  grid-template-columns: 1.5fr 2fr 1fr 1fr;
+  padding: 15px 20px;
+  background: #141414;
+  border-bottom: 1px solid #2a2a2a;
   font-size: 13px;
+  text-transform: uppercase;
   color: #aaa;
 }
 
 /* =========================
-   ACTION BUTTONS
+   USER ROW
 ========================= */
 
-.admin-actions {
-  display: flex;
-  gap: 10px;
+.users-row {
+  display: grid;
+  grid-template-columns: 1.5fr 2fr 1fr 1fr;
+  padding: 15px 20px;
+  align-items: center;
+  border-bottom: 1px solid #2a2a2a;
+  transition: 0.2s ease;
 }
 
-.edit-btn {
-  background: #2a2a2a;
+.users-row:hover {
+  background: #222;
+}
+
+.users-row span {
+  font-size: 14px;
+}
+
+/* =========================
+   ROLE SELECT
+========================= */
+
+.users-row select {
+  background: #111;
+  border: 1px solid #333;
   color: white;
-  padding: 6px 12px;
+  padding: 6px 10px;
   border-radius: 6px;
-  text-decoration: none;
-  font-size: 13px;
-  transition: 0.3s ease;
+  outline: none;
+  cursor: pointer;
 }
 
-.edit-btn:hover {
-  background: #444;
+.users-row select:focus {
+  border-color: #555;
 }
 
-.delete-btn {
+/* =========================
+   DELETE BUTTON
+========================= */
+
+.delete-user-btn {
   background: #3b0000;
   color: #ff4d4d;
   border: none;
-  padding: 6px 12px;
+  padding: 7px 12px;
   border-radius: 6px;
-  cursor: pointer;
   font-size: 13px;
+  cursor: pointer;
   transition: 0.3s ease;
 }
 
-.delete-btn:hover {
+.delete-user-btn:hover {
   background: #5c0000;
+}
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.empty-users {
+  padding: 40px;
+  text-align: center;
+  color: #888;
 }
 
 /* =========================
@@ -143,30 +111,42 @@
 ========================= */
 
 @media (max-width: 768px) {
-  .admin-product-card {
-    flex-direction: column;
-    align-items: flex-start;
+
+  .users-header {
+    display: none;
   }
 
-  .admin-actions {
-    width: 100%;
+  .users-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 20px;
+  }
+
+  .users-row span {
+    display: flex;
     justify-content: space-between;
   }
-}
 
-.admin-filters {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 25px;
-}
+  .users-row span::before {
+    font-weight: 600;
+    color: #aaa;
+  }
 
-.admin-filters input {
-  padding: 8px 12px;
-  width: 250px;
-}
+  .users-row span:nth-child(1)::before {
+    content: "Name:";
+  }
 
-.admin-filters select {
-  padding: 8px 12px;
+  .users-row span:nth-child(2)::before {
+    content: "Email:";
+  }
+
+  .users-row span:nth-child(3)::before {
+    content: "Role:";
+  }
+
+  .users-row span:nth-child(4)::before {
+    content: "Actions:";
+  }
 }
 
 /* =========================

@@ -7,6 +7,24 @@ import Footer from "../components/Footer";
 const CheckoutPage = () => {
   const { cart } = useCart();
 
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalType, setModalType] = useState("success");
+
+  const showModal = (message, type = "success") => {
+    setModalMessage(message);
+    setModalType(type);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+
+    if (modalType === "success") {
+      window.location.href = "/orders";
+    }
+  };
+
   const [formData, setFormData] = useState({
     email: "",
     firstName: "",
@@ -23,9 +41,8 @@ const CheckoutPage = () => {
     }));
   };
 
-  /* ======================
-     CALCULATIONS
-  ====================== */
+  /* CALCULATIONS */
+
   const subtotal = cart.reduce(
     (acc, item) => acc + item.product.price * item.quantity,
     0
@@ -34,9 +51,8 @@ const CheckoutPage = () => {
   const shipping = cart.length > 0 ? 2000 : 0;
   const total = subtotal + shipping;
 
-  /* ======================
-     WHATSAPP CHECKOUT
-  ====================== */
+  /* WHATSAPP CHECKOUT */
+
   const handleWhatsAppCheckout = async () => {
     if (cart.length === 0) return;
 
@@ -44,11 +60,10 @@ const CheckoutPage = () => {
       const token = localStorage.getItem("token");
 
       if (!token) {
-        alert("Please login first");
+        showModal("Please login first", "error");
         return;
       }
 
-      // ✅ Create order in backend
       const { data: order } = await api.post(
         "/orders",
         {
@@ -68,7 +83,6 @@ const CheckoutPage = () => {
         }
       );
 
-      // ✅ Generate WhatsApp message
       const message = `
 🛒 *NEW ORDER - HEATONLY*
 
@@ -107,15 +121,13 @@ Shipping: ₦${order.shipping.toLocaleString()}
         "_blank"
       );
 
-      alert("Order placed successfully 🔥");
-
-      setTimeout(() => {
-        window.location.href = "/orders";
-      }, 1000);
+      showModal("Order placed successfully 🔥");
     } catch (error) {
       console.error(error.response?.data?.message || error.message);
-      alert(
-        error.response?.data?.message || "Order failed. Please try again."
+
+      showModal(
+        error.response?.data?.message || "Order failed. Please try again.",
+        "error"
       );
     }
   };
@@ -152,10 +164,12 @@ Shipping: ₦${order.shipping.toLocaleString()}
               <span>Subtotal</span>
               <span>₦{subtotal.toLocaleString()}</span>
             </div>
+
             <div>
               <span>Shipping</span>
               <span>₦{shipping.toLocaleString()}</span>
             </div>
+
             <div className="total-row">
               <span>Total</span>
               <span>₦{total.toLocaleString()}</span>
@@ -192,18 +206,21 @@ Shipping: ₦${order.shipping.toLocaleString()}
             placeholder="First Name"
             onChange={handleChange}
           />
+
           <input
             type="text"
             name="lastName"
             placeholder="Last Name"
             onChange={handleChange}
           />
+
           <input
             type="text"
             name="address"
             placeholder="Address"
             onChange={handleChange}
           />
+
           <input
             type="text"
             name="city"
@@ -229,6 +246,19 @@ Shipping: ₦${order.shipping.toLocaleString()}
           </button>
         </div>
       </div>
+
+      {/* MODAL */}
+      {modalOpen && (
+        <div className="checkout-modal-overlay">
+          <div className="checkout-modal">
+            <h3>{modalType === "success" ? "Success" : "Error"}</h3>
+
+            <p>{modalMessage}</p>
+
+            <button onClick={closeModal}>OK</button>
+          </div>
+        </div>
+      )}
 
       <Footer />
     </>

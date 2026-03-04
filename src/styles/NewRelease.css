@@ -11,9 +11,21 @@
 }
 
 .section-header h2 {
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 1px;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0%;
+  font-style: medium;
+  line-height: 100%;
+
+}
+.see-all{
+  cursor:pointer;
+  font-weight:500;
+  transition:opacity .2s;
+}
+
+.see-all:hover{
+  opacity:.7;
 }
 
 .section-header span {

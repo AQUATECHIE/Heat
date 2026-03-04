@@ -25,10 +25,11 @@
 }
 
 .promo-card h3 {
-  font-size: 14px;
-  letter-spacing: 1px;
+  font-size: 16px;
+  letter-spacing: 0%;
   font-weight: 600;
   margin-bottom: 20px;
+  
 }
 
 .promo-card button {

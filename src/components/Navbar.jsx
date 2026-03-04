@@ -1,8 +1,9 @@
 import logo from "../assets/hero-logo.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
+import api from "../api/axios";
 import "../styles/Navbar.css";
 import {
   FaBars,
@@ -16,9 +17,38 @@ const Navbar = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const { cartCount } = useCart(); // ✅ from backend context
+  const [searchTerm, setSearchTerm] = useState("");
+  const [results, setResults] = useState([]);
+
+  const { cartCount } = useCart();
   const { user } = useAuth();
-  console.log(user);
+
+  /* =============================
+     SEARCH PRODUCTS FROM BACKEND
+  ============================== */
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      if (!searchTerm) {
+        setResults([]);
+        return;
+      }
+
+      try {
+        const { data } = await api.get(
+          `/products?keyword=${searchTerm}`
+        );
+
+        setResults(data.products || data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const debounce = setTimeout(fetchProducts, 400);
+
+    return () => clearTimeout(debounce);
+  }, [searchTerm]);
 
   return (
     <>
@@ -33,7 +63,6 @@ const Navbar = () => {
         </Link>
 
         <div className="nav-right">
-          {/* USER ICON */}
           <Link
             to={
               user ? (user.role === "admin" ? "/admin" : "/profile") : "/auth"
@@ -43,7 +72,6 @@ const Navbar = () => {
             <FaUser className="icon" />
           </Link>
 
-          {/* CART */}
           <Link to="/cart" className="cart-wrapper">
             <FaShoppingBag className="icon" />
             {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
@@ -68,20 +96,60 @@ const Navbar = () => {
           <div className="search-top">
             <div className="search-input-wrapper">
               <FaSearch className="search-icon" />
-              <input type="text" placeholder="WHAT ARE YOU LOOKING FOR?" />
+
+              <input
+                type="text"
+                placeholder="WHAT ARE YOU LOOKING FOR?"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
             </div>
+
             <FaTimes
               className="close-icon"
-              onClick={() => setSearchOpen(false)}
+              onClick={() => {
+                setSearchOpen(false);
+                setSearchTerm("");
+                setResults([]);
+              }}
             />
           </div>
 
-          <div className="recent-search">
-            <h4>RECENT SEARCH</h4>
-            <p>Nike Air Jordan 1 Retro</p>
-            <p>Prada Nordstrom</p>
-            <p>Bosphore Wearable Wallet</p>
+          {/* SEARCH RESULTS */}
+          <div className="search-results">
+            {results.length === 0 && searchTerm && (
+              <p className="no-results">No products found</p>
+            )}
+
+            {results.map((product) => (
+              <Link
+                key={product._id}
+                to={`/product/${product._id}`}
+                className="search-result-item"
+                onClick={() => {
+                  setSearchOpen(false);
+                  setSearchTerm("");
+                }}
+              >
+                <img src={product.images?.[0]?.url} alt={product.name} />
+
+                <div>
+                  <p>{product.name}</p>
+                  <span>₦{product.price.toLocaleString()}</span>
+                </div>
+              </Link>
+            ))}
           </div>
+
+          {/* RECENT SEARCH */}
+          {!searchTerm && (
+            <div className="recent-search">
+              <h4>POPULAR SEARCH</h4>
+              <p>Nike Air Jordan 1 Retro</p>
+              <p>Prada Nordstrom</p>
+              <p>Bosphore Wearable Wallet</p>
+            </div>
+          )}
         </div>
       )}
 
