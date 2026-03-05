@@ -25,8 +25,8 @@
 .hero-slide img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  background: black;
+  object-fit: cover;
+  /* background: black; */
   animation: slowZoom 12s ease-in-out infinite;
 }
 
@@ -72,7 +72,10 @@
 .hero{
   height: calc(90vh - 70px);
 }
-
+.hero img{
+  object-fit: contain;
+  background: black;
+}
 }
 
 /* Large Screens */
@@ -80,6 +83,10 @@
 
 .hero{
   height: calc(85vh - 70px);
+}
+.hero img {
+  object-fit: contain;
+  background: black;
 }
 
 }

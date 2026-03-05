@@ -31,6 +31,7 @@ import AdminProducts from "./pages/AdminProducts.jsx";
 import AdminCreateProduct from "./pages/AdminCreateProduct.jsx";
 import AdminRoute from "./components/AdminRoute.jsx";
 import AdminUsers from "./pages/AdminUsers.jsx";
+import DeliveryAddress from "./pages/DeliveryAddress.jsx";
 
 function LayoutWrapper() {
   const location = useLocation();
@@ -58,6 +59,7 @@ function LayoutWrapper() {
         <Route path="/wishlist" element={<WishlistPage />} />
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/address" element={<DeliveryAddress />} />
 
         {/* ADMIN ROUTES */}
         {/* ADMIN ROUTES */}

@@ -1,6 +1,6 @@
 import logo from "../assets/hero-logo.png";
 import { useState, useEffect } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import api from "../api/axios";
@@ -11,20 +11,27 @@ import {
   FaUser,
   FaShoppingBag,
   FaTimes,
+  FaBox,
+  FaUserCircle,
+  FaMapMarkerAlt,
+  FaBookmark,
+  FaSignOutAlt,
 } from "react-icons/fa";
 
 const Navbar = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
 
   const { cartCount } = useCart();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   /* =============================
-     SEARCH PRODUCTS FROM BACKEND
+     SEARCH PRODUCTS
   ============================== */
 
   useEffect(() => {
@@ -35,10 +42,7 @@ const Navbar = () => {
       }
 
       try {
-        const { data } = await api.get(
-          `/products?keyword=${searchTerm}`
-        );
-
+        const { data } = await api.get(`/products?keyword=${searchTerm}`);
         setResults(data.products || data);
       } catch (error) {
         console.error(error);
@@ -46,9 +50,14 @@ const Navbar = () => {
     };
 
     const debounce = setTimeout(fetchProducts, 400);
-
     return () => clearTimeout(debounce);
   }, [searchTerm]);
+
+  const handleLogout = () => {
+    logout();
+    setProfileOpen(false);
+    navigate("/");
+  };
 
   return (
     <>
@@ -63,29 +72,69 @@ const Navbar = () => {
         </Link>
 
         <div className="nav-right">
-          <Link
-            to={
-              user ? (user.role === "admin" ? "/admin" : "/profile") : "/auth"
-            }
-            className="icon-link"
-          >
-            <FaUser className="icon" />
-          </Link>
+          {/* USER ICON */}
+          <div className="icon-link">
+            <FaUser
+              className="icon"
+              onClick={() => {
+                if (!user) {
+                  navigate("/auth");
+                } else {
+                  setProfileOpen(!profileOpen);
+                }
+              }}
+            />
+          </div>
 
+          {/* CART */}
           <Link to="/cart" className="cart-wrapper">
             <FaShoppingBag className="icon" />
             {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
           </Link>
         </div>
+
+        {/* PROFILE MODAL */}
+        {profileOpen && user && (
+          <div className="profile-dropdown">
+            <div className="profile-header">
+              <span>{user.name}</span>
+              <FaTimes
+                className="close-profile"
+                onClick={() => setProfileOpen(false)}
+              />
+            </div>
+
+            <Link to="/orders" onClick={() => setProfileOpen(false)}>
+              <FaBox /> My Orders
+            </Link>
+
+            <Link to="/profile" onClick={() => setProfileOpen(false)}>
+              <FaUserCircle /> My Profile
+            </Link>
+
+            <Link to="/address" onClick={() => setProfileOpen(false)}>
+              <FaMapMarkerAlt /> My Delivery Address
+            </Link>
+
+            <Link to="/wishlist" onClick={() => setProfileOpen(false)}>
+              <FaBookmark /> Wishlist
+            </Link>
+
+            <button onClick={handleLogout}>
+              <FaSignOutAlt /> Logout
+            </button>
+          </div>
+        )}
       </nav>
 
-      {/* Overlay */}
-      {(searchOpen || sidebarOpen) && (
+      {/* OVERLAY */}
+      {(searchOpen || sidebarOpen || profileOpen) && (
         <div
           className="overlay"
           onClick={() => {
             setSearchOpen(false);
             setSidebarOpen(false);
+            setProfileOpen(false);
           }}
         ></div>
       )}
@@ -96,7 +145,6 @@ const Navbar = () => {
           <div className="search-top">
             <div className="search-input-wrapper">
               <FaSearch className="search-icon" />
-
               <input
                 type="text"
                 placeholder="WHAT ARE YOU LOOKING FOR?"
@@ -115,7 +163,6 @@ const Navbar = () => {
             />
           </div>
 
-          {/* SEARCH RESULTS */}
           <div className="search-results">
             {results.length === 0 && searchTerm && (
               <p className="no-results">No products found</p>
@@ -141,13 +188,9 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* RECENT SEARCH */}
           {!searchTerm && (
             <div className="recent-search">
               <h4>POPULAR SEARCH</h4>
-              <p>Nike Air Jordan 1 Retro</p>
-              <p>Prada Nordstrom</p>
-              <p>Bosphore Wearable Wallet</p>
             </div>
           )}
         </div>
@@ -156,10 +199,7 @@ const Navbar = () => {
       {/* SIDEBAR */}
       <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
         <div className="sidebar-header">
-          <button
-            className="sidebar-close"
-            onClick={() => setSidebarOpen(false)}
-          >
+          <button className="sidebar-close" onClick={() => setSidebarOpen(false)}>
             ✕
           </button>
 
@@ -167,38 +207,20 @@ const Navbar = () => {
         </div>
 
         <div className="sidebar-links">
-          <NavLink to="/" onClick={() => setSidebarOpen(false)}>
-            Home
-          </NavLink>
-          <NavLink to="/products" onClick={() => setSidebarOpen(false)}>
-            All Products
-          </NavLink>
-          <NavLink to="/sneakers" onClick={() => setSidebarOpen(false)}>
-            Sneakers
-          </NavLink>
-          <NavLink to="/bags" onClick={() => setSidebarOpen(false)}>
-            Bags
-          </NavLink>
-          <NavLink to="/clothes" onClick={() => setSidebarOpen(false)}>
-            Clothes
-          </NavLink>
-          <NavLink to="/collectibles" onClick={() => setSidebarOpen(false)}>
-            Collectible items
-          </NavLink>
-          <NavLink to="/orders" onClick={() => setSidebarOpen(false)}>
-            Order history
-          </NavLink>
+          <NavLink to="/" onClick={() => setSidebarOpen(false)}>Home</NavLink>
+          <NavLink to="/products" onClick={() => setSidebarOpen(false)}>All Products</NavLink>
+          <NavLink to="/sneakers" onClick={() => setSidebarOpen(false)}>Sneakers</NavLink>
+          <NavLink to="/bags" onClick={() => setSidebarOpen(false)}>Bags</NavLink>
+          <NavLink to="/clothes" onClick={() => setSidebarOpen(false)}>Clothes</NavLink>
+          <NavLink to="/collectibles" onClick={() => setSidebarOpen(false)}>Collectible items</NavLink>
+          <NavLink to="/orders" onClick={() => setSidebarOpen(false)}>Order history</NavLink>
         </div>
 
         <div className="sidebar-divider"></div>
 
         <div className="sidebar-extra">
-          <NavLink to="/wishlist" onClick={() => setSidebarOpen(false)}>
-            Wishlist
-          </NavLink>
-          <NavLink to="/about" onClick={() => setSidebarOpen(false)}>
-            About Us
-          </NavLink>
+          <NavLink to="/wishlist" onClick={() => setSidebarOpen(false)}>Wishlist</NavLink>
+          <NavLink to="/about" onClick={() => setSidebarOpen(false)}>About Us</NavLink>
 
           <p>Info.admin@heatonlykickcollectibles.com</p>
           <p>+27665394231</p>

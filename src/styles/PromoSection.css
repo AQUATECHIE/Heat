@@ -1,9 +1,9 @@
 .promo-section {
   background: #f2f2f2;
-  padding: 50px 20px;
+  /* padding: 50px; */
   display: flex;
   flex-direction: column;
-  gap: 60px;
+  gap: 15px;
 }
 
 /* Individual Card */
@@ -29,14 +29,15 @@
   letter-spacing: 0%;
   font-weight: 600;
   margin-bottom: 20px;
+  font-weight: 500;
   
 }
 
 .promo-card button {
-  background: #111;
+  background: #131313;
   color: #fff;
   border: none;
-  padding: 12px 28px;
+  padding: 14px 20px;
   font-size: 12px;
   letter-spacing: 1px;
   cursor: pointer;

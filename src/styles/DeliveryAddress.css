@@ -1,0 +1,47 @@
+.delivery-page{
+  padding: 20px;
+  max-width: 500px;
+  margin: auto;
+  margin-top: 60px;
+}
+
+.delivery-page h2{
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.delivery-form{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.delivery-form input{
+  width:100%;
+  padding:14px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  font-size:14px;
+  outline:none;
+  background:#f8f8f8;
+}
+
+.delivery-form input:focus{
+  border-color:#000;
+}
+
+.delivery-form button{
+  margin-top:10px;
+  background:#000;
+  color:#fff;
+  border:none;
+  padding:14px;
+  border-radius:6px;
+  font-size:14px;
+  cursor:pointer;
+  transition:opacity .2s ease;
+}
+
+.delivery-form button:hover{
+  opacity:.85;
+}

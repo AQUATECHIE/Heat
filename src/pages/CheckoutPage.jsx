@@ -1,11 +1,18 @@
 import { useCart } from "../context/CartContext";
-import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/CheckoutPage.css";
 import api from "../api/axios";
 import Footer from "../components/Footer";
+import { FaEllipsisV } from "react-icons/fa";
 
 const CheckoutPage = () => {
   const { cart } = useCart();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
@@ -19,14 +26,18 @@ const CheckoutPage = () => {
 
   const closeModal = () => {
     setModalOpen(false);
-
     if (modalType === "success") {
       window.location.href = "/orders";
     }
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
   const [formData, setFormData] = useState({
-    email: "",
+    email: user?.email || "",
     firstName: "",
     lastName: "",
     address: "",
@@ -34,14 +45,45 @@ const CheckoutPage = () => {
     phone: "",
   });
 
-  const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+  /* =========================
+     LOAD SAVED DELIVERY ADDRESS
+  ========================= */
+
+  const fetchSavedAddress = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) return;
+
+      const { data } = await api.get("/address", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!data) return;
+
+      setFormData((prev) => ({
+        ...prev,
+        firstName: user?.name?.split(" ")[0] || "",
+        lastName: user?.name?.split(" ")[1] || "",
+        email: user?.email || "",
+        address: data.address || "",
+        city: data.city || "",
+        phone: data.phone || "",
+      }));
+    } catch (error) {
+      console.log("No saved address");
+    }
   };
 
-  /* CALCULATIONS */
+  useEffect(() => {
+    fetchSavedAddress();
+  }, []);
+
+  /* ======================
+     CALCULATIONS
+  ====================== */
 
   const subtotal = cart.reduce(
     (acc, item) => acc + item.product.price * item.quantity,
@@ -51,7 +93,9 @@ const CheckoutPage = () => {
   const shipping = cart.length > 0 ? 2000 : 0;
   const total = subtotal + shipping;
 
-  /* WHATSAPP CHECKOUT */
+  /* ======================
+     WHATSAPP CHECKOUT
+  ====================== */
 
   const handleWhatsAppCheckout = async () => {
     if (cart.length === 0) return;
@@ -135,13 +179,47 @@ Shipping: ₦${order.shipping.toLocaleString()}
   return (
     <>
       <div className="checkout-page">
+        {/* USER HEADER */}
+        <div className="checkout-user">
+          <div className="user-left">
+            <div className="avatar">{user?.name?.charAt(0)}</div>
+            <span>{user?.name}</span>
+          </div>
+
+          <div className="menu">
+            <FaEllipsisV onClick={() => setMenuOpen(!menuOpen)} />
+
+            {menuOpen && (
+              <div className="menu-dropdown">
+                <button onClick={handleLogout}>Logout</button>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* SHIP TO */}
+        <div className="ship-section">
+          <div className="ship-header">
+            <span>Ship to</span>
+            <button onClick={() => navigate("/address")}>
+              Update Address
+            </button>
+          </div>
+
+          <p>
+            Name: {formData.firstName} {formData.lastName}
+          </p>
+          <p>Address: {formData.address}</p>
+          <p>Contact: {formData.phone}</p>
+        </div>
+
         {/* ORDER SUMMARY */}
-        <div className="order-summary" style={{ marginTop: "50px" }}>
-          <h3>ORDER SUMMARY</h3>
+        <div className="order-summary">
+          <h3>Order Summary</h3>
 
           {cart.map((item) => (
             <div key={item.product._id} className="summary-item">
-              <div className="summary-img-wrapper">
+              <div className="summary-image">
                 <img
                   src={item.product.images?.[0]?.url}
                   alt={item.product.name}
@@ -149,17 +227,21 @@ Shipping: ₦${order.shipping.toLocaleString()}
                 <span className="quantity-badge">{item.quantity}</span>
               </div>
 
-              <div className="summary-details">
-                <p>{item.product.name}</p>
+              <div className="summary-info">
+                <p className="product-name">{item.product.name}</p>
+
+                {item.size && (
+                  <span className="product-size">Size - {item.size}</span>
+                )}
               </div>
 
-              <div className="summary-price">
+              <span className="summary-price">
                 ₦{(item.product.price * item.quantity).toLocaleString()}
-              </div>
+              </span>
             </div>
           ))}
 
-          <div className="summary-totals">
+          <div className="summary-total">
             <div>
               <span>Subtotal</span>
               <span>₦{subtotal.toLocaleString()}</span>
@@ -171,78 +253,21 @@ Shipping: ₦${order.shipping.toLocaleString()}
             </div>
 
             <div className="total-row">
-              <span>Total</span>
-              <span>₦{total.toLocaleString()}</span>
+              <strong>Total</strong>
+              <strong>₦{total.toLocaleString()}</strong>
             </div>
           </div>
         </div>
 
-        {/* CONTACT */}
-        <div className="checkout-section">
-          <h3>Contact</h3>
-
-          <input
-            type="text"
-            name="email"
-            placeholder="Email"
-            onChange={handleChange}
-          />
-
-          <input
-            type="text"
-            name="phone"
-            placeholder="Phone"
-            onChange={handleChange}
-          />
-        </div>
-
-        {/* DELIVERY */}
-        <div className="checkout-section">
-          <h3>Delivery</h3>
-
-          <input
-            type="text"
-            name="firstName"
-            placeholder="First Name"
-            onChange={handleChange}
-          />
-
-          <input
-            type="text"
-            name="lastName"
-            placeholder="Last Name"
-            onChange={handleChange}
-          />
-
-          <input
-            type="text"
-            name="address"
-            placeholder="Address"
-            onChange={handleChange}
-          />
-
-          <input
-            type="text"
-            name="city"
-            placeholder="City"
-            onChange={handleChange}
-          />
-        </div>
-
         {/* PAYMENT */}
-        <div className="checkout-section">
-          <h3>Payment</h3>
+        <div className="payment-section">
+          <h3>Payment method</h3>
+          <p>All transactions are secured and encrypted.</p>
 
-          <div
-            className="payment-option whatsapp"
-            onClick={handleWhatsAppCheckout}
-            style={{ cursor: "pointer" }}
-          >
-            Complete order via WhatsApp
-          </div>
+          <div className="stripe-box">stripe</div>
 
           <button className="pay-btn" onClick={handleWhatsAppCheckout}>
-            PAY NOW
+            PAY VIA WHATSAPP
           </button>
         </div>
       </div>
@@ -252,9 +277,7 @@ Shipping: ₦${order.shipping.toLocaleString()}
         <div className="checkout-modal-overlay">
           <div className="checkout-modal">
             <h3>{modalType === "success" ? "Success" : "Error"}</h3>
-
             <p>{modalMessage}</p>
-
             <button onClick={closeModal}>OK</button>
           </div>
         </div>
