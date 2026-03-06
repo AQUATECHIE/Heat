@@ -236,7 +236,7 @@ Shipping: ₦${order.shipping.toLocaleString()}
               </div>
 
               <span className="summary-price">
-                ₦{(item.product.price * item.quantity).toLocaleString()}
+                R{(item.product.price * item.quantity).toLocaleString()}
               </span>
             </div>
           ))}
@@ -244,17 +244,17 @@ Shipping: ₦${order.shipping.toLocaleString()}
           <div className="summary-total">
             <div>
               <span>Subtotal</span>
-              <span>₦{subtotal.toLocaleString()}</span>
+              <span>R{subtotal.toLocaleString()}</span>
             </div>
 
             <div>
               <span>Shipping</span>
-              <span>₦{shipping.toLocaleString()}</span>
+              <span>R{shipping.toLocaleString()}</span>
             </div>
 
             <div className="total-row">
               <strong>Total</strong>
-              <strong>₦{total.toLocaleString()}</strong>
+              <strong>R{total.toLocaleString()}</strong>
             </div>
           </div>
         </div>
