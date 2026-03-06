@@ -87,7 +87,7 @@ const CheckoutPage = () => {
 
   const subtotal = cart.reduce(
     (acc, item) => acc + item.product.price * item.quantity,
-    0
+    0,
   );
 
   const shipping = cart.length > 0 ? 2000 : 0;
@@ -124,7 +124,7 @@ const CheckoutPage = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       const message = `
@@ -147,7 +147,7 @@ ${order.orderItems
     (item) =>
       `• ${item.name} (x${item.quantity}) - ₦${(
         item.price * item.quantity
-      ).toLocaleString()}`
+      ).toLocaleString()}`,
   )
   .join("\n")}
 
@@ -162,7 +162,7 @@ Shipping: ₦${order.shipping.toLocaleString()}
 
       window.open(
         `https://wa.me/${whatsappNumber}?text=${encodedMessage}`,
-        "_blank"
+        "_blank",
       );
 
       showModal("Order placed successfully 🔥");
@@ -171,7 +171,7 @@ Shipping: ₦${order.shipping.toLocaleString()}
 
       showModal(
         error.response?.data?.message || "Order failed. Please try again.",
-        "error"
+        "error",
       );
     }
   };
@@ -200,17 +200,15 @@ Shipping: ₦${order.shipping.toLocaleString()}
         {/* SHIP TO */}
         <div className="ship-section">
           <div className="ship-header">
-            <span>Ship to</span>
-            <button onClick={() => navigate("/address")}>
-              Update Address
-            </button>
+            <span className="B">Ship to</span>
+            <button onClick={() => navigate("/address")}>Update Address</button>
           </div>
 
-          <p>
+          <p className="A">
             Name: {formData.firstName} {formData.lastName}
           </p>
-          <p>Address: {formData.address}</p>
-          <p>Contact: {formData.phone}</p>
+          <p className="A">Address: {formData.address}</p>
+          <p className="A">Contact: {formData.phone}</p>
         </div>
 
         {/* ORDER SUMMARY */}
@@ -230,8 +228,10 @@ Shipping: ₦${order.shipping.toLocaleString()}
               <div className="summary-info">
                 <p className="product-name">{item.product.name}</p>
 
-                {item.size && (
-                  <span className="product-size">Size - {item.size}</span>
+                {(item.size || item.selectedSize) && (
+                  <span className="product-size">
+                    Size - {item.size || item.selectedSize}
+                  </span>
                 )}
               </div>
 
