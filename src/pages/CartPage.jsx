@@ -76,7 +76,7 @@ const CartPage = () => {
             </div>
 
             <div className="cart-price">
-              ₦
+              R
               {(item.quantity * item.product.price).toLocaleString()}
             </div>
           </div>
@@ -87,7 +87,7 @@ const CartPage = () => {
             className="checkout-btn"
             onClick={() => navigate("/checkout")}
           >
-            CHECKOUT • ₦{total.toLocaleString()}
+            CHECKOUT • R{total.toLocaleString()}
           </button>
         )}
       </div>

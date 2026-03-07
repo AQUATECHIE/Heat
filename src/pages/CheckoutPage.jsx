@@ -6,6 +6,8 @@ import "../styles/CheckoutPage.css";
 import api from "../api/axios";
 import Footer from "../components/Footer";
 import { FaEllipsisV } from "react-icons/fa";
+import payIcon from "../assets/icon/whatsapp-icon.svg"
+import cardIcon from "../assets/icon/card.svg"
 
 const CheckoutPage = () => {
   const { cart } = useCart();
@@ -265,6 +267,14 @@ Shipping: ₦${order.shipping.toLocaleString()}
           <p>All transactions are secured and encrypted.</p>
 
           <div className="stripe-box">stripe</div>
+          <div className="payment-option" onClick={handleWhatsAppCheckout}>
+            <img src={payIcon} alt="" />
+            
+            Complete order via whatsapp</div>
+
+          <div className="payment-option">
+            <img src={cardIcon} alt="" />
+            Credit or Debit card</div>
 
           <button className="pay-btn" onClick={handleWhatsAppCheckout}>
             PAY VIA WHATSAPP

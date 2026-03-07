@@ -5,11 +5,18 @@ import "../styles/ProductDetails.css";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Footer from "../components/Footer";
 import { useCart } from "../context/CartContext";
+import shipIcon from "../assets/icon/ship.svg";
+
+import sizeIcon from "../assets/icon/size.svg";
+import SizeGuideModal from "../components/SizeGuideModal";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+  const [showSizeGuide, setShowSizeGuide] = useState(false);
 
   const [product, setProduct] = useState(null);
   const [currentImage, setCurrentImage] = useState(0);
@@ -27,11 +34,30 @@ const ProductDetails = () => {
       const { data } = await api.get(`/products/${id}`);
       setProduct(data);
     } catch (error) {
-      console.error(
-        error.response?.data?.message || "Failed to fetch product"
-      );
+      console.error(error.response?.data?.message || "Failed to fetch product");
     } finally {
       setLoading(false);
+    }
+  };
+  const handleTouchStart = (e) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+
+    if (distance > 50) {
+      nextImage();
+    }
+
+    if (distance < -50) {
+      prevImage();
     }
   };
 
@@ -47,13 +73,13 @@ const ProductDetails = () => {
 
   const nextImage = () => {
     setCurrentImage((prev) =>
-      prev === (product.images?.length || 1) - 1 ? 0 : prev + 1
+      prev === (product.images?.length || 1) - 1 ? 0 : prev + 1,
     );
   };
 
   const prevImage = () => {
     setCurrentImage((prev) =>
-      prev === 0 ? (product.images?.length || 1) - 1 : prev - 1
+      prev === 0 ? (product.images?.length || 1) - 1 : prev - 1,
     );
   };
 
@@ -73,20 +99,24 @@ const ProductDetails = () => {
       /* 🔥 SHOW MODAL */
       setCartModal(true);
     } catch (error) {
-      console.error(
-        error.response?.data?.message || "Failed to add to cart"
-      );
+      console.error(error.response?.data?.message || "Failed to add to cart");
     }
   };
 
   return (
     <>
       <div className="product-details">
-        {/* IMAGE SLIDER */}
-        <div className="slider">
+        {/* IMAGE GALLERY */}
+        <div
+          className="product-gallery"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           <FaChevronLeft className="arrow left" onClick={prevImage} />
 
           <img
+            className="product-image"
             src={product.images?.[currentImage]?.url}
             alt={product.name}
           />
@@ -98,76 +128,85 @@ const ProductDetails = () => {
               <span
                 key={index}
                 className={index === currentImage ? "dot active" : "dot"}
-              ></span>
+              />
             ))}
           </div>
         </div>
 
-        {/* PRODUCT INFO */}
-        <div className="product-info">
-          <h3>{product.name}</h3>
-          <p className="price">
-            ₦{Number(product.price).toLocaleString()}
-          </p>
+        {/* PRODUCT TITLE */}
+        <div className="product-title">
+          <h2>{product.name}</h2>
+          <p className="price">R{Number(product.price).toLocaleString()}</p>
         </div>
 
-        {/* SIZE SECTION */}
-        {product.category === "shoes" &&
-          product.specifications?.size && (
-            <div className="sizes">
-              <div className="size-header">
-                <span>SIZE:</span>
+        {/* SIZE SELECTOR */}
+        {product.category === "shoes" && product.specifications?.size && (
+          <div className="size-section">
+            <div className="size-header">
+              <span>SIZE:</span>
+              <div onClick={() => setShowSizeGuide(true)}>
+                <img
+                  src={sizeIcon}
+                  alt="size"
+                  className="size-guide"
+                  
+                />
+                Size Guide
               </div>
-
-              <div className="size-options">
-                {product.specifications.size.map((size) => (
-                  <button
-                    key={size}
-                    className={selectedSize === size ? "active" : ""}
-                    onClick={() => {
-                      setSelectedSize(size);
-                      setSizeError(false);
-                    }}
-                  >
-                    {size}
-                  </button>
-                ))}
-              </div>
-
-              {sizeError && (
-                <p className="size-error">
-                  Please select a size before adding to cart.
-                </p>
-              )}
             </div>
-          )}
 
-        {/* QUANTITY */}
-        <div className="quantity-section">
-          <span>QUANTITY:</span>
+            <div className="size-grid">
+              {product.specifications.size.map((size) => (
+                <button
+                  key={size}
+                  className={selectedSize === size ? "size active" : "size"}
+                  onClick={() => {
+                    setSelectedSize(size);
+                    setSizeError(false);
+                  }}
+                >
+                  {size}
+                </button>
+              ))}
+            </div>
 
-          <div className="quantity-controls">
-            <button onClick={() => setQuantity(Math.max(1, quantity - 1))}>
-              -
-            </button>
+            {sizeError && (
+              <p className="size-error">
+                Please select a size before adding to cart.
+              </p>
+            )}
+          </div>
+        )}
 
-            <span>{quantity}</span>
+        {/* QUANTITY + ADD CART */}
+        <div className="cart-section">
+          <span className="qty-label">QUANTITY:</span>
 
-            <button onClick={() => setQuantity(quantity + 1)}>
-              +
+          <div className="cart-row">
+            <div className="qty-box">
+              <button onClick={() => setQuantity(Math.max(1, quantity - 1))}>
+                -
+              </button>
+              <span>{quantity}</span>
+              <button onClick={() => setQuantity(quantity + 1)}>+</button>
+            </div>
+
+            <button className="add-cart" onClick={handleAddToCart}>
+              ADD TO CART
             </button>
           </div>
-
-          <button className="add-to-cart" onClick={handleAddToCart}>
-            ADD TO CART
-          </button>
         </div>
 
-        <button className="buy-now">BUY NOW</button>
+        {/* BUY NOW */}
+        <button className="buy-btn">BUY NOW</button>
 
         {/* SHIPPING */}
         <div className="shipping">
-          <h4>Shipping & Returns</h4>
+          <h3>
+            <img src={shipIcon} alt="" />
+            Shipping & Returns
+          </h3>
+
           <ul>
             <li>Standard Shipping takes 3 working days</li>
             <li>Express Shipping takes 2 working days</li>
@@ -191,17 +230,16 @@ const ProductDetails = () => {
                 Continue Shopping
               </button>
 
-              <button
-                className="go-cart-btn"
-                onClick={() => navigate("/cart")}
-              >
+              <button className="go-cart-btn" onClick={() => navigate("/cart")}>
                 Go to Cart
               </button>
             </div>
           </div>
         </div>
       )}
-
+      {showSizeGuide && (
+        <SizeGuideModal close={() => setShowSizeGuide(false)} />
+      )}
       <Footer />
     </>
   );

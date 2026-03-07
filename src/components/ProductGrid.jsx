@@ -3,6 +3,7 @@ import "../styles/ProductGrid.css";
 import { FaRegBookmark } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useWishlist } from "../context/WishlistContext";
+import filterIcon from "../assets/icon/filter.svg";
 import api from "../api/axios";
 
 const ProductGrid = ({ title, products = [] }) => {
@@ -12,22 +13,56 @@ const ProductGrid = ({ title, products = [] }) => {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [filteredProducts, setFilteredProducts] = useState(products);
+  const [page, setPage] = useState(1);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
-  const applyFilter = async () => {
+  const loadMoreProducts = async () => {
     try {
+      setLoadingMore(true);
+
+      const nextPage = page + 1;
+
       const { data } = await api.get("/products", {
         params: {
+          page: nextPage,
           minPrice,
           maxPrice,
         },
       });
 
-      setFilteredProducts(data.products);
-      setFilterOpen(false);
+      if (data.products.length === 0) {
+        setHasMore(false);
+        return;
+      }
+
+      setFilteredProducts((prev) => [...prev, ...data.products]);
+      setPage(nextPage);
     } catch (error) {
-      console.error("Filter failed");
+      console.error("Failed to load more products");
+    } finally {
+      setLoadingMore(false);
     }
   };
+ const applyFilter = async () => {
+  try {
+    const { data } = await api.get("/products", {
+      params: {
+        minPrice,
+        maxPrice,
+        page: 1
+      },
+    });
+
+    setFilteredProducts(data.products);
+    setPage(1);
+    setHasMore(true);
+    setFilterOpen(false);
+
+  } catch (error) {
+    console.error("Filter failed");
+  }
+};
 
   const resetFilter = () => {
     setFilteredProducts(products);
@@ -41,7 +76,12 @@ const ProductGrid = ({ title, products = [] }) => {
 
       {/* FILTER BUTTON */}
       <div className="filter-row">
-        <span onClick={() => setFilterOpen(!filterOpen)}>⚙ Filter</span>
+        <img
+          src={filterIcon}
+          alt="filter"
+          onClick={() => setFilterOpen(!filterOpen)}
+        />{" "}
+        Filter
       </div>
 
       {/* FILTER PANEL */}
@@ -98,16 +138,18 @@ const ProductGrid = ({ title, products = [] }) => {
 
                 <h4>{item.name}</h4>
 
-                <p className="price">
-                  ₦{Number(item.price).toLocaleString()}
-                </p>
+                <p className="price">R{Number(item.price).toLocaleString()}</p>
               </Link>
             </div>
           );
         })}
       </div>
 
-      <button className="see-all-btn">SEE ALL</button>
+      {hasMore && (
+        <button className="see-all-btn" onClick={loadMoreProducts}>
+          {loadingMore ? "Loading..." : "SEE ALL"}
+        </button>
+      )}
     </section>
   );
 };

@@ -15,7 +15,7 @@ import busIcon from "../assets/icon/bus.svg";
 import timeIcon from "../assets/icon/c-times.svg";
 import api from "../api/axios";
 import "../styles/Navbar.css";
-import { FaTimes } from "react-icons/fa";
+// import { FaTimes } from "react-icons/fa";
 
 const Navbar = () => {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -176,7 +176,8 @@ const Navbar = () => {
               />
             </div>
 
-            <FaTimes
+            <img
+              src={timeIcon}
               className="close-icon"
               onClick={() => {
                 setSearchOpen(false);
