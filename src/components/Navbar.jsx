@@ -3,20 +3,19 @@ import { useState, useEffect } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
+import menuIcon from "../assets/icon/MenuIcon (2).svg";
+import serachIcon from "../assets/icon/search.svg";
+import userIcon from "../assets/icon/user.svg";
+import cartIcon from "../assets/icon/cart.svg";
+import profileIcon from "../assets/icon/profile.svg";
+import homeIcon from "../assets/icon/home.svg";
+import wishlistIcon from "../assets/icon/wishlist.svg";
+import logoutIcon from "../assets/icon/logout.svg";
+import busIcon from "../assets/icon/bus.svg";
+import timeIcon from "../assets/icon/c-times.svg";
 import api from "../api/axios";
 import "../styles/Navbar.css";
-import {
-  FaBars,
-  FaSearch,
-  FaUser,
-  FaShoppingBag,
-  FaTimes,
-  FaBox,
-  FaUserCircle,
-  FaMapMarkerAlt,
-  FaBookmark,
-  FaSignOutAlt,
-} from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
 
 const Navbar = () => {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -63,8 +62,18 @@ const Navbar = () => {
     <>
       <nav className="navbar">
         <div className="nav-left">
-          <FaBars className="icon" onClick={() => setSidebarOpen(true)} />
-          <FaSearch className="icon" onClick={() => setSearchOpen(true)} />
+          <img
+            src={menuIcon}
+            alt="menu"
+            className="icon"
+            onClick={() => setSidebarOpen(true)}
+          />
+          <img
+            src={serachIcon}
+            alt="search"
+            className="icon"
+            onClick={() => setSearchOpen(true)}
+          />
         </div>
 
         <Link to="/" className="nav-logo">
@@ -74,7 +83,9 @@ const Navbar = () => {
         <div className="nav-right">
           {/* USER ICON */}
           <div className="icon-link">
-            <FaUser
+            <img
+              src={userIcon}
+              alt="user"
               className="icon"
               onClick={() => {
                 if (!user) {
@@ -88,7 +99,7 @@ const Navbar = () => {
 
           {/* CART */}
           <Link to="/cart" className="cart-wrapper">
-            <FaShoppingBag className="icon" />
+            <img src={cartIcon} alt="cart" className="icon" />
             {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
           </Link>
         </div>
@@ -98,30 +109,42 @@ const Navbar = () => {
           <div className="profile-dropdown">
             <div className="profile-header">
               <span>{user.name}</span>
-              <FaTimes
+              <img
+                src={timeIcon}
+                alt="cancel"
                 className="close-profile"
                 onClick={() => setProfileOpen(false)}
               />
             </div>
 
             <Link to="/orders" onClick={() => setProfileOpen(false)}>
-              <FaBox /> My Orders
+              <img src={busIcon} alt="order" style={{ color: "black" }} /> My
+              Orders
             </Link>
 
             <Link to="/profile" onClick={() => setProfileOpen(false)}>
-              <FaUserCircle /> My Profile
+              <img src={profileIcon} alt="profile" style={{ color: "black" }} />{" "}
+              My Profile
+              {/* <FaUserCircle />  */}
             </Link>
 
             <Link to="/address" onClick={() => setProfileOpen(false)}>
-              <FaMapMarkerAlt /> My Delivery Address
+              <img src={homeIcon} alt="home" style={{ color: "black" }} /> My
+              Delivery Address
             </Link>
 
             <Link to="/wishlist" onClick={() => setProfileOpen(false)}>
-              <FaBookmark /> Wishlist
+              <img
+                src={wishlistIcon}
+                alt="wishlist"
+                style={{ color: "black" }}
+              />{" "}
+              Wishlist
             </Link>
 
             <button onClick={handleLogout}>
-              <FaSignOutAlt /> Logout
+              <img src={logoutIcon} alt="logout" style={{ color: "black" }} />{" "}
+              Logout
             </button>
           </div>
         )}
@@ -144,7 +167,7 @@ const Navbar = () => {
         <div className="search-dropdown">
           <div className="search-top">
             <div className="search-input-wrapper">
-              <FaSearch className="search-icon" />
+              <img src={serachIcon} alt="search" className="search-icon" />
               <input
                 type="text"
                 placeholder="WHAT ARE YOU LOOKING FOR?"
@@ -199,7 +222,10 @@ const Navbar = () => {
       {/* SIDEBAR */}
       <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
         <div className="sidebar-header">
-          <button className="sidebar-close" onClick={() => setSidebarOpen(false)}>
+          <button
+            className="sidebar-close"
+            onClick={() => setSidebarOpen(false)}
+          >
             ✕
           </button>
 
@@ -207,20 +233,38 @@ const Navbar = () => {
         </div>
 
         <div className="sidebar-links">
-          <NavLink to="/" onClick={() => setSidebarOpen(false)}>Home</NavLink>
-          <NavLink to="/products" onClick={() => setSidebarOpen(false)}>All Products</NavLink>
-          <NavLink to="/sneakers" onClick={() => setSidebarOpen(false)}>Sneakers</NavLink>
-          <NavLink to="/bags" onClick={() => setSidebarOpen(false)}>Bags</NavLink>
-          <NavLink to="/clothes" onClick={() => setSidebarOpen(false)}>Clothes</NavLink>
-          <NavLink to="/collectibles" onClick={() => setSidebarOpen(false)}>Collectible items</NavLink>
-          <NavLink to="/orders" onClick={() => setSidebarOpen(false)}>Order history</NavLink>
+          <NavLink to="/" onClick={() => setSidebarOpen(false)}>
+            Home
+          </NavLink>
+          <NavLink to="/products" onClick={() => setSidebarOpen(false)}>
+            All Products
+          </NavLink>
+          <NavLink to="/sneakers" onClick={() => setSidebarOpen(false)}>
+            Sneakers
+          </NavLink>
+          <NavLink to="/bags" onClick={() => setSidebarOpen(false)}>
+            Bags
+          </NavLink>
+          <NavLink to="/clothes" onClick={() => setSidebarOpen(false)}>
+            Clothes
+          </NavLink>
+          <NavLink to="/collectibles" onClick={() => setSidebarOpen(false)}>
+            Collectible items
+          </NavLink>
+          <NavLink to="/orders" onClick={() => setSidebarOpen(false)}>
+            Order history
+          </NavLink>
         </div>
 
         <div className="sidebar-divider"></div>
 
         <div className="sidebar-extra">
-          <NavLink to="/wishlist" onClick={() => setSidebarOpen(false)}>Wishlist</NavLink>
-          <NavLink to="/about" onClick={() => setSidebarOpen(false)}>About Us</NavLink>
+          <NavLink to="/wishlist" onClick={() => setSidebarOpen(false)}>
+            Wishlist
+          </NavLink>
+          <NavLink to="/about" onClick={() => setSidebarOpen(false)}>
+            About Us
+          </NavLink>
 
           <p>Info.admin@heatonlykickcollectibles.com</p>
           <p>+27665394231</p>
