@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../api/axios";
 import Footer from "../components/Footer";
 import "../styles/OrdersPage.css";
+import searchIcon from "../assets/icon/search.svg"
 
 const OrdersHistory = () => {
   const [orders, setOrders] = useState([]);
@@ -55,7 +56,7 @@ const OrdersHistory = () => {
         {/* SEARCH BAR */}
 
         <div className="search-bar">
-          <span>🔍</span>
+          <img src={searchIcon} alt="searchIcon" />
           <input placeholder="Search" />
         </div>
 
