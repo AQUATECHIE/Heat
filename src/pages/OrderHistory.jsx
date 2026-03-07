@@ -21,9 +21,7 @@ const OrdersHistory = () => {
 
       setOrders(data || []);
     } catch (error) {
-      console.error(
-        error.response?.data?.message || "Failed to fetch orders"
-      );
+      console.error(error.response?.data?.message || "Failed to fetch orders");
     } finally {
       setLoading(false); // ✅ always stop loading
     }
@@ -54,42 +52,48 @@ const OrdersHistory = () => {
       <div className="orders-page">
         <h2>My Orders</h2>
 
+        {/* SEARCH BAR */}
+
+        <div className="search-bar">
+          <span>🔍</span>
+          <input placeholder="Search" />
+        </div>
+
         {orders.map((order) => (
           <div key={order._id} className="order-card">
-            <div className="order-header">
-              <div>
-                <strong>Order ID:</strong> {order._id}
-              </div>
+            {/* HEADER */}
 
-              <div>
-                <strong>Status:</strong>{" "}
-                <span className={`status ${order.status}`}>
-                  {order.status}
+            <div className="order-header">
+              <span>Order: #{order._id.slice(-4)}</span>
+
+              <span className={`status ${order.status}`}>{order.status}</span>
+            </div>
+
+            {/* ITEMS */}
+
+            {order.orderItems?.map((item, index) => (
+              <div key={index} className="order-item">
+                <img src={item.image} alt={item.name} />
+
+                <div className="item-info">
+                  <span className="item-name">
+                    {item.name} (x{item.quantity})
+                  </span>
+
+                  <span className="item-price">
+                    R{item.price.toLocaleString()}
+                  </span>
+
+                  <span className="item-size">
+                    Size - {item.size || item.selectedSize}
+                  </span>
+                </div>
+
+                <span className="item-date">
+                  {new Date(order.createdAt).toLocaleDateString()}
                 </span>
               </div>
-
-              <div>
-                {new Date(order.createdAt).toLocaleDateString()}
-              </div>
-            </div>
-
-            <div className="order-items">
-              {order.orderItems?.map((item, index) => (
-                <div key={index} className="order-item">
-                  <img src={item.image} alt={item.name} />
-                  <div>
-                    <p>{item.name}</p>
-                    <span>
-                      ₦{item.price.toLocaleString()} x {item.quantity}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="order-total">
-              Total: ₦{order.totalAmount.toLocaleString()}
-            </div>
+            ))}
           </div>
         ))}
       </div>

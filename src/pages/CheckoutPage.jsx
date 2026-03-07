@@ -267,7 +267,7 @@ Shipping: ₦${order.shipping.toLocaleString()}
           <p>All transactions are secured and encrypted.</p>
 
           <div className="stripe-box">stripe</div>
-          <div className="payment-option" onClick={handleWhatsAppCheckout}>
+          <div className="payment-option">
             <img src={payIcon} alt="" />
             
             Complete order via whatsapp</div>
