@@ -38,20 +38,30 @@
 }
 
 /* Product Grid */
-.product-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
+.product-slider{
+  display:flex;
+  gap:15px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  padding:0 10px 20px;
+  height: 300px;
+}
+
+/* hide scrollbar */
+.product-slider::-webkit-scrollbar{
+  display:none;
 }
 
 /* Product Card */
-.product-card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 15px;
-  position: relative;
-  text-align: left;
-  transition: transform 0.3s ease;
+.product-card{
+  min-width:48%;
+  background:#fff;
+  border-radius:12px;
+  padding:15px;
+  position:relative;
+  text-align:left;
+  transition:transform .3s ease;
+  scroll-snap-align:start;
 }
 
 .product-card:hover {
@@ -59,18 +69,23 @@
 }
 
 /* Bookmark Icon */
-.bookmark {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  font-size: 14px;
-  cursor: pointer;
+.bookmark{
+  position:absolute;
+  top:10px;
+  right:10px;
+  z-index:2;
+  cursor:pointer;
+}
+
+.bookmark img{
+  width: 20px;
+  height: 30px;
 }
 
 /* Image */
-.product-card img {
+.product-image {
   width: 100%;
-  height: 120px;
+  height: 190px;
   object-fit: contain;
   margin-bottom: 15px;
 }
@@ -78,9 +93,10 @@
 /* Info */
 .product-info h4 {
   font-size: 12px;
-  font-weight: 400;
+  font-weight: lighter;
   margin-bottom: 6px;
   line-height: 100%;
+  color: #221f1ffa;
 }
 
 .product-info p {

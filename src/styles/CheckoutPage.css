@@ -285,3 +285,94 @@ opacity:1;
 transform:scale(1);
 }
 }
+
+/* ADDRESS MODAL */
+
+.address-overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.5);
+display:flex;
+align-items:flex-end;
+justify-content:center;
+z-index:3000;
+}
+
+/* MODAL */
+
+.address-modal{
+width:100%;
+background:white;
+border-radius:18px 18px 0 0;
+padding:20px;
+max-height:95vh;
+overflow-y:auto;
+animation:slideUp .35s ease;
+}
+
+/* HEADER */
+
+.address-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+.address-header h3{
+font-size:18px;
+font-weight:600;
+}
+
+.close-btn{
+width:28px;
+height:28px;
+border-radius:50%;
+background:#ccc;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+}
+
+/* FORM */
+
+.address-form{
+display:flex;
+flex-direction:column;
+gap:14px;
+}
+
+.address-form input{
+width:100%;
+padding:16px;
+border-radius:10px;
+border:1px solid #dcdcdc;
+background:white;
+font-size:14px;
+outline:none;
+}
+
+/* BUTTON */
+
+.update-address-btn{
+width:100%;
+background:black;
+color:white;
+border:none;
+padding:16px;
+margin-top:10px;
+font-weight:600;
+cursor:pointer;
+}
+
+/* ANIMATION */
+
+@keyframes slideUp{
+from{
+transform:translateY(100%);
+}
+to{
+transform:translateY(0);
+}
+}

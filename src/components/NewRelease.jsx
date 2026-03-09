@@ -2,8 +2,11 @@ import "../styles/NewRelease.css";
 import { FaRegBookmark } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
+import wishIcon from '../assets/icon/wishlist.svg'
 import shoe1 from "../assets/shoe.png";
 import shoe2 from "../assets/shoe2.png";
+import shoe3 from "../assets/jac.png";
+import shoe4 from "../assets/bag.png";
 
 const NewRelease = () => {
   const navigate = useNavigate();
@@ -21,6 +24,18 @@ const NewRelease = () => {
       price: "R1,200",
       image: shoe2,
     },
+    {
+      id: 3,
+      name: "DIOR B30 SNEAKER",
+      price: "R2,100",
+      image: shoe3,
+    },
+    {
+      id: 4,
+      name: "NIKE AIR FORCE 1",
+      price: "R1,000",
+      image: shoe4,
+    },
   ];
 
   return (
@@ -28,24 +43,22 @@ const NewRelease = () => {
       <div className="section-header">
         <h2>NEW RELEASE</h2>
 
-        {/* 🔥 CLICKABLE */}
         <span
           className="see-all"
           onClick={() => navigate("/products")}
-          style={{ cursor: "pointer" }}
         >
           See All →
         </span>
       </div>
 
-      <div className="product-grid">
+      <div className="product-slider">
         {products.map((product) => (
           <div className="product-card" key={product.id}>
             <div className="bookmark">
-              <FaRegBookmark />
+              <img src={wishIcon} alt="wishIcon" />
             </div>
 
-            <img src={product.image} alt={product.name} />
+            <img src={product.image} alt={product.name}  className="product-image"/>
 
             <div className="product-info">
               <h4>{product.name}</h4>

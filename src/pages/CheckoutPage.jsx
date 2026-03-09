@@ -4,15 +4,17 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/CheckoutPage.css";
 import api from "../api/axios";
+import AddressModal from "../components/AddressModal";
 import Footer from "../components/Footer";
 import { FaEllipsisV } from "react-icons/fa";
-import payIcon from "../assets/icon/whatsapp-icon.svg"
-import cardIcon from "../assets/icon/card.svg"
+import payIcon from "../assets/icon/whatsapp-icon.svg";
+import cardIcon from "../assets/icon/card.svg";
 
 const CheckoutPage = () => {
   const { cart } = useCart();
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [addressModal, setAddressModal] = useState(false);
 
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -203,7 +205,9 @@ Shipping: ₦${order.shipping.toLocaleString()}
         <div className="ship-section">
           <div className="ship-header">
             <span className="B">Ship to</span>
-            <button onClick={() => navigate("/address")}>Update Address</button>
+            <button onClick={() => setAddressModal(true)}>
+              Update Address
+            </button>
           </div>
 
           <p className="A">
@@ -269,12 +273,13 @@ Shipping: ₦${order.shipping.toLocaleString()}
           <div className="stripe-box">stripe</div>
           <div className="payment-option">
             <img src={payIcon} alt="" />
-            
-            Complete order via whatsapp</div>
+            Complete order via whatsapp
+          </div>
 
           <div className="payment-option">
             <img src={cardIcon} alt="" />
-            Credit or Debit card</div>
+            Credit or Debit card
+          </div>
 
           <button className="pay-btn" onClick={handleWhatsAppCheckout}>
             PAY VIA WHATSAPP
@@ -291,6 +296,13 @@ Shipping: ₦${order.shipping.toLocaleString()}
             <button onClick={closeModal}>OK</button>
           </div>
         </div>
+      )}
+
+      {addressModal && (
+        <AddressModal
+          close={() => setAddressModal(false)}
+          refreshAddress={fetchSavedAddress}
+        />
       )}
 
       <Footer />

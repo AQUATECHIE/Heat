@@ -1,5 +1,5 @@
 .product-details{
-background:#efefef;
+background:white;
 padding-top:70px;
 }
 
@@ -58,19 +58,19 @@ background:#000;
 
 .product-title{
 padding:20px;
-border-top:1px solid #ddd;
-border-bottom:1px solid #ddd;
+border-top:2px solid black;
+border-bottom:2px solid black;
 }
 
 .product-title h2{
-font-size:15px;
+font-size:14px;
 font-weight:600;
 margin-bottom:6px;
 }
 
 .price{
 font-size:14px;
-font-weight:500;
+/* font-weight: 100; */
 }
 
 /* SIZE */

@@ -96,7 +96,7 @@
   left: -100%;
   width: 280px;
   height: 100vh;
-  background: #f2f2f2;
+  background: #fff;
   transition: left 0.4s ease;
   z-index: 1002;
   display: flex;
@@ -109,17 +109,19 @@
 
 /* Header */
 .sidebar-header {
+  height: 70px;              
   background: #0d0d0d;
-  padding: 20px;
-  position: relative;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
 .sidebar-close {
   position: absolute;
   left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
   background: #333;
   border: none;
   color: #fff;

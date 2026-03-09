@@ -44,7 +44,7 @@ const ShoesCollection = () => {
       <ProductGrid title="SNEAKERS" products={products} />
 
       {/* Pagination */}
-      <div className="pagination">
+      {/* <div className="pagination">
         <button
           disabled={page === 1}
           onClick={() => setPage(page - 1)}
@@ -62,7 +62,7 @@ const ShoesCollection = () => {
         >
           Next
         </button>
-      </div>
+      </div> */}
 
       <Footer />
     </>

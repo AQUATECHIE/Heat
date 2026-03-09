@@ -6,7 +6,8 @@
 }
 
 .profile-page h2 {
-  margin-bottom: 20px;
+  margin-bottom: 18px;
+  font-weight: 500;
 }
 
 .profile-page input {
