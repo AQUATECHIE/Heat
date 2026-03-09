@@ -1,6 +1,6 @@
 .product-page {
   padding: 90px 15px 40px;
-  background: #f2f2f2;
+  background: white;
 }
 
 .page-title {
@@ -31,15 +31,17 @@
 
 /* Card */
 .card {
-  background: #fff;
+  background: #f2f2f2;
   padding: 12px;
   position: relative;
   text-align: left;
+  height: 330px;
+  width: 190px;
 }
 
 .card img {
   width: 100%;
-  height: 140px;
+  height: 80%;
   object-fit: contain;
   margin-bottom: 12px;
 }
