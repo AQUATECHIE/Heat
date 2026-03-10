@@ -1,6 +1,7 @@
 .product-page {
   padding: 90px 15px 40px;
   background: white;
+  position: relative; 
 }
 
 .page-title {
@@ -13,6 +14,10 @@
   border-top: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
   margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
 }
 
 .item-count {
@@ -110,18 +115,27 @@
 }
 
 .filter-panel {
+  position: absolute;
+  top: 140px; 
+  left: 15px;
   background: #fff;
   border: 1px solid #ddd;
   padding: 20px;
-  width: 250px;
-  margin-bottom: 20px;
+  width: 260px;
+  z-index: 100;
+  border-radius: 8px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 }
 
 .filter-panel input {
   width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
 }
+
+/* BUTTONS */
 
 .filter-actions {
   display: flex;
@@ -129,6 +143,61 @@
 }
 
 .filter-actions button {
-  padding: 6px 12px;
+  flex: 1;
+  padding: 8px;
+  border: none;
   cursor: pointer;
+   background: #eee;
+}
+
+/* STICKY TOOLBAR */
+
+.product-toolbar{
+position:sticky;
+top:70px; /* adjust to your navbar height */
+background:white;
+z-index:50;
+padding-bottom:10px;
+}
+
+/* TITLE */
+
+.page-title{
+font-size:18px;
+margin-bottom:10px;
+}
+
+/* FILTER ROW */
+
+.filter-row{
+padding:12px 0;
+border-top:1px solid #ddd;
+border-bottom:1px solid #ddd;
+display:flex;
+align-items:center;
+gap:8px;
+cursor:pointer;
+}
+/* FILTER HEADER */
+
+.filter-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
+}
+
+/* CLOSE BUTTON */
+
+.close-filter{
+background:none;
+border:none;
+font-size:20px;
+cursor:pointer;
+line-height:1;
+color:#555;
+}
+
+.close-filter:hover{
+color:black;
 }

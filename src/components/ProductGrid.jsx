@@ -44,25 +44,24 @@ const ProductGrid = ({ title, products = [] }) => {
       setLoadingMore(false);
     }
   };
- const applyFilter = async () => {
-  try {
-    const { data } = await api.get("/products", {
-      params: {
-        minPrice,
-        maxPrice,
-        page: 1
-      },
-    });
+  const applyFilter = async () => {
+    try {
+      const { data } = await api.get("/products", {
+        params: {
+          minPrice,
+          maxPrice,
+          page: 1,
+        },
+      });
 
-    setFilteredProducts(data.products);
-    setPage(1);
-    setHasMore(true);
-    setFilterOpen(false);
-
-  } catch (error) {
-    console.error("Filter failed");
-  }
-};
+      setFilteredProducts(data.products);
+      setPage(1);
+      setHasMore(true);
+      setFilterOpen(false);
+    } catch (error) {
+      console.error("Filter failed");
+    }
+  };
 
   const resetFilter = () => {
     setFilteredProducts(products);
@@ -72,22 +71,32 @@ const ProductGrid = ({ title, products = [] }) => {
 
   return (
     <section className="product-page">
-      <h2 className="page-title">{title}</h2>
+      <div className="product-toolbar">
+        <h2 className="page-title">{title}</h2>
 
-      {/* FILTER BUTTON */}
-      <div className="filter-row">
-        <img
-          src={filterIcon}
-          alt="filter"
-          onClick={() => setFilterOpen(!filterOpen)}
-        />{" "}
-        Filter
+        <div className="filter-row" onClick={() => setFilterOpen(!filterOpen)}>
+          <img
+            src={filterIcon}
+            alt="filter"
+            
+          />
+          Filter
+        </div>
       </div>
 
       {/* FILTER PANEL */}
       {filterOpen && (
         <div className="filter-panel">
-          <h4>Filter by Price</h4>
+          <div className="filter-header">
+            <h4>Filter by Price</h4>
+
+            <button
+              className="close-filter"
+              onClick={() => setFilterOpen(false)}
+            >
+              ×
+            </button>
+          </div>
 
           <input
             type="number"
