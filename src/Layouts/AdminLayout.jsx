@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import logo from "../assets/hero-logo.png";
 import "../styles/AdminLayout.css";
+
 import {
   FaUserCircle,
   FaBars,
@@ -15,9 +16,11 @@ import {
 
 const AdminLayout = () => {
   const { user, logout } = useAuth();
+
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -25,9 +28,15 @@ const AdminLayout = () => {
     navigate("/");
   };
 
+  const closeMobile = () => {
+    setMobileOpen(false);
+  };
+
   return (
     <div className="admin-container">
+
       {/* MOBILE OVERLAY */}
+
       {mobileOpen && (
         <div
           className="admin-overlay"
@@ -36,53 +45,62 @@ const AdminLayout = () => {
       )}
 
       {/* SIDEBAR */}
+
       <aside
-  className={`admin-sidebar 
-  ${collapsed ? "collapsed" : ""} 
-  ${mobileOpen ? "mobile-open" : ""}`}
->
-  <div className="admin-logo">
-    <img src={logo} alt="logo" />
-  </div>
+        className={`admin-sidebar
+        ${collapsed ? "collapsed" : ""}
+        ${mobileOpen ? "mobile-open" : ""}`}
+      >
 
-  <nav className="admin-nav">
-    <NavLink to="/admin" end>
-      <FaTachometerAlt />
-      {!collapsed && <span>Dashboard</span>}
-      {collapsed && <div className="tooltip">Dashboard</div>}
-    </NavLink>
+        <div className="admin-logo">
+          <img src={logo} alt="logo" />
+        </div>
 
-    <NavLink to="/admin/orders">
-      <FaShoppingCart />
-      {!collapsed && <span>Orders</span>}
-      {collapsed && <div className="tooltip">Orders</div>}
-    </NavLink>
+        <nav className="admin-nav">
 
-    <NavLink to="/admin/users">
-      <FaUsers />
-      {!collapsed && <span>Users</span>}
-      {collapsed && <div className="tooltip">Users</div>}
-    </NavLink>
+          <NavLink to="/admin" end onClick={closeMobile}>
+            <FaTachometerAlt />
+            {!collapsed && <span>Dashboard</span>}
+            {collapsed && <div className="tooltip">Dashboard</div>}
+          </NavLink>
 
-    <NavLink to="/admin/products">
-      <FaBox />
-      {!collapsed && <span>Products</span>}
-      {collapsed && <div className="tooltip">Products</div>}
-    </NavLink>
+          <NavLink to="/admin/orders" onClick={closeMobile}>
+            <FaShoppingCart />
+            {!collapsed && <span>Orders</span>}
+            {collapsed && <div className="tooltip">Orders</div>}
+          </NavLink>
 
-    <NavLink to="/admin/analytics">
-      <FaChartLine />
-      {!collapsed && <span>Analytics</span>}
-      {collapsed && <div className="tooltip">Analytics</div>}
-    </NavLink>
-  </nav>
-</aside>
+          <NavLink to="/admin/users" onClick={closeMobile}>
+            <FaUsers />
+            {!collapsed && <span>Users</span>}
+            {collapsed && <div className="tooltip">Users</div>}
+          </NavLink>
 
-      {/* MAIN AREA */}
+          <NavLink to="/admin/products" onClick={closeMobile}>
+            <FaBox />
+            {!collapsed && <span>Products</span>}
+            {collapsed && <div className="tooltip">Products</div>}
+          </NavLink>
+
+          <NavLink to="/admin/analytics" onClick={closeMobile}>
+            <FaChartLine />
+            {!collapsed && <span>Analytics</span>}
+            {collapsed && <div className="tooltip">Analytics</div>}
+          </NavLink>
+
+        </nav>
+      </aside>
+
+      {/* MAIN */}
+
       <div className="admin-main">
+
         {/* TOPBAR */}
+
         <div className="admin-topbar">
+
           <div className="left-controls">
+
             <FaBars
               className="toggle-btn"
               onClick={() => setCollapsed(!collapsed)}
@@ -92,11 +110,13 @@ const AdminLayout = () => {
               className="mobile-toggle"
               onClick={() => setMobileOpen(true)}
             />
+
           </div>
 
           <div className="admin-profile">
+
             <FaUserCircle
-              size={24}
+              size={26}
               onClick={() => setProfileOpen(!profileOpen)}
             />
 
@@ -110,13 +130,19 @@ const AdminLayout = () => {
                 </button>
               </div>
             )}
+
           </div>
+
         </div>
+
+        {/* CONTENT */}
 
         <div className="admin-content">
           <Outlet />
         </div>
+
       </div>
+
     </div>
   );
 };

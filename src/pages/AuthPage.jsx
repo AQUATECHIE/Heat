@@ -27,11 +27,15 @@ const AuthPage = () => {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const inputsRef = useRef([]);
 
-  useEffect(() => {
-    if (user) {
+ useEffect(() => {
+  if (user) {
+    if (user.role === "admin") {
+      navigate("/admin", { replace: true });
+    } else {
       navigate("/", { replace: true });
     }
-  }, [user, navigate]);
+  }
+}, [user, navigate]);
 
   const showModal = (message, type = "success") => {
     setModalMessage(message);
@@ -109,11 +113,7 @@ const AuthPage = () => {
         data.token
       );
 
-      if (data.role === "admin") {
-        navigate("/admin");
-      } else {
-        navigate("/");
-      }
+      navigate(data.role === "admin" ? "/admin" : "/");
     } catch (err) {
       showModal(err.response?.data?.message || "Login failed", "error");
     }

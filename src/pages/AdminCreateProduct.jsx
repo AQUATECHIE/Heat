@@ -4,12 +4,14 @@ import { useNavigate } from "react-router-dom";
 import "../styles/AdminCreateProduct.css";
 
 const AdminCreateProduct = () => {
+
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
     name: "",
     description: "",
     price: "",
+    discount: 0,
     category: "shoes",
     brand: "",
     stock: "",
@@ -17,6 +19,8 @@ const AdminCreateProduct = () => {
   });
 
   const [images, setImages] = useState([]);
+  const [previewImages, setPreviewImages] = useState([]);
+
   const [successModal, setSuccessModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -27,16 +31,26 @@ const AdminCreateProduct = () => {
     });
   };
 
+  const handleImageChange = (e) => {
+
+    const files = Array.from(e.target.files);
+
+    setImages(files);
+
+    const previews = files.map((file) =>
+      URL.createObjectURL(file)
+    );
+
+    setPreviewImages(previews);
+  };
+
   const handleSubmit = async (e) => {
+
     e.preventDefault();
 
     try {
-      const token = localStorage.getItem("token");
 
-      if (!token) {
-        setErrorMessage("Admin not authenticated");
-        return;
-      }
+      const token = localStorage.getItem("token");
 
       const formData = new FormData();
 
@@ -44,9 +58,9 @@ const AdminCreateProduct = () => {
         formData.append(key, form[key]);
       });
 
-      for (let i = 0; i < images.length; i++) {
-        formData.append("images", images[i]);
-      }
+      images.forEach((img) => {
+        formData.append("images", img);
+      });
 
       await api.post("/products", formData, {
         headers: {
@@ -55,10 +69,13 @@ const AdminCreateProduct = () => {
       });
 
       setSuccessModal(true);
+
     } catch (error) {
+
       setErrorMessage(
         error.response?.data?.message || "Something went wrong"
       );
+
     }
   };
 
@@ -68,22 +85,73 @@ const AdminCreateProduct = () => {
   };
 
   return (
+
     <div className="admin-create">
+
       <div className="create-card">
+
         <h2>Create Product</h2>
 
         <form onSubmit={handleSubmit} className="create-form">
-          <input name="name" placeholder="Name" onChange={handleChange} required />
-          <input name="description" placeholder="Description" onChange={handleChange} required />
-          <input name="price" placeholder="Price" onChange={handleChange} required />
-          <input name="brand" placeholder="Brand" onChange={handleChange} required />
-          <input name="stock" placeholder="Stock" onChange={handleChange} required />
 
-          <select name="category" onChange={handleChange}>
-            <option value="shoes">Shoes</option>
-            <option value="bags">Bags</option>
-            <option value="clothes">Clothes</option>
-          </select>
+          <div className="form-grid">
+
+            <input
+              name="name"
+              placeholder="Product Name"
+              onChange={handleChange}
+              required
+            />
+
+            <input
+              name="brand"
+              placeholder="Brand"
+              onChange={handleChange}
+              required
+            />
+
+            <input
+              name="price"
+              type="number"
+              placeholder="Price"
+              onChange={handleChange}
+              required
+            />
+
+            <input
+              name="discount"
+              type="number"
+              placeholder="Discount %"
+              min="0"
+              max="90"
+              onChange={handleChange}
+            />
+
+            <input
+              name="stock"
+              type="number"
+              placeholder="Stock"
+              onChange={handleChange}
+              required
+            />
+
+            <select
+              name="category"
+              onChange={handleChange}
+            >
+              <option value="shoes">Shoes</option>
+              <option value="bags">Bags</option>
+              <option value="clothes">Clothes</option>
+            </select>
+
+          </div>
+
+          <textarea
+            name="description"
+            placeholder="Product Description"
+            onChange={handleChange}
+            required
+          />
 
           <textarea
             name="specifications"
@@ -91,35 +159,66 @@ const AdminCreateProduct = () => {
             onChange={handleChange}
           />
 
-          <input
-            type="file"
-            multiple
-            onChange={(e) => setImages(e.target.files)}
-          />
+          <div className="image-upload">
 
-          <button type="submit">Create Product</button>
+            <label>Upload Images</label>
+
+            <input
+              type="file"
+              multiple
+              onChange={handleImageChange}
+            />
+
+            {previewImages.length > 0 && (
+
+              <div className="image-preview">
+
+                {previewImages.map((img, index) => (
+                  <img key={index} src={img} alt="preview" />
+                ))}
+
+              </div>
+
+            )}
+
+          </div>
+
+          <button type="submit">
+            Create Product
+          </button>
+
         </form>
 
         {errorMessage && (
           <p className="form-error">{errorMessage}</p>
         )}
+
       </div>
 
-      {/* SUCCESS MODAL */}
       {successModal && (
+
         <div className="modal-overlay">
+
           <div className="success-modal">
-            <h3>🎉 Product Created Successfully!</h3>
-            <p>Your product has been added to the store.</p>
+
+            <h3>🎉 Product Created Successfully</h3>
+
+            <p>Your product has been added.</p>
 
             <button onClick={handleCloseModal}>
               Back to Products
             </button>
+
           </div>
+
         </div>
+
       )}
+
     </div>
+
   );
+
 };
 
 export default AdminCreateProduct;

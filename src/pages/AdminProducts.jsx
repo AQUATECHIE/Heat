@@ -63,6 +63,7 @@ const AdminProducts = () => {
 
   return (
     <div className="admin-products">
+
       <div className="admin-products-header">
         <h2>Manage Products</h2>
 
@@ -99,44 +100,76 @@ const AdminProducts = () => {
 
       {/* PRODUCTS GRID */}
       <div className="products-grid">
-        {products.map((product) => (
-          <div key={product._id} className="admin-product-card">
-            <div className="product-img">
-              <img
-                src={product.images?.[0]?.url || "/fallback.png"}
-                alt={product.name}
-              />
+        {products.map((product) => {
+
+          const hasDiscount = product.discount > 0;
+
+          return (
+            <div key={product._id} className="admin-product-card">
+
+              <div className="product-img">
+
+                {hasDiscount && (
+                  <div className="discount-badge">
+                    -{product.discount}%
+                  </div>
+                )}
+
+                <img
+                  src={product.images?.[0]?.url || "/fallback.png"}
+                  alt={product.name}
+                />
+              </div>
+
+              <div className="product-info">
+
+                <h4>{product.name}</h4>
+
+                <p className="price">
+
+                  {hasDiscount ? (
+                    <>
+                      <span className="old-price">
+                        ₦{product.price.toLocaleString()}
+                      </span>
+
+                      <span className="new-price">
+                        ₦{product.finalPrice?.toLocaleString()}
+                      </span>
+                    </>
+                  ) : (
+                    <>₦{product.price.toLocaleString()}</>
+                  )}
+
+                </p>
+
+                <p className="stock">
+                  Stock: {product.stock}
+                </p>
+
+              </div>
+
+              <div className="admin-actions">
+
+                <Link
+                  to={`/admin/products/edit/${product._id}`}
+                  className="edit-btn"
+                >
+                  Edit
+                </Link>
+
+                <button
+                  className="delete-btn"
+                  onClick={() => confirmDelete(product)}
+                >
+                  Delete
+                </button>
+
+              </div>
+
             </div>
-
-            <div className="product-info">
-              <h4>{product.name}</h4>
-
-              <p className="price">
-                ₦{product.price.toLocaleString()}
-              </p>
-
-              <p className="stock">
-                Stock: {product.stock}
-              </p>
-            </div>
-
-            <div className="admin-actions">
-              <Link
-                to={`/admin/products/edit/${product._id}`}
-                className="edit-btn"
-              >
-                Edit
-              </Link>
-
-              <button
-                className="delete-btn"
-                onClick={() => confirmDelete(product)}
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* PAGINATION */}
@@ -163,7 +196,9 @@ const AdminProducts = () => {
       {/* DELETE MODAL */}
       {deleteModal && (
         <div className="modal-overlay">
+
           <div className="delete-modal">
+
             <h3>Delete Product</h3>
 
             <p>
@@ -172,6 +207,7 @@ const AdminProducts = () => {
             </p>
 
             <div className="modal-actions">
+
               <button
                 className="cancel-btn"
                 onClick={() => setDeleteModal(false)}
@@ -185,8 +221,11 @@ const AdminProducts = () => {
               >
                 Delete
               </button>
+
             </div>
+
           </div>
+
         </div>
       )}
     </div>

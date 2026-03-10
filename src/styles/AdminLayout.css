@@ -2,235 +2,258 @@
    CONTAINER
 ====================== */
 
-.admin-container {
-    display: flex;
-    min-height: 100vh;
-    background: #111;
-    color: white;
-    position: relative;
+.admin-container{
+display:flex;
+min-height:100vh;
+background:#111;
+color:white;
 }
 
 /* ======================
    SIDEBAR
 ====================== */
 
-.admin-sidebar {
-    width: 240px;
-    background: #1b1b1b;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    transition: all 0.3s ease;
+.admin-sidebar{
+width:240px;
+background:#1b1b1b;
+padding:20px;
+display:flex;
+flex-direction:column;
+transition:.3s;
+
+position:fixed;
+top:0;
+left:0;
+height:100vh;
+
+overflow-y:auto;
+z-index:80;
 }
 
-.admin-sidebar.collapsed {
-    width: 80px;
+.admin-sidebar.collapsed{
+width:80px;
 }
 
-.admin-logo {
-    margin-bottom: 40px;
-    text-align: center;
+/* LOGO */
+
+.admin-logo{
+margin-bottom:35px;
+text-align:center;
 }
 
-.admin-logo img {
-    width: 120px;
-    transition: 0.3s;
+.admin-logo img{
+width:120px;
+transition:.3s;
 }
 
-.admin-sidebar.collapsed .admin-logo img {
-    width: 60px;
+.admin-sidebar.collapsed .admin-logo img{
+width:60px;
 }
 
-.admin-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+/* NAV */
+
+.admin-nav{
+display:flex;
+flex-direction:column;
+gap:12px;
 }
 
-.admin-nav a {
-    text-decoration: none;
-    color: #aaa;
-    padding: 10px;
-    border-radius: 6px;
-    transition: 0.3s;
+.admin-nav a{
+display:flex;
+align-items:center;
+gap:12px;
+text-decoration:none;
+color:#aaa;
+padding:12px;
+border-radius:6px;
+transition:.25s;
+position:relative;
 }
 
-.admin-nav a.active {
-    background: black;
-    color: white;
+.admin-nav a svg{
+font-size:16px;
 }
 
-.admin-nav a:hover {
-    background: #2a2a2a;
+.admin-nav a span{
+font-size:14px;
+}
+
+.admin-nav a.active{
+background:black;
+color:white;
+}
+
+.admin-nav a:hover{
+background:#2a2a2a;
+}
+
+/* COLLAPSED */
+
+.admin-sidebar.collapsed .admin-nav a{
+justify-content:center;
+}
+
+.admin-sidebar.collapsed .admin-nav a span{
+display:none;
+}
+
+/* TOOLTIP */
+
+.tooltip{
+position:absolute;
+left:70px;
+background:#222;
+padding:6px 10px;
+font-size:12px;
+border-radius:6px;
+opacity:0;
+pointer-events:none;
+white-space:nowrap;
+transition:.2s;
+}
+
+.admin-sidebar.collapsed .admin-nav a:hover .tooltip{
+opacity:1;
 }
 
 /* ======================
    MAIN AREA
 ====================== */
 
-.admin-main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+.admin-main{
+flex:1;
+display:flex;
+flex-direction:column;
+
+margin-left:240px;
+}
+.admin-sidebar.collapsed ~ .admin-main{
+margin-left:80px;
 }
 
-.admin-topbar {
-    height: 60px;
-    background: #1e1e1e;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 25px;
-    border-bottom: 1px solid #2a2a2a;
+/* TOPBAR */
+
+.admin-topbar{
+height:60px;
+background:#1e1e1e;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 25px;
+border-bottom:1px solid #2a2a2a;
+
+position:fixed;
+top:0;
+left:240px;
+right:0;
+z-index:100;
+}
+.admin-sidebar.collapsed ~ .admin-main .admin-topbar{
+left:80px;
+}
+.left-controls{
+display:flex;
+gap:15px;
 }
 
-.left-controls {
-    display: flex;
-    gap: 15px;
+.toggle-btn{
+cursor:pointer;
 }
 
-.toggle-btn {
-    cursor: pointer;
+.mobile-toggle{
+display:none;
+cursor:pointer;
 }
 
-.mobile-toggle {
-    display: none;
-    cursor: pointer;
-}
+/* CONTENT */
 
-.admin-content {
-    padding: 30px;
-}
-
-/* ======================
-   DROPDOWN
-====================== */
-
-.admin-profile {
-    position: relative;
-    cursor: pointer;
-}
-
-.admin-dropdown {
-    position: absolute;
-    right: 0;
-    top: 35px;
-    background: #222;
-    padding: 15px;
-    border-radius: 8px;
-    width: 200px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
-}
-
-.admin-dropdown button {
-    background: none;
-    border: none;
-    color: red;
-    cursor: pointer;
-    text-align: left;
+.admin-content{
+padding:30px;
+flex:1;
 }
 
 /* ======================
-   MOBILE RESPONSIVE
+   PROFILE
 ====================== */
 
-.admin-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 99;
+.admin-profile{
+position:relative;
+cursor:pointer;
 }
 
-@media (max-width: 900px) {
-    .admin-sidebar {
-        position: fixed;
-        left: -250px;
-        top: 0;
-        height: 100vh;
-        z-index: 100;
-    }
+.admin-dropdown{
+position:absolute;
+right:0;
+top:40px;
+background:#222;
+padding:15px;
+border-radius:8px;
+width:300px;
+display:flex;
+flex-direction:column;
+gap:8px;
+box-shadow:0 5px 20px rgba(0,0,0,.4);
+}
 
-    .admin-sidebar.mobile-open {
-        left: 0;
-    }
-
-    .mobile-toggle {
-        display: block;
-    }
-
-    .toggle-btn {
-        display: none;
-    }
+.admin-dropdown button{
+background:none;
+border:none;
+color:red;
+cursor:pointer;
+text-align:left;
 }
 
 /* ======================
-   NAV LINKS
+   MOBILE
 ====================== */
 
-.admin-nav a {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  color: #aaa;
-  padding: 12px;
-  border-radius: 6px;
-  transition: 0.3s;
-  position: relative;
+.admin-overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.5);
+z-index:90;
 }
 
-.admin-nav a svg {
-  font-size: 16px;
+@media (max-width:900px){
+
+.admin-sidebar{
+position:fixed;
+left:-260px;
+top:0;
+height:100vh;
+z-index:100;
 }
 
-.admin-nav a span {
-  font-size: 14px;
+.admin-sidebar.mobile-open{
+left:0;
 }
 
-.admin-nav a.active {
-  background: black;
-  color: white;
+.mobile-toggle{
+display:block;
 }
 
-.admin-nav a:hover {
-  background: #2a2a2a;
+.toggle-btn{
+display:none;
+}
+
+.admin-main{
+margin-left:0;
+}
+
 }
 
 /* ======================
-   COLLAPSED STATE
+   SMALL MOBILE
 ====================== */
 
-.admin-sidebar.collapsed .admin-nav a {
-  justify-content: center;
+@media (max-width:500px){
+
+.admin-content{
+padding:15px;
 }
 
-.admin-sidebar.collapsed .admin-nav a span {
-  display: none;
+.admin-topbar{
+padding:0 15px;
 }
 
-/* ======================
-   TOOLTIP
-====================== */
-
-.tooltip {
-  position: absolute;
-  left: 70px;
-  background: #222;
-  color: white;
-  padding: 6px 10px;
-  font-size: 12px;
-  border-radius: 6px;
-  opacity: 0;
-  pointer-events: none;
-  white-space: nowrap;
-  transform: translateX(-5px);
-  transition: 0.2s ease;
-}
-
-.admin-sidebar.collapsed .admin-nav a:hover .tooltip {
-  opacity: 1;
-  transform: translateX(0);
 }

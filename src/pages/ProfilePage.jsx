@@ -28,18 +28,20 @@ const ProfilePage = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
-      // ✅ Update auth context
-      login(data.user, token);
+      login(
+        {
+          ...user,
+          phone: data.user.phone,
+        },
+        token,
+      );
 
       alert("Profile updated successfully");
     } catch (error) {
-      alert(
-        error.response?.data?.message ||
-          "Failed to update profile"
-      );
+      alert(error.response?.data?.message || "Failed to update profile");
     }
   };
 
@@ -67,11 +69,7 @@ const ProfilePage = () => {
           <span>Password</span>
 
           <div className="password-box">
-            <input
-              type="password"
-              value="********"
-              disabled={!passwordEdit}
-            />
+            <input type="password" value="********" disabled={!passwordEdit} />
             <span
               className="edit-text"
               onClick={() => setPasswordEdit(!passwordEdit)}

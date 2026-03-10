@@ -2,43 +2,83 @@ import { createContext, useContext, useState, useEffect } from "react";
 
 const WishlistContext = createContext();
 
-export const useWishlist = () => useContext(WishlistContext);
-
 export const WishlistProvider = ({ children }) => {
-  const [wishlistItems, setWishlistItems] = useState(() => {
-    const saved = localStorage.getItem("wishlist");
-    return saved ? JSON.parse(saved) : [];
-  });
+
+  const [wishlistItems, setWishlistItems] = useState([]);
+
+  /* LOAD FROM LOCAL STORAGE */
 
   useEffect(() => {
-    localStorage.setItem("wishlist", JSON.stringify(wishlistItems));
+
+    const savedWishlist =
+      JSON.parse(localStorage.getItem("wishlist")) || [];
+
+    setWishlistItems(savedWishlist);
+
+  }, []);
+
+
+  /* SAVE TO LOCAL STORAGE */
+
+  useEffect(() => {
+
+    localStorage.setItem(
+      "wishlist",
+      JSON.stringify(wishlistItems)
+    );
+
   }, [wishlistItems]);
 
-  const toggleWishlist = (product) => {
-    setWishlistItems((prev) => {
-      const exists = prev.find((item) => item.id === product.id);
 
-      if (exists) {
-        return prev.filter((item) => item.id !== product.id);
-      }
-
-      return [...prev, product];
-    });
-  };
+  /* CHECK IF PRODUCT IS IN WISHLIST */
 
   const isInWishlist = (id) => {
-    return wishlistItems.some((item) => item.id === id);
+
+    return wishlistItems.some(
+      (item) => item._id === id
+    );
+
   };
+
+
+  /* TOGGLE WISHLIST */
+
+  const toggleWishlist = (product) => {
+
+    setWishlistItems((prev) => {
+
+      const exists = prev.find(
+        (item) => item._id === product._id
+      );
+
+      if (exists) {
+
+        return prev.filter(
+          (item) => item._id !== product._id
+        );
+
+      } else {
+
+        return [...prev, product];
+
+      }
+
+    });
+
+  };
+
 
   return (
     <WishlistContext.Provider
       value={{
         wishlistItems,
         toggleWishlist,
-        isInWishlist,
+        isInWishlist
       }}
     >
       {children}
     </WishlistContext.Provider>
   );
 };
+
+export const useWishlist = () => useContext(WishlistContext);

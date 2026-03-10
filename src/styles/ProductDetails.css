@@ -70,7 +70,7 @@ margin-bottom:6px;
 
 .price{
 font-size:14px;
-/* font-weight: 100; */
+color: #666;
 }
 
 /* SIZE */
@@ -200,41 +200,127 @@ color:black;
 
 /* CART MODAL */
 
-.cart-modal-overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.6);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:2000;
+/* OVERLAY */
+
+.cart-overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.45);
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:2000;
 }
 
-.cart-modal{
-  background:#1c1c1c;
-  padding:30px;
-  border-radius:10px;
-  width:350px;
-  text-align:center;
+/* MODAL */
+
+.cart-popup{
+background:white;
+width:90%;
+max-width:380px;
+border-radius:16px;
+overflow:hidden;
+box-shadow:0 10px 40px rgba(0,0,0,0.25);
+animation:popupScale .25s ease;
 }
 
-.cart-modal-actions{
-  display:flex;
-  gap:10px;
+/* HEADER */
+
+.cart-popup-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:16px 18px;
+font-size:14px;
+font-weight:600;
+border-bottom:1px solid #eee;
+
 }
 
-.continue-btn{
-  flex:1;
-  padding:10px;
-  border:1px solid #333;
-  background:#222;
-  color:#fff;
+.close-popup{
+background:#eee;
+border:none;
+width:26px;
+height:26px;
+border-radius:50%;
+font-size:16px;
+cursor:pointer;
 }
 
-.go-cart-btn{
-  flex:1;
-  padding:10px;
-  border:1px solid #333;
-  background:#000;
-  color:#fff;
+/* BODY */
+
+.cart-popup-body{
+display:flex;
+align-items:center;
+gap:15px;
+padding:20px;
+}
+
+.cart-popup-body img{
+width:70px;
+height:70px;
+object-fit:contain;
+background:#f4f4f4;
+border-radius:8px;
+padding:6px;
+}
+
+/* PRODUCT INFO */
+
+.cart-popup-info h4{
+font-size:14px;
+margin-bottom:6px;
+}
+
+.popup-price{
+font-weight:600;
+margin-bottom:4px;
+}
+
+.popup-size{
+font-size:13px;
+color:#777;
+}
+
+/* BUTTONS */
+
+.cart-popup-buttons{
+padding:20px;
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+/* CHECKOUT */
+
+.checkout-btn{
+background:black;
+color:white;
+border:none;
+padding:14px;
+font-weight:600;
+cursor:pointer;
+}
+
+/* VIEW CART */
+
+.view-cart-btn{
+background:white;
+border:1px solid #ccc;
+padding:14px;
+font-weight:500;
+cursor:pointer;
+}
+
+/* ANIMATION */
+
+@keyframes popupScale{
+from{
+opacity:0;
+transform:scale(.9);
+}
+to{
+opacity:1;
+transform:scale(1);
+}
 }

@@ -136,7 +136,26 @@ const ProductDetails = () => {
         {/* PRODUCT TITLE */}
         <div className="product-title">
           <h2>{product.name}</h2>
-          <p className="price">R{Number(product.price).toLocaleString()}</p>
+
+          <div className="price-box">
+            {product.discount > 0 ? (
+              <>
+                <span className="old-price">
+                  R{Number(product.price).toLocaleString()}
+                </span>
+
+                <span className="discount-price">
+                  R{Number(product.finalPrice).toLocaleString()}
+                </span>
+
+                <span className="discount-badge">-{product.discount}%</span>
+              </>
+            ) : (
+              <span className="price">
+                R{Number(product.price).toLocaleString()}
+              </span>
+            )}
+          </div>
         </div>
 
         {/* SIZE SELECTOR */}
@@ -145,12 +164,7 @@ const ProductDetails = () => {
             <div className="size-header">
               <span>SIZE:</span>
               <div onClick={() => setShowSizeGuide(true)}>
-                <img
-                  src={sizeIcon}
-                  alt="size"
-                  className="size-guide"
-                  
-                />
+                <img src={sizeIcon} alt="size" className="size-guide" />
                 Size Guide
               </div>
             </div>
@@ -217,26 +231,55 @@ const ProductDetails = () => {
 
       {/* CART MODAL */}
       {cartModal && (
-        <div className="cart-modal-overlay">
-          <div className="cart-modal">
-            <h3>Added to Cart 🛒</h3>
-            <p>{product.name} was added to your cart.</p>
+        <div className="cart-overlay">
+          <div className="cart-popup">
+            <div className="cart-popup-header">
+              <span>ADDED TO SHOPPING CART</span>
 
-            <div className="cart-modal-actions">
               <button
-                className="continue-btn"
+                className="close-popup"
                 onClick={() => setCartModal(false)}
               >
-                Continue Shopping
+                ×
+              </button>
+            </div>
+
+            <div className="cart-popup-body">
+              <img src={product.images?.[0]?.url} alt={product.name} />
+
+              <div className="cart-popup-info">
+                <h4>{product.name}</h4>
+
+                <p className="popup-price">
+                  R
+                  {Number(product.finalPrice || product.price).toLocaleString()}
+                </p>
+
+                {selectedSize && (
+                  <span className="popup-size">Size - {selectedSize}</span>
+                )}
+              </div>
+            </div>
+
+            <div className="cart-popup-buttons">
+              <button
+                className="checkout-btn"
+                onClick={() => navigate("/checkout")}
+              >
+                CHECKOUT
               </button>
 
-              <button className="go-cart-btn" onClick={() => navigate("/cart")}>
-                Go to Cart
+              <button
+                className="view-cart-btn"
+                onClick={() => navigate("/cart")}
+              >
+                VIEW SHOPPING CART
               </button>
             </div>
           </div>
         </div>
       )}
+
       {showSizeGuide && (
         <SizeGuideModal close={() => setShowSizeGuide(false)} />
       )}

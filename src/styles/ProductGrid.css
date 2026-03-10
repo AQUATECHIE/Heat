@@ -1,24 +1,41 @@
 .product-page {
-  padding: 90px 15px 40px;
+  padding: 90px 20px 40px;
   background: white;
-  position: relative; 
+  position: relative;
+  max-width: 1400px;
+  margin: auto;
 }
 
-.page-title {
-  font-size: 18px;
-  margin-bottom: 15px;
+/* TOOLBAR */
+
+.product-toolbar {
+  position: sticky;
+  top: 70px;
+  background: white;
+  z-index: 50;
+  padding-bottom: 10px;
 }
+
+/* TITLE */
+
+.page-title {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+/* FILTER */
 
 .filter-row {
   padding: 12px 0;
   border-top: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
-  margin-bottom: 10px;
   display: flex;
   align-items: center;
   gap: 8px;
   cursor: pointer;
 }
+
+/* ITEM COUNT */
 
 .item-count {
   text-align: center;
@@ -27,69 +44,75 @@
   margin: 15px 0;
 }
 
-/* Grid */
+/* GRID RESPONSIVE */
+
 .grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
 }
 
-/* Card */
+/* CARD */
+
 .card {
   background: #f2f2f2;
-  padding: 12px;
+  padding: 14px;
   position: relative;
   text-align: left;
-  height: 330px;
-  width: 190px;
+  border-radius: 6px;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
 }
 
 .card img {
   width: 100%;
-  height: 80%;
+  height: 220px;
   object-fit: contain;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
-.card h4 {
-  font-size: 12px;
+.card-link p {
+  font-size: 13px;
   margin-bottom: 5px;
+  line-height: 1.3;
+  font-weight: 500;
+  color: #666;
 }
 
 .price {
-  font-weight: 700;
+  font-weight: 600;
+  color: #111;
 }
 
-.bookmark {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
+/* DISCOUNT */
 
-.discount {
+.discount-badge {
   position: absolute;
   top: 10px;
   left: 10px;
-  background: red;
-  color: #fff;
-  font-size: 11px;
-  padding: 4px 6px;
+  background: #e60023;
+  color: white;
+  font-size: 12px;
+  padding: 4px 8px;
   border-radius: 4px;
+  font-weight: 600;
 }
 
-.see-all-btn {
-  margin: 30px auto 0;
-  display: block;
-  background: #111;
-  color: #fff;
-  border: none;
-  padding: 12px 35px;
-  cursor: pointer;
+.old-price {
+  text-decoration: line-through;
+  color: #888;
+  margin-right: 8px;
 }
-.card-link {
-  text-decoration: none;
-  color: inherit;
+
+.new-price {
+  color: #e60023;
+  font-weight: 600;
 }
+
+/* WISHLIST */
 
 .wishlist-btn {
   position: absolute;
@@ -103,26 +126,40 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: 0.3s;
 }
 
-.wishlist-btn svg {
-  color: #999;
+.wishlist-btn img {
+  width: 22px;
+  height: 22px;
 }
 
 .wishlist-btn.active svg {
   color: red;
 }
 
+/* BUTTON */
+
+.see-all-btn {
+  margin: 40px auto 0;
+  display: block;
+  background: #111;
+  color: #fff;
+  border: none;
+  padding: 14px 40px;
+  cursor: pointer;
+}
+
+/* FILTER PANEL */
+
 .filter-panel {
-  position: absolute;
-  top: 140px; 
-  left: 15px;
-  background: #fff;
+  position: fixed;
+  top: 150px;
+  left: 20px;
+  background: white;
   border: 1px solid #ddd;
   padding: 20px;
-  width: 260px;
-  z-index: 100;
+  width: 280px;
+  z-index: 200;
   border-radius: 8px;
   box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 }
@@ -135,6 +172,24 @@
   border-radius: 6px;
 }
 
+/* FILTER HEADER */
+
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+/* CLOSE BUTTON */
+
+.close-filter {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
 /* BUTTONS */
 
 .filter-actions {
@@ -144,60 +199,162 @@
 
 .filter-actions button {
   flex: 1;
-  padding: 8px;
+  padding: 10px;
   border: none;
   cursor: pointer;
-   background: #eee;
+  background: #eee;
 }
 
-/* STICKY TOOLBAR */
+/* RESPONSIVE BREAKPOINTS */
 
-.product-toolbar{
-position:sticky;
-top:70px; /* adjust to your navbar height */
-background:white;
-z-index:50;
-padding-bottom:10px;
+/* TABLETS */
+
+@media (max-width: 1024px) {
+
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  }
+
+  .filter-panel {
+    width: 260px;
+  }
 }
 
-/* TITLE */
+/* MOBILE */
 
-.page-title{
-font-size:18px;
-margin-bottom:10px;
+@media (max-width: 768px) {
+
+  .product-page {
+    padding: 90px 15px 40px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card img {
+    height: 180px;
+  }
+
+  .filter-panel {
+    left: 10px;
+    width: 90%;
+  }
 }
 
-/* FILTER ROW */
+/* SMALL PHONES */
 
-.filter-row{
-padding:12px 0;
-border-top:1px solid #ddd;
-border-bottom:1px solid #ddd;
+@media (max-width: 480px) {
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .card img {
+    height: 150px;
+  }
+
+  .card h4 {
+    font-size: 12px;
+  }
+
+  .filter-panel {
+    top: 120px;
+  }
+}
+
+/* WISHLIST TOAST */
+
+.wishlist-toast{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:black;
+color:white;
+padding:16px 22px;
+border-radius:8px;
 display:flex;
 align-items:center;
-gap:8px;
-cursor:pointer;
-}
-/* FILTER HEADER */
-
-.filter-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:15px;
+gap:18px;
+z-index:2000;
+box-shadow:0 10px 30px rgba(0,0,0,.3);
+animation:toastFade .25s ease;
 }
 
 /* CLOSE BUTTON */
 
-.close-filter{
+.toast-close{
 background:none;
 border:none;
+color:white;
 font-size:20px;
 cursor:pointer;
 line-height:1;
-color:#555;
 }
 
-.close-filter:hover{
-color:black;
+/* ANIMATION */
+
+@keyframes toastFade{
+from{
+opacity:0;
+transform:translate(-50%,-60%);
+}
+to{
+opacity:1;
+transform:translate(-50%,-50%);
+}
+}
+
+.size-modal-overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:999;
+}
+
+.size-modal{
+background:white;
+padding:25px;
+border-radius:10px;
+width:320px;
+text-align:center;
+}
+
+.size-options{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+justify-content:center;
+margin:15px 0;
+}
+
+.size-options button{
+padding:8px 14px;
+border:1px solid #ddd;
+background:white;
+cursor:pointer;
+}
+
+.size-options button.active{
+background:black;
+color:white;
+}
+
+.size-actions{
+display:flex;
+gap:10px;
+justify-content:center;
+}
+.size-actions button {
+  background-color: black;
+  color: white;
+  padding: 8px 20px;
 }

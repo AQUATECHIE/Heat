@@ -1,0 +1,132 @@
+/* OVERLAY */
+
+.auth-sheet-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:flex;
+  align-items:flex-end;
+  z-index:2000;
+}
+
+/* SHEET CONTAINER */
+
+.auth-sheet{
+  width:100%;
+  background:#fff;
+  border-radius:20px 20px 0 0;
+  padding:25px;
+  animation:slideUp .35s ease;
+  max-height:90vh;
+  overflow-y:auto;
+}
+
+/* HEADER */
+
+.sheet-header{
+  display:flex;
+  justify-content:flex-end;
+  margin-bottom:10px;
+}
+
+.sheet-header button{
+  background:#f2f2f2;
+  border:none;
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  font-size:18px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* TABS */
+
+.auth-tabs{
+  display:flex;
+  gap:25px;
+  margin-bottom:20px;
+  font-size:14px;
+  font-weight:500;
+}
+
+.auth-tabs span{
+  cursor:pointer;
+  padding-bottom:6px;
+}
+
+.auth-tabs .active{
+  border-bottom:2px solid #000;
+  font-weight:600;
+}
+
+/* FORM */
+
+.auth-sheet form{
+  display:flex;
+  flex-direction:column;
+}
+
+/* INPUTS */
+
+.auth-sheet input{
+  width:100%;
+  padding:14px;
+  margin-bottom:15px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  font-size:14px;
+  outline:none;
+  background:#f8f8f8;
+}
+
+.auth-sheet input:focus{
+  border-color:#000;
+  background:#fff;
+}
+
+/* PASSWORD FIELD */
+
+.password-wrapper{
+  position:relative;
+}
+
+.password-wrapper span{
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%);
+  cursor:pointer;
+  color:#555;
+}
+
+/* BUTTON */
+
+.auth-sheet form button{
+  width:100%;
+  padding:14px;
+  background:#000;
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  font-size:14px;
+  cursor:pointer;
+  transition:opacity .2s ease;
+}
+
+.auth-sheet form button:hover{
+  opacity:.9;
+}
+
+/* ANIMATION */
+
+@keyframes slideUp{
+  from{
+    transform:translateY(100%);
+  }
+  to{
+    transform:translateY(0);
+  }
+}

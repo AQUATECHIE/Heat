@@ -31,7 +31,7 @@
 }
 
 /* Dark luxury overlay */
-.hero-overlay {
+/* .hero-overlay {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -42,10 +42,10 @@
   );
   top: 0;
   left: 0;
-}
+} */
 
 /* Slow Zoom Effect */
-@keyframes slowZoom {
+/* @keyframes slowZoom {
   0% {
     transform: scale(1);
   }
@@ -55,7 +55,7 @@
   100% {
     transform: scale(1);
   }
-}
+} */
 
 /* Tablet */
 @media (min-width: 768px) {

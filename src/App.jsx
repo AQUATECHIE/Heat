@@ -10,6 +10,8 @@ import { WishlistProvider } from "./context/WishlistContext.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 
 import Navbar from "./components/Navbar";
+
+
 import Home from "./pages/Home";
 import AllProductsCollection from "./pages/AllProductsCollection";
 import ShoesCollection from "./pages/ShoesCollection";
@@ -24,14 +26,17 @@ import OrdersHistory from "./pages/OrderHistory.jsx";
 import WishlistPage from "./pages/WishList.jsx";
 import AuthPage from "./pages/AuthPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
-import AdminDashboard from "./pages/AdminDashboard";
+import DeliveryAddress from "./pages/DeliveryAddress.jsx";
+
+/* ADMIN PAGES */
+
 import AdminLayout from "./Layouts/AdminLayout.jsx";
+import AdminDashboard from "./pages/AdminDashboard.jsx";
 import AdminAnalytics from "./pages/AdminAnalytics.jsx";
 import AdminProducts from "./pages/AdminProducts.jsx";
 import AdminCreateProduct from "./pages/AdminCreateProduct.jsx";
-import AdminRoute from "./components/AdminRoute.jsx";
 import AdminUsers from "./pages/AdminUsers.jsx";
-import DeliveryAddress from "./pages/DeliveryAddress.jsx";
+import AdminRoute from "./components/AdminRoute.jsx";
 
 function LayoutWrapper() {
   const location = useLocation();
@@ -40,11 +45,13 @@ function LayoutWrapper() {
 
   return (
     <>
-      {/* 🔥 Hide Navbar on Admin Routes */}
+      {/* Hide navbar on admin pages */}
       {!isAdminRoute && <Navbar />}
 
       <Routes>
+
         {/* PUBLIC ROUTES */}
+
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<AllProductsCollection />} />
         <Route path="/sneakers" element={<ShoesCollection />} />
@@ -61,29 +68,28 @@ function LayoutWrapper() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/address" element={<DeliveryAddress />} />
 
-        {/* ADMIN ROUTES */}
-        {/* ADMIN ROUTES */}
-        <Route path="/admin" element={<AdminLayout />}>
+        {/* PROTECTED ADMIN ROUTES */}
+
+        <Route
+          path="/admin/*"
+          element={
+            <AdminRoute>
+              <AdminLayout />
+            </AdminRoute>
+          }
+        >
           <Route index element={<AdminDashboard />} />
 
           <Route path="orders" element={<AdminDashboard />} />
-          {/* <Route path="users" element={<div>Users Page</div>} /> */}
 
-          {/* PRODUCTS */}
           <Route path="products" element={<AdminProducts />} />
           <Route path="products/new" element={<AdminCreateProduct />} />
 
           <Route path="analytics" element={<AdminAnalytics />} />
-          <Route
-            path="users"
-            element={
-              <AdminRoute>
-                <AdminUsers />
-              </AdminRoute>  
-              
-            }
-          />
+
+          <Route path="users" element={<AdminUsers />} />
         </Route>
+
       </Routes>
     </>
   );

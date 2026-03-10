@@ -90,7 +90,7 @@ const CheckoutPage = () => {
   ====================== */
 
   const subtotal = cart.reduce(
-    (acc, item) => acc + item.product.price * item.quantity,
+    (acc, item) => acc + item.product.finalPrice || item.product.price * item.quantity,
     0,
   );
 
@@ -242,7 +242,7 @@ Shipping: ₦${order.shipping.toLocaleString()}
               </div>
 
               <span className="summary-price">
-                R{(item.product.price * item.quantity).toLocaleString()}
+                R{(item.product.finalPrice || item.product.price * item.quantity).toLocaleString()}
               </span>
             </div>
           ))}

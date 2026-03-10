@@ -1,18 +1,12 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const AdminRoute = ({ children }) => {
-  const { user, loading } = useAuth();
-  const location = useLocation();
-
-  // Wait until auth is fully initialized
-  if (loading) {
-    return null; // or loading spinner
-  }
+  const { user } = useAuth();
 
   // Not logged in
   if (!user) {
-    return <Navigate to="/auth" state={{ from: location }} replace />;
+    return <Navigate to="/" replace />;
   }
 
   // Logged in but not admin
@@ -20,7 +14,7 @@ const AdminRoute = ({ children }) => {
     return <Navigate to="/" replace />;
   }
 
-  // Authorized admin
+  // Admin allowed
   return children;
 };
 

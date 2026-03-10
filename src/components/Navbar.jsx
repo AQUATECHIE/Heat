@@ -6,6 +6,9 @@ import { useAuth } from "../context/AuthContext";
 import menuIcon from "../assets/icon/MenuIcon (2).svg";
 import serachIcon from "../assets/icon/search.svg";
 import userIcon from "../assets/icon/user.svg";
+import aboutIcon from "../assets/icon/Frame.svg"
+import callIcon from "../assets/icon/call.svg"
+import mailIcon from "../assets/icon/Frame1.svg"
 import cartIcon from "../assets/icon/cart.svg";
 import profileIcon from "../assets/icon/profile.svg";
 import homeIcon from "../assets/icon/home.svg";
@@ -234,7 +237,7 @@ const Navbar = () => {
         </div>
 
         <div className="sidebar-links">
-          <NavLink to="/" onClick={() => setSidebarOpen(false)}>
+          <NavLink to="/" onClick={() => setSidebarOpen(false)} >
             Home
           </NavLink>
           <NavLink to="/products" onClick={() => setSidebarOpen(false)}>
@@ -260,15 +263,16 @@ const Navbar = () => {
         <div className="sidebar-divider"></div>
 
         <div className="sidebar-extra">
-          <NavLink to="/wishlist" onClick={() => setSidebarOpen(false)}>
-            Wishlist
+          <NavLink to="/wishlist" onClick={() => setSidebarOpen(false)} style={{display: "flex", alignItems: "center", gap: "10px"} }>
+            <img src={wishlistIcon} alt="" /> Wishlist
+            
           </NavLink>
-          <NavLink to="/about" onClick={() => setSidebarOpen(false)}>
-            About Us
+          <NavLink to="/about" onClick={() => setSidebarOpen(false)} style={{display: "flex", alignItems: "center", gap: "10px"} }>
+            <img src={aboutIcon} alt="" />    About Us
           </NavLink>
 
-          <p>Info.admin@heatonlykickcollectibles.com</p>
-          <p>+27665394231</p>
+          <p style={{display: "flex", alignItems: "center", gap: "10px"} }> <img src={mailIcon} alt="" />Info.admin@heatonlykickcollectibles.com</p>
+          <p style={{display: "flex", alignItems: "center", gap: "10px"} }> <img src={callIcon} alt="" />+27665394231</p>
         </div>
       </div>
     </>
