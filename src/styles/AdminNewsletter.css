@@ -1,0 +1,100 @@
+/* ======================
+   PAGE
+====================== */
+
+.newsletter-page{
+display:flex;
+justify-content:center;
+padding:60px;
+color:white;
+}
+
+/* ======================
+   CARD
+====================== */
+
+.newsletter-card{
+background:#1c1c1c;
+border:1px solid #2a2a2a;
+padding:30px;
+border-radius:12px;
+width:100%;
+max-width:700px;
+display:flex;
+flex-direction:column;
+gap:18px;
+box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
+
+.newsletter-card h2{
+font-size:22px;
+font-weight:600;
+margin-bottom:10px;
+}
+
+/* ======================
+   INPUTS
+====================== */
+
+.newsletter-card input,
+.newsletter-card textarea{
+background:#111;
+border:1px solid #333;
+color:white;
+padding:12px 14px;
+border-radius:8px;
+font-size:14px;
+outline:none;
+transition:.2s;
+}
+
+.newsletter-card input:focus,
+.newsletter-card textarea:focus{
+border-color:#555;
+background:#181818;
+}
+
+.newsletter-card textarea{
+min-height:150px;
+resize:vertical;
+}
+
+/* ======================
+   BUTTON
+====================== */
+
+.newsletter-card button{
+margin-top:10px;
+background:black;
+border:1px solid #333;
+padding:14px;
+border-radius:8px;
+color:white;
+font-weight:600;
+cursor:pointer;
+transition:.25s;
+}
+
+.newsletter-card button:hover{
+background:#222;
+}
+
+/* ======================
+   RESPONSIVE
+====================== */
+
+@media (max-width:768px){
+
+.newsletter-card{
+padding:20px;
+}
+
+.newsletter-card h2{
+font-size:18px;
+}
+
+.newsletter-card textarea{
+min-height:120px;
+}
+
+}

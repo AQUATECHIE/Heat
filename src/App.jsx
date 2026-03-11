@@ -11,7 +11,6 @@ import { AuthProvider } from "./context/AuthContext.jsx";
 
 import Navbar from "./components/Navbar";
 
-
 import Home from "./pages/Home";
 import AllProductsCollection from "./pages/AllProductsCollection";
 import ShoesCollection from "./pages/ShoesCollection";
@@ -37,6 +36,7 @@ import AdminProducts from "./pages/AdminProducts.jsx";
 import AdminCreateProduct from "./pages/AdminCreateProduct.jsx";
 import AdminUsers from "./pages/AdminUsers.jsx";
 import AdminRoute from "./components/AdminRoute.jsx";
+import AdminNewsletter from "./pages/AdminNewsletter.jsx";
 
 function LayoutWrapper() {
   const location = useLocation();
@@ -49,7 +49,6 @@ function LayoutWrapper() {
       {!isAdminRoute && <Navbar />}
 
       <Routes>
-
         {/* PUBLIC ROUTES */}
 
         <Route path="/" element={<Home />} />
@@ -88,8 +87,8 @@ function LayoutWrapper() {
           <Route path="analytics" element={<AdminAnalytics />} />
 
           <Route path="users" element={<AdminUsers />} />
+          <Route path="newsletter" element={<AdminNewsletter />} />
         </Route>
-
       </Routes>
     </>
   );

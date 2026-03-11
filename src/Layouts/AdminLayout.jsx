@@ -88,6 +88,12 @@ const AdminLayout = () => {
             {collapsed && <div className="tooltip">Analytics</div>}
           </NavLink>
 
+          <NavLink to="/admin/newsletter" onClick={closeMobile}>
+            <FaChartLine />
+            {!collapsed && <span>NewsLetter</span>}
+            {collapsed && <div className="tooltip">NewsLetter</div>}
+          </NavLink>
+
         </nav>
       </aside>
 

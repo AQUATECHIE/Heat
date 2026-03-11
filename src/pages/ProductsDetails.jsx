@@ -102,6 +102,23 @@ const ProductDetails = () => {
       console.error(error.response?.data?.message || "Failed to add to cart");
     }
   };
+  const handleBuyNow = async () => {
+    if (product.category === "shoes" && !selectedSize) {
+      setSizeError(true);
+      return;
+    }
+
+    setSizeError(false);
+
+    try {
+      await addToCart(product._id, quantity, selectedSize);
+
+      // redirect directly to checkout
+      navigate("/checkout");
+    } catch (error) {
+      console.error(error.response?.data?.message || "Buy now failed");
+    }
+  };
 
   return (
     <>
@@ -212,7 +229,9 @@ const ProductDetails = () => {
         </div>
 
         {/* BUY NOW */}
-        <button className="buy-btn">BUY NOW</button>
+        <button className="buy-btn" onClick={handleBuyNow}>
+          BUY NOW
+        </button>
 
         {/* SHIPPING */}
         <div className="shipping">
