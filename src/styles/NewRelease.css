@@ -1,134 +1,133 @@
-.new-release{
-background:#f2f2f2;
-padding-top:10px;
-padding-bottom:40px;
+.new-release {
+   background: #f2f2f2;
+   padding-top: 10px;
+
 }
 
 /* =====================
    HEADER
 ===================== */
 
-.section-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:20px;
-padding:10px 15px;
+.section-header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 10px 15px 10px 15px;
 }
 
-.section-header h2{
-font-size:16px;
-font-weight:600;
+.section-header h2 {
+   font-size: 16px;
+   font-weight: 600;
 }
 
-.see-all{
-cursor:pointer;
-font-weight:500;
-transition:opacity .2s;
-font-size:13px;
+.see-all {
+   cursor: pointer;
+   font-weight: 500;
+   transition: opacity .2s;
+   font-size: 13px;
 }
 
-.see-all:hover{
-opacity:.7;
+.see-all:hover {
+   opacity: .7;
 }
 
 /* =====================
    SLIDER
 ===================== */
 
-.product-slider{
-display:flex;
-gap:15px;
-overflow-x:auto;
-scroll-snap-type:x mandatory;
-padding:0 15px 20px;
+.product-slider {
+   display: flex;
+   gap: 15px;
+   overflow-x: auto;
+   scroll-snap-type: x mandatory;
+   padding: 0 15px 20px 15px;
 }
 
 /* hide scrollbar */
 
-.product-slider::-webkit-scrollbar{
-display:none;
+.product-slider::-webkit-scrollbar {
+   display: none;
 }
 
 /* =====================
    PRODUCT CARD
 ===================== */
 
-.product-card{
-min-width:48%;
-background:#fff;
-border-radius:12px;
-padding:15px;
-position:relative;
-transition:transform .3s ease;
-scroll-snap-align:start;
-flex-shrink:0;
+.product-card {
+   min-width: 48%;
+   background: #fff;
+   border-radius: 12px;
+   padding: 15px;
+   position: relative;
+   transition: transform .3s ease;
+   scroll-snap-align: start;
+   flex-shrink: 0;
 }
 
-.product-card:hover{
-transform:translateY(-5px);
+.product-card:hover {
+   transform: translateY(-5px);
 }
 
 /* =====================
    BOOKMARK
 ===================== */
 
-.bookmark{
-position:absolute;
-top:10px;
-right:10px;
-cursor:pointer;
+.bookmark {
+   position: absolute;
+   top: 10px;
+   right: 10px;
+   cursor: pointer;
 }
 
-.bookmark img{
-width:18px;
-height:24px;
+.bookmark img {
+   width: 18px;
+   height: 24px;
 }
 
 /* =====================
    IMAGE
 ===================== */
 
-.product-image{
-width:100%;
-height:180px;
-object-fit:contain;
-margin-bottom:12px;
+.product-image {
+   width: 100%;
+   height: 180px;
+   object-fit: contain;
+   margin-bottom: 12px;
 }
 
 /* =====================
    INFO
 ===================== */
 
-.product-info h4{
-font-size:12px;
-margin-bottom:6px;
-color:#221f1f;
-line-height:1.3;
+.product-info h4 {
+   font-size: 12px;
+   margin-bottom: 6px;
+   color: #221f1f;
+   line-height: 1.3;
 }
 
-.product-info p{
-font-size:14px;
-font-weight:700;
+.product-info p {
+   font-size: 14px;
+   font-weight: 700;
 }
 
 /* =====================
    TABLET
 ===================== */
 
-@media (min-width:768px){
+@media (min-width:768px) {
 
-.product-card{
-min-width:30%;
-}
+   .product-card {
+      min-width: 30%;
+   }
 
-.product-image{
-height:200px;
-}
+   .product-image {
+      height: 200px;
+   }
 
-.product-info h4{
-font-size:13px;
-}
+   .product-info h4 {
+      font-size: 13px;
+   }
 
 }
 
@@ -136,21 +135,21 @@ font-size:13px;
    DESKTOP
 ===================== */
 
-@media (min-width:1024px){
+@media (min-width:1024px) {
 
-.product-slider{
-overflow-x:hidden;
-flex-wrap:wrap;
-justify-content:flex-start;
-}
+   .product-slider {
+      overflow-x: hidden;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+   }
 
-.product-card{
-min-width:22%;
-}
+   .product-card {
+      min-width: 22%;
+   }
 
-.product-image{
-height:220px;
-}
+   .product-image {
+      height: 220px;
+   }
 
 }
 
@@ -158,18 +157,18 @@ height:220px;
    LARGE SCREENS
 ===================== */
 
-@media (min-width:1400px){
+@media (min-width:1400px) {
 
-.product-card{
-min-width:18%;
-}
+   .product-card {
+      min-width: 18%;
+   }
 
-.product-image{
-height:240px;
-}
+   .product-image {
+      height: 240px;
+   }
 
-.section-header h2{
-font-size:18px;
-}
+   .section-header h2 {
+      font-size: 18px;
+   }
 
 }

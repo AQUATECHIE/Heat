@@ -17,6 +17,7 @@ const ProductDetails = () => {
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
+  const [relatedProducts, setRelatedProducts] = useState([]);
 
   const [product, setProduct] = useState(null);
   const [currentImage, setCurrentImage] = useState(0);
@@ -32,7 +33,23 @@ const ProductDetails = () => {
   const fetchProduct = async () => {
     try {
       const { data } = await api.get(`/products/${id}`);
+
       setProduct(data);
+
+      /* FETCH RELATED PRODUCTS BY CATEGORY */
+      const related = await api.get("/products", {
+        params: {
+          category: data.category,
+          limit: 4,
+        },
+      });
+
+      /* remove current product */
+      const filtered = (related.data.products || related.data)
+        .filter((p) => p._id !== data._id)
+        .slice(0, 4);
+
+      setRelatedProducts(filtered);
     } catch (error) {
       console.error(error.response?.data?.message || "Failed to fetch product");
     } finally {
@@ -247,6 +264,32 @@ const ProductDetails = () => {
           </ul>
         </div>
       </div>
+
+      {relatedProducts.length > 0 && (
+        <div className="related-products">
+          <h3 className="related-title">YOU MAY ALSO LIKE</h3>
+
+          <div className="related-slider">
+            {relatedProducts.map((item) => (
+              <div
+                key={item._id}
+                className="related-card"
+                onClick={() => navigate(`/product/${item._id}`)}
+              >
+                <img src={item.images?.[0]?.url} alt={item.name} />
+
+                <div className="related-info">
+                  <p>{item.name}</p>
+
+                  <span>
+                    R{Number(item.finalPrice || item.price).toLocaleString()}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* CART MODAL */}
       {cartModal && (

@@ -13,6 +13,24 @@ const AuthPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [activeTab, setActiveTab] = useState("signin");
   const [showOTP, setShowOTP] = useState(false);
+  const [resendTimer, setResendTimer] = useState(60);
+  const [canResend, setCanResend] = useState(false);
+
+  useEffect(() => {
+    let timer;
+
+    if (showOTP && resendTimer > 0) {
+      timer = setTimeout(() => {
+        setResendTimer((prev) => prev - 1);
+      }, 1000);
+    }
+
+    if (resendTimer === 0) {
+      setCanResend(true);
+    }
+
+    return () => clearTimeout(timer);
+  }, [resendTimer, showOTP]);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
@@ -27,15 +45,15 @@ const AuthPage = () => {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const inputsRef = useRef([]);
 
- useEffect(() => {
-  if (user) {
-    if (user.role === "admin") {
-      navigate("/admin", { replace: true });
-    } else {
-      navigate("/", { replace: true });
+  useEffect(() => {
+    if (user) {
+      if (user.role === "admin") {
+        navigate("/admin", { replace: true });
+      } else {
+        navigate("/", { replace: true });
+      }
     }
-  }
-}, [user, navigate]);
+  }, [user, navigate]);
 
   const showModal = (message, type = "success") => {
     setModalMessage(message);
@@ -74,24 +92,41 @@ const AuthPage = () => {
 
   /* VERIFY OTP */
 
-  const handleVerifyOTP = async (e) => {
-    e.preventDefault();
+const handleVerifyOTP = async (e) => {
+  if (e) e.preventDefault();
 
-    const otpCode = otp.join("");
+  const otpCode = otp.join("");
+
+  try {
+    await api.post("/auth/verify-otp", {
+      email: formData.email,
+      otp: otpCode,
+    });
+
+    showModal("Verification successful! You can now login.");
+  } catch (err) {
+    showModal(
+      err.response?.data?.message || "OTP verification failed",
+      "error"
+    );
+  }
+};
+  const handleResendOtp = async () => {
+    if (!canResend) return;
 
     try {
-      await api.post("/auth/verify-otp", {
+      await api.post("/auth/resend-otp", {
         email: formData.email,
-        otp: otpCode,
       });
 
-      showModal("Verification successful! You can now login.");
-      
+      showModal("New OTP sent to your email", "info");
+
+      setResendTimer(60);
+      setCanResend(false);
     } catch (err) {
-      showModal(err.response?.data?.message || "OTP verification failed", "error");
+      showModal("Failed to resend OTP", "error");
     }
   };
-
   /* LOGIN */
 
   const handleLogin = async (e) => {
@@ -110,7 +145,7 @@ const AuthPage = () => {
           email: data.email,
           role: data.role,
         },
-        data.token
+        data.token,
       );
 
       navigate(data.role === "admin" ? "/admin" : "/");
@@ -135,6 +170,8 @@ const AuthPage = () => {
               <input
                 key={index}
                 type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
                 maxLength="1"
                 value={digit}
                 ref={(el) => (inputsRef.current[index] = el)}
@@ -159,6 +196,16 @@ const AuthPage = () => {
           </div>
 
           <button type="submit">SUBMIT</button>
+
+          <p className="resend-text">
+            {canResend ? (
+              <span className="resend-link" onClick={handleResendOtp}>
+                Resend Code
+              </span>
+            ) : (
+              <>Resend in {resendTimer}s</>
+            )}
+          </p>
         </form>
 
         {modalOpen && (
@@ -281,7 +328,13 @@ const AuthPage = () => {
       {modalOpen && (
         <div className="auth-modal-overlay">
           <div className="auth-modal">
-            <h3>{modalType === "success" ? "Success" : "Error"}</h3>
+            <h3>
+              {modalType === "success"
+                ? "Success"
+                : modalType === "error"
+                  ? "Error"
+                  : "Notice"}
+            </h3>
             <p>{modalMessage}</p>
 
             <button onClick={closeModal}>OK</button>

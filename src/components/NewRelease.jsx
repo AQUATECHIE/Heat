@@ -20,7 +20,7 @@ const NewRelease = () => {
     },
     {
       id: 2,
-      name: "BALENCIAGA ALASKA PUFFER BOOT",
+      name: "BALENCIAGA ALASKA",
       price: "R1,200",
       image: shoe2,
     },

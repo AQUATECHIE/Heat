@@ -1,9 +1,9 @@
 .product-page {
-  padding: 90px 20px 40px;
+  padding: 90px 0 40px;
   background: white;
   position: relative;
-  max-width: 1400px;
-  margin: auto;
+  width: 100%;
+  /* margin: auto; */
 }
 
 /* TOOLBAR */
@@ -13,7 +13,7 @@
   top: 70px;
   background: white;
   z-index: 50;
-  padding-bottom: 10px;
+  padding: 10px;
 }
 
 /* TITLE */
@@ -28,7 +28,7 @@
 .filter-row {
   padding: 12px 0;
   border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
+  
   display: flex;
   align-items: center;
   gap: 8px;
@@ -48,8 +48,8 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
 }
 
 /* CARD */
@@ -225,7 +225,7 @@
 @media (max-width: 768px) {
 
   .product-page {
-    padding: 90px 15px 40px;
+    padding: 90px 0 40px;
   }
 
   .grid {
