@@ -34,7 +34,7 @@ const WishlistPage = () => {
         <h2 className="wishlist-title">Saved Items</h2>
 
         {wishlistItems.length === 0 ? (
-          <div className="empty-wishlist">
+          <div className="empty-wishlist" style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
             <p>Your wishlist is empty.</p>
           </div>
         ) : (
@@ -44,12 +44,13 @@ const WishlistPage = () => {
             {wishlistItems.map((item) => (
 
               <div key={item._id} className="wishlist-item">
-
+                <div style={{display: "flex", gap: "5px"}}>
+                  
                 <img
                   src={item.images?.[0]?.url}
                   alt={item.name}
+                  style={{marginTop: "10px"}}
                 />
-
                 <div className="wishlist-details">
 
                   <p className="wishlist-name">
@@ -81,6 +82,8 @@ const WishlistPage = () => {
                   )}
 
                 </div>
+                </div>
+
 
 
                 <div className="wishlist-actions">

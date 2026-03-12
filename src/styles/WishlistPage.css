@@ -23,9 +23,10 @@ background:white;
 .wishlist-item{
 display:flex;
 align-items:flex-start;
+flex-direction: column;
 gap:15px;
 border-bottom:1px solid #ddd;
-padding:15px;
+padding:5px;
 background:white;
 }
 
@@ -71,6 +72,7 @@ display:flex;
 justify-content:space-between;
 margin-top:10px;
 width:100%;
+padding: 10px;
 }
 
 .move-btn{
@@ -136,4 +138,13 @@ height:140px;
 font-size:16px;
 }
 
+}
+.empty-wishlist{
+display:flex;
+justify-content:center;
+align-items:center;
+height:60vh;
+text-align:center;
+font-size:16px;
+color:#666;
 }
