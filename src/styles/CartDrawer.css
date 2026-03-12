@@ -46,6 +46,7 @@ cursor:pointer;
 flex:1;
 overflow-y:auto;
 padding:20px;
+padding-bottom:120px;
 display:flex;
 flex-direction:column;
 gap:20px;
@@ -112,7 +113,11 @@ margin-left:10px;
 /* FOOTER */
 
 .cart-footer{
+position:sticky;
+bottom:0;
+background:#eaeaea;
 padding:20px;
+padding-bottom:calc(20px + env(safe-area-inset-bottom));
 border-top:1px solid #ddd;
 }
 

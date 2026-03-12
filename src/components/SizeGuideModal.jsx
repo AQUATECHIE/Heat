@@ -1,78 +1,38 @@
 import "../styles/SizeGuideModal.css";
-import measureImg from "../assets/feet.png"; // foot measurement image
-import Table from '../assets/table.png'
+import measureImg from "../assets/feet.png";
+import Table from "../assets/table.png";
 import { FaTimes } from "react-icons/fa";
 
-const SizeGuideModal = ({ close }) => {
+const SizeGuideModal = ({ open, close }) => {
   return (
-    <div className="size-modal-overlay">
+    <div className={`size-guide-drawer ${open ? "open" : ""}`}>
 
-      <div className="size-modal">
+      {/* HEADER */}
 
-        <div className="size-modal-header">
-          <button onClick={close}>
-            <FaTimes />
-          </button>
-          <h3>SIZE GUIDE</h3>
-        </div>
+      <div className="size-guide-header">
+        <button onClick={close}>
+          <FaTimes />
+        </button>
 
-        <div className="size-modal-body">
+        <h3>SIZE GUIDE</h3>
+      </div>
 
-          {/* SIZE TABLE */}
-            <img src={Table} alt="table-size" />
+      {/* BODY */}
 
-          {/* <table className="size-table">
-            <tbody>
+      <div className="size-guide-body">
 
-              <tr>
-                <td>Size</td>
-                <td>39</td><td>40</td><td>41</td><td>42</td><td>43</td>
-                <td>44</td><td>45</td><td>46</td><td>47</td><td>48</td>
-              </tr>
+        <img src={Table} alt="size table" className="size-table-img"/>
 
-              <tr>
-                <td>US</td>
-                <td>6</td><td>7</td><td>8</td><td>9</td><td>10</td>
-                <td>11</td><td>12</td><td>13</td><td>14</td><td>15</td>
-              </tr>
+        <h4>HOW TO MEASURE</h4>
 
-              <tr>
-                <td>EUR</td>
-                <td>39</td><td>40</td><td>41</td><td>42</td><td>43</td>
-                <td>44</td><td>45</td><td>46</td><td>47</td><td>48</td>
-              </tr>
+        <p className="measure-desc">
+          In order to select the correct shoe size, we recommend
+          you measure your feet using the following guidelines.
+        </p>
 
-              <tr>
-                <td>UK</td>
-                <td>5</td><td>6</td><td>7</td><td>8</td><td>9</td>
-                <td>10</td><td>11</td><td>12</td><td>13</td><td>14</td>
-              </tr>
+        <img src={measureImg} alt="measure foot" className="measure-img"/>
 
-              <tr>
-                <td>JP</td>
-                <td>26</td><td>26.5</td><td>27</td><td>27.5</td><td>28.5</td>
-                <td>29</td><td>29.5</td><td>30</td><td>30.5</td><td>31</td>
-              </tr>
-
-              <tr>
-                <td>KR</td>
-                <td>245</td><td>250</td><td>260</td><td>270</td><td>280</td>
-                <td>290</td><td>300</td><td>310</td><td>320</td><td>330</td>
-              </tr>
-
-            </tbody>
-          </table> */}
-
-          {/* HOW TO MEASURE */}
-
-          <h4>HOW TO MEASURE</h4>
-
-          <p>
-            In order to select the correct hoe size, we recommend
-            you measure your feet using the following guidelines.
-          </p>
-
-          <img src={measureImg} alt="measure foot" className="measure-img"/>
+        <div className="measure-text">
 
           <p>
             Wear the kind of socks or tights you would normally
@@ -96,7 +56,9 @@ const SizeGuideModal = ({ close }) => {
           </p>
 
         </div>
+
       </div>
+
     </div>
   );
 };

@@ -47,7 +47,10 @@ const CartDrawer = ({ open, onClose }) => {
 
               <button
                 className="start-shopping-btn"
-                onClick={() => navigate("/products")}
+                onClick={() => {
+                  onClose();
+                  navigate("/products");
+                }}
               >
                 START SHOPPING
               </button>

@@ -16,7 +16,7 @@ const ProductDetails = () => {
   const { addToCart } = useCart();
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
-  const [showSizeGuide, setShowSizeGuide] = useState(false);
+  const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
   const [relatedProducts, setRelatedProducts] = useState([]);
 
   const [product, setProduct] = useState(null);
@@ -197,7 +197,7 @@ const ProductDetails = () => {
           <div className="size-section">
             <div className="size-header">
               <span>SIZE:</span>
-              <div onClick={() => setShowSizeGuide(true)}>
+              <div onClick={() => setSizeGuideOpen(true)}>
                 <img src={sizeIcon} alt="size" className="size-guide" />
                 Size Guide
               </div>
@@ -342,9 +342,10 @@ const ProductDetails = () => {
         </div>
       )}
 
-      {showSizeGuide && (
-        <SizeGuideModal close={() => setShowSizeGuide(false)} />
-      )}
+      <SizeGuideModal
+        open={sizeGuideOpen}
+        close={() => setSizeGuideOpen(false)}
+      />
       <Footer />
     </>
   );
