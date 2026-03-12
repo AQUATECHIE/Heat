@@ -142,6 +142,12 @@ const CheckoutPage = () => {
             address: formData.address,
             city: formData.city,
           },
+
+          items: cart.map((item) => ({
+            productId: item.product._id,
+            quantity: item.quantity,
+            selectedSize: item.size || item.selectedSize,
+          })),
         });
       }
 
@@ -257,7 +263,14 @@ Shipping: ₦${order.shipping.toLocaleString()}
               <span onClick={() => navigate("/auth")}>Sign in</span>
             </div>
 
-            <input placeholder="Email or mobile number" />
+            <input
+              name="email"
+              placeholder="Email or mobile number"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+            />
 
             <label className="checkbox">
               <input type="checkbox" />
@@ -271,14 +284,49 @@ Shipping: ₦${order.shipping.toLocaleString()}
             <h3>Delivery</h3>
 
             <input placeholder="Country or region" />
-            <input placeholder="First name" />
-            <input placeholder="Last name" />
-            <input placeholder="Address" />
+            <input
+              name="firstName"
+              placeholder="First name"
+              value={formData.firstName}
+              onChange={(e) =>
+                setFormData({ ...formData, firstName: e.target.value })
+              }
+            />
+            <input
+              name="lastName"
+              placeholder="Last name"
+              value={formData.lastName}
+              onChange={(e) =>
+                setFormData({ ...formData, lastName: e.target.value })
+              }
+            />
+            <input
+              name="address"
+              placeholder="Address"
+              value={formData.address}
+              onChange={(e) =>
+                setFormData({ ...formData, address: e.target.value })
+              }
+            />
             <input placeholder="Apartment, suite, etc. (optional)" />
-            <input placeholder="City" />
+            <input
+              name="city"
+              placeholder="City"
+              value={formData.city}
+              onChange={(e) =>
+                setFormData({ ...formData, city: e.target.value })
+              }
+            />
             <input placeholder="State" />
             <input placeholder="Postal code (optional)" />
-            <input placeholder="Phone" />
+            <input
+              name="phone"
+              placeholder="Phone"
+              value={formData.phone}
+              onChange={(e) =>
+                setFormData({ ...formData, phone: e.target.value })
+              }
+            />
 
             <label className="checkbox">
               <input type="checkbox" />
@@ -304,7 +352,9 @@ Shipping: ₦${order.shipping.toLocaleString()}
               Credit or Debit card
             </div>
 
-            <button className="pay-btn">PAY NOW</button>
+            <button className="pay-btn" onClick={handleWhatsAppCheckout}>
+              PAY NOW
+            </button>
           </div>
         </div>
       ) : (
