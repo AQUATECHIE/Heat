@@ -48,7 +48,7 @@ const Navbar = () => {
       }
 
       try {
-        const { data } = await api.get(`/products?keyword=${searchTerm}`);
+        const { data } = await api.get(`/products?keyword=${searchTerm}&limit=4`);
         setResults(data.products || data);
       } catch (error) {
         console.error(error);
@@ -218,11 +218,18 @@ const Navbar = () => {
                   setSearchTerm("");
                 }}
               >
-                <img src={product.images?.[0]?.url} alt={product.name} />
+                <img
+                  src={product.images?.[0]?.url}
+                  alt={product.name}
+                  className="search-product-image"
+                />
 
-                <div>
-                  <p>{product.name}</p>
-                  <span>₦{product.price.toLocaleString()}</span>
+                <div className="search-product-info">
+                  <p className="search-product-name">{product.name}</p>
+
+                  <span className="search-product-price">
+                    R{product.price.toLocaleString()}
+                  </span>
                 </div>
               </Link>
             ))}

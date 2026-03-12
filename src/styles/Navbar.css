@@ -122,7 +122,62 @@ color:black;
 .sidebar.open {
   left: 0;
 }
+/* SEARCH RESULTS */
 
+.search-results{
+padding:10px 0;
+}
+
+/* RESULT ITEM */
+
+.search-result-item{
+display:flex;
+align-items:center;
+gap:14px;
+padding:12px 20px;
+text-decoration:none;
+color:#000;
+border-bottom:1px solid #f0f0f0;
+transition:background .2s;
+}
+
+.search-result-item:hover{
+background:#f7f7f7;
+}
+
+/* PRODUCT IMAGE */
+
+.search-product-image{
+width:50px;
+height:50px;
+object-fit:cover;
+border-radius:8px;
+background:#f3f3f3;
+}
+
+/* TEXT WRAPPER */
+
+.search-product-info{
+display:flex;
+flex-direction:column;
+}
+
+/* PRODUCT NAME */
+
+.search-product-name{
+font-size:15px;
+font-weight:600;
+margin:0;
+color:#111;
+}
+
+/* PRODUCT PRICE */
+
+.search-product-price{
+font-size:13px;
+color:#777;
+margin-top:3px;
+}
 /* Header */
 .sidebar-header {
   height: 70px;              
