@@ -376,3 +376,53 @@ to{
 transform:translateY(0);
 }
 }
+
+/* =======================
+   GUEST CHECKOUT
+======================= */
+
+.guest-checkout{
+background:#fff;
+padding-top:70px;
+}
+
+.guest-section{
+padding:20px;
+border-bottom:1px solid #dcdcdc;
+}
+
+.section-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px;
+}
+
+.section-header span{
+font-size:14px;
+color:#666;
+text-decoration:underline;
+cursor:pointer;
+}
+
+/* INPUT */
+
+.guest-section input{
+width:100%;
+padding:16px;
+border-radius:10px;
+border:1px solid #dcdcdc;
+margin-bottom:12px;
+font-size:14px;
+}
+
+/* CHECKBOX */
+
+.checkbox{
+display:flex;
+align-items:center;
+gap:8px;
+font-size:13px;
+color:#555;
+margin-top:10px;
+}

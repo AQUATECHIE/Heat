@@ -128,34 +128,44 @@
    PASSWORD TOGGLE
 ======================= */
 
-.password-wrapper {
-  position: relative;
-  width: 100%;
-  margin-bottom: 15px;
+.password-wrapper{
+  position:relative;
+  width:100%;
+  margin-bottom:15px;
 }
 
-.password-wrapper input {
-  width: 100%;
-  padding: 14px;
-  padding-right: 45px;
-  border-radius: 6px;
-  border: 1px solid #ddd;
-  font-size: 14px;
+.password-wrapper input{
+  width:100%;
+  padding:14px;
+  padding-right:50px;
+  border-radius:6px;
+  border:1px solid #ddd;
+  font-size:14px;
 }
 
-.toggle-password {
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: #777;
-  font-size: 16px;
-  transition: 0.2s;
+/* FIXED CENTER ALIGNMENT */
+
+.toggle-password{
+  position:absolute;
+  right:12px;
+  top:0;
+  bottom:0;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  width:40px;
+  cursor:pointer;
+  color:#777;
 }
 
-.toggle-password:hover {
-  color: black;
+.toggle-password svg{
+  font-size:18px;
+}
+
+.toggle-password:hover{
+  color:black;
 }
 
 .auth-modal-overlay {
