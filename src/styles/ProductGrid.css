@@ -340,11 +340,12 @@ padding:8px 14px;
 border:1px solid #ddd;
 background:white;
 cursor:pointer;
+border-radius: 5px;
 }
 
 .size-options button.active{
-background:black;
-color:white;
+border: 1px solid black;
+color:black;
 }
 
 .size-actions{
@@ -356,4 +357,5 @@ justify-content:center;
   background-color: black;
   color: white;
   padding: 8px 20px;
+  border-radius: 5px;
 }

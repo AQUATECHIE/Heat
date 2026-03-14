@@ -395,7 +395,13 @@ border-bottom:1px solid #dcdcdc;
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:10px;
+margin-bottom:12px;
+width:100%;
+}
+
+.section-header h3{
+font-size:16px;
+margin-left: -10px;
 }
 
 .section-header span{

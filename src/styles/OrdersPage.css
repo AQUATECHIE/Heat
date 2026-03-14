@@ -55,13 +55,35 @@ margin-bottom:10px;
 font-size:14px;
 }
 
+/* STATUS BASE */
+
 .status{
-background:#dff5e3;
-color:#23a455;
 padding:5px 12px;
 border-radius:20px;
 font-size:12px;
 font-weight:500;
+text-transform:capitalize;
+}
+
+/* PENDING */
+
+.status.pending{
+background:#fff3cd;
+color:#ff9800;
+}
+
+/* DELIVERED */
+
+.status.delivered{
+background:#dff5e3;
+color:#23a455;
+}
+
+/* FAILED */
+
+.status.failed{
+background:#fde2e2;
+color:#e53935;
 }
 
 /* ORDER ITEM */
