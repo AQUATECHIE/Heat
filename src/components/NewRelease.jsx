@@ -68,7 +68,7 @@ const NewRelease = () => {
               <h4>{product.name}</h4>
 
               <p>
-                ₦{Number(product.price).toLocaleString()}
+                R{Number(product.price).toLocaleString()}
               </p>
             </div>
 

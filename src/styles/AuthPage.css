@@ -158,10 +158,12 @@
   width:40px;
   cursor:pointer;
   color:#777;
+  margin-top: -12px;
 }
 
 .toggle-password svg{
   font-size:18px;
+
 }
 
 .toggle-password:hover{
