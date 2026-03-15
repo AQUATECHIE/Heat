@@ -281,7 +281,7 @@ Shipping: ₦${order.shipping.toLocaleString()}
           {/* DELIVERY */}
 
           <div className="guest-section">
-            <h3 style={{marginBottom: "10px"}}>Delivery</h3>
+            <h3  className="guest-title">Delivery</h3>
 
             <input placeholder="Country or region" />
             <input

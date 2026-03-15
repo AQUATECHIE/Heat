@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../api/axios";
 import Footer from "../components/Footer";
 import "../styles/OrdersPage.css";
-import searchIcon from "../assets/icon/search.svg"
+import searchIcon from "../assets/icon/search.svg";
 
 const OrdersHistory = () => {
   const [orders, setOrders] = useState([]);
@@ -41,7 +41,10 @@ const OrdersHistory = () => {
       <>
         <div className="orders-page">
           <h2>My Orders</h2>
-          <p>No orders yet.</p>
+
+          <div className="no-orders">
+            <p>No orders yet.</p>
+          </div>
         </div>
         <Footer />
       </>

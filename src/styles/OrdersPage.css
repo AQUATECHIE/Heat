@@ -8,7 +8,7 @@ min-height:100vh;
 /* PAGE TITLE */
 
 .orders-page h2{
-font-size:18px;
+font-size:20px;
 font-weight:500;
 margin-bottom:15px;
 }
@@ -145,4 +145,27 @@ padding-right:20px;
 background: inherit;
 }
 
+}
+
+
+.empty-orders{
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+min-height:70vh;
+}
+
+.no-orders{
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:60vh;
+text-align:center;
+}
+
+.no-orders p{
+font-size:14px;
+color:#666;
 }

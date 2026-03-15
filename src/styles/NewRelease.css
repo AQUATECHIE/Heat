@@ -40,7 +40,7 @@ display:flex;
 gap:15px;
 overflow-x:auto;
 scroll-snap-type:x mandatory;
-padding:0 15px 20px 15px;
+padding:0 20px 20px 20px;
 scroll-behavior:smooth;
 }
 
@@ -55,14 +55,13 @@ scroll-behavior:smooth;
 ===================== */
 
 .product-card {
-   min-width: 40%;
+   flex: 0 0 160px; /* fixed width */
+   width: 160px;
    background: #fff;
    border-radius: 12px;
-   /* padding: 5px; */
    position: relative;
    transition: transform .3s ease;
    scroll-snap-align: start;
-   flex-shrink: 0;
 }
 
 .product-card:hover {

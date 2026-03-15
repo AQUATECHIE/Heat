@@ -46,6 +46,7 @@ const NewRelease = () => {
       </div>
 
       <div className="product-slider">
+        
 
         {products.map((product) => (
           <div
