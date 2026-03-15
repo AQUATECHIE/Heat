@@ -210,8 +210,8 @@
 
 @media (max-width: 1024px) {
 
-  .grid {
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+   .grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .filter-panel {
@@ -358,4 +358,22 @@ justify-content:center;
   color: white;
   padding: 8px 20px;
   border-radius: 5px;
+}
+
+/* DESKTOP */
+
+@media (min-width: 1200px) {
+
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .product-page {
+  padding: 90px 20px 40px;
+  background: white;
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  margin: auto;
+}
+
 }

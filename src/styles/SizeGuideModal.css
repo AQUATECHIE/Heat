@@ -122,3 +122,29 @@ color:#444;
 line-height:1.5;
 margin-bottom:14px;
 }
+
+@media (min-width:768px){
+
+.size-guide-drawer{
+width:420px;
+right:-420px;
+}
+
+.size-guide-drawer.open{
+right:0;
+}
+
+}
+
+@media (min-width:1200px){
+
+.size-guide-drawer{
+width:480px;
+right:-480px;
+}
+
+.size-guide-drawer.open{
+right:0;
+}
+
+}

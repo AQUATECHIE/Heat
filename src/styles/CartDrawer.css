@@ -137,3 +137,29 @@ padding:15px;
 font-weight:600;
 cursor:pointer;
 }
+
+@media (min-width: 768px) {
+
+.cart-drawer{
+width:420px;
+right:-420px;
+}
+
+.cart-drawer.open{
+right:0;
+}
+
+}
+
+@media (min-width: 1200px) {
+
+.cart-drawer{
+width:480px;
+right:-480px;
+}
+
+.cart-drawer.open{
+right:0;
+}
+
+}

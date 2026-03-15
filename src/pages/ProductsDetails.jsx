@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../api/axios";
 import "../styles/ProductDetails.css";
@@ -103,7 +103,7 @@ const ProductDetails = () => {
   /* ADD TO CART */
 
   const handleAddToCart = async () => {
-    if (product.category === "shoes" && !selectedSize) {
+    if (product.specifications?.size?.length > 0 && !selectedSize) {
       setSizeError(true);
       return;
     }
@@ -120,7 +120,7 @@ const ProductDetails = () => {
     }
   };
   const handleBuyNow = async () => {
-    if (product.category === "shoes" && !selectedSize) {
+    if (product.specifications?.size?.length > 0 && !selectedSize) {
       setSizeError(true);
       return;
     }
@@ -193,10 +193,13 @@ const ProductDetails = () => {
         </div>
 
         {/* SIZE SELECTOR */}
-        {product.category === "shoes" && product.specifications?.size && (
+        {/* SIZE SELECTOR */}
+
+        {product.specifications?.size?.length > 0 && (
           <div className="size-section">
             <div className="size-header">
               <span>SIZE:</span>
+
               <div onClick={() => setSizeGuideOpen(true)}>
                 <img src={sizeIcon} alt="size" className="size-guide" />
                 Size Guide
@@ -271,10 +274,11 @@ const ProductDetails = () => {
 
           <div className="related-slider">
             {relatedProducts.map((item) => (
-              <div
+              <Link
                 key={item._id}
                 className="related-card"
-                onClick={() => navigate(`/product/${item._id}`)}
+                to={`/product/${item._id}`}
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               >
                 <img src={item.images?.[0]?.url} alt={item.name} />
 
@@ -285,7 +289,7 @@ const ProductDetails = () => {
                     R{Number(item.finalPrice || item.price).toLocaleString()}
                   </span>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

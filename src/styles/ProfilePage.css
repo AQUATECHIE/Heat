@@ -70,3 +70,18 @@
   cursor: pointer;
   border-radius: 8px;
 }
+
+/* DESKTOP CENTERED PROFILE PAGE */
+
+@media (min-width:1024px){
+
+.profile-page{
+max-width:720px;
+margin-left:auto;
+margin-right:auto;
+padding-left:20px;
+padding-right:20px;
+background: inherit;
+}
+
+}

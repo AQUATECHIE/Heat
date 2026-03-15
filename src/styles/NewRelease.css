@@ -137,21 +137,21 @@ scroll-behavior:smooth;
    DESKTOP
 ===================== */
 
-@media (min-width:1024px) {
+@media (min-width:1024px){
 
-   .product-slider {
-      overflow-x: hidden;
-      flex-wrap: wrap;
-      justify-content: flex-start;
-   }
+.product-slider{
+overflow-x:auto;
+flex-wrap:nowrap;
+scroll-snap-type:x mandatory;
+}
 
-   .product-card {
-      min-width: 22%;
-   }
+.product-card{
+min-width:20%;
+}
 
-   .product-image {
-      height: 220px;
-   }
+.product-image{
+height:220px;
+}
 
 }
 
