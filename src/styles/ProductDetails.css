@@ -397,7 +397,7 @@ font-size:14px;
 
 @media (min-width:1024px){
 
-.product-details{
+.product-details,.related-products{
 width:100%;
 padding:90px 60px 40px;
 box-sizing:border-box;
