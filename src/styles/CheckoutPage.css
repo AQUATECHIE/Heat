@@ -458,18 +458,24 @@ font-weight:500;
 .guest-checkout{
 max-width:720px;
 margin:auto;
-padding-left:20px;
-padding-right:20px;
+padding:0;
 }
 
-/* REMOVE MOBILE SIDE PADDING */
+/* SECTIONS KEEP SAME INTERNAL SPACING */
 
 .checkout-user,
 .ship-section,
-.order-summary,
 .payment-section,
 .guest-section{
-padding:20px;
+padding:20px 0;
+}
+.order-summary {
+   padding: 20px;
+}
+/* FIX HEADER ALIGNMENT */
+
+.section-header h3{
+margin:0;
 }
 
 /* ADDRESS MODAL POPUP (DESKTOP) */
@@ -489,4 +495,3 @@ animation:fadeInScale .25s ease;
 }
 
 }
-
