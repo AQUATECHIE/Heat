@@ -259,8 +259,8 @@ Shipping: ₦${order.shipping.toLocaleString()}
 
           <div className="guest-section">
             <div className="section-header">
-              <h3>Contact</h3>
-              <span onClick={() => navigate("/auth")}>Sign in</span>
+              <h3 style={{marginLeft: "-15px"}}>Contact</h3>
+              <span onClick={() => navigate("/auth")} style={{marginRight: "-15px"}}>Sign in</span>
             </div>
 
             <input

@@ -35,7 +35,7 @@ const ProductDetails = () => {
       const { data } = await api.get(`/products/${id}`);
 
       setProduct(data);
-      const limit = window.innerWidth >= 1024 ? 3 : 4;
+      const limit = window.innerWidth >= 1024 ? 4 : 4;
       /* FETCH RELATED PRODUCTS BY CATEGORY */
       const related = await api.get("/products", {
         params: {
