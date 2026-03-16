@@ -35,19 +35,19 @@ const ProductDetails = () => {
       const { data } = await api.get(`/products/${id}`);
 
       setProduct(data);
-
+      const limit = window.innerWidth >= 1024 ? 3 : 4;
       /* FETCH RELATED PRODUCTS BY CATEGORY */
       const related = await api.get("/products", {
         params: {
           category: data.category,
-          limit: 4,
+          limit,
         },
       });
 
       /* remove current product */
       const filtered = (related.data.products || related.data)
         .filter((p) => p._id !== data._id)
-        .slice(0, 4);
+        .slice(0, limit);
 
       setRelatedProducts(filtered);
     } catch (error) {
