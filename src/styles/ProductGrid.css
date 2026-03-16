@@ -117,6 +117,7 @@
   position: absolute;
   top: 10px;
   right: 10px;
+  background: white;
   width: 35px;
   height: 35px;
   border-radius: 50%;
@@ -132,6 +133,7 @@
 .wishlist-btn img {
   width: 22px;
   height: 22px;
+  margin-top: 10px;
 }
 
 .wishlist-btn.active svg {
