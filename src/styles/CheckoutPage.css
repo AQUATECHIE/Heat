@@ -448,7 +448,11 @@ font-weight:500;
 
 /* DESKTOP CENTERED CHECKOUT */
 
+
+
 @media (min-width:1024px){
+
+/* CENTER CHECKOUT PAGE */
 
 .checkout-page,
 .guest-checkout{
@@ -458,36 +462,31 @@ padding-left:20px;
 padding-right:20px;
 }
 
-/* remove full width feel */
+/* REMOVE MOBILE SIDE PADDING */
 
 .checkout-user,
 .ship-section,
 .order-summary,
 .payment-section,
 .guest-section{
-padding-left:0;
-padding-right:0;
-padding: 20px 0;
+padding:20px;
+}
+
+/* ADDRESS MODAL POPUP (DESKTOP) */
+
+.address-overlay{
+align-items:center;
+justify-content:center;
+}
+
+.address-modal{
+width:520px;
+max-width:90%;
+border-radius:12px;
+padding:25px;
+max-height:85vh;
+animation:fadeInScale .25s ease;
 }
 
 }
 
-/* DESKTOP POPUP ADDRESS MODAL */
-
-@media (min-width:1024px){
-
-  .address-overlay{
-    align-items:center;   /* center vertically */
-    justify-content:center;
-  }
-
-  .address-modal{
-    width:520px;
-    max-width:90%;
-    border-radius:12px;
-    padding:25px;
-    max-height:85vh;
-    animation:fadeInScale .25s ease; /* popup animation instead of slide */
-  }
-
-}

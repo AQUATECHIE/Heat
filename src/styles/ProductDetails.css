@@ -390,3 +390,16 @@ margin-bottom:6px;
 font-weight:700;
 font-size:14px;
 }
+
+/* DESKTOP CENTERED PRODUCT DETAILS */
+
+@media (min-width:1024px){
+
+.product-details{
+max-width:1100px;
+margin:auto;
+padding-left:20px;
+padding-right:20px;
+}
+
+}
