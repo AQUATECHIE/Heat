@@ -37,6 +37,7 @@ import AdminCreateProduct from "./pages/AdminCreateProduct.jsx";
 import AdminUsers from "./pages/AdminUsers.jsx";
 import AdminRoute from "./components/AdminRoute.jsx";
 import AdminNewsletter from "./pages/AdminNewsletter.jsx";
+import ScrollToTop from "./components/ScrollToTop.jsx";
 
 function LayoutWrapper() {
   const location = useLocation();
@@ -45,6 +46,7 @@ function LayoutWrapper() {
 
   return (
     <>
+      <ScrollToTop />
       {/* Hide navbar on admin pages */}
       {!isAdminRoute && <Navbar />}
 
