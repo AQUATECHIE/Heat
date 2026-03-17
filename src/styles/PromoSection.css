@@ -3,6 +3,9 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
+  margin-top:0 ;
+  padding-top: 0;
+  overflow: hidden;
 }
 
 /* Individual Card */
@@ -21,6 +24,7 @@
   height: auto;
   object-fit: contain;
   margin-bottom: 25px;
+  display: block;
 }
 
 .promo-card h3 {
@@ -58,5 +62,8 @@
 
   .promo-card {
     flex: 1;
+  }
+  .bag {
+    height: calc(100% + 50px);
   }
 }

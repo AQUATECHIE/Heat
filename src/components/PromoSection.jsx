@@ -8,7 +8,7 @@ const PromoSection = () => {
   return (
     <section className="promo-section">
       {/* Duffel Bag */}
-      <div className="promo-card">
+      <div className="promo-card bag">
         <img src={bagImage} alt="GG Black Large Duffle Bag" />
         <h3>GG BLACK LARGE DUFFLE BAG</h3>
         <button onClick={() => navigate("/products")}>START SHOPPING</button>
