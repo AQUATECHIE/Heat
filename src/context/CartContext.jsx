@@ -1,11 +1,14 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import api from "../api/axios";
+import { useAuth } from "./AuthContext";
 
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [cartCount, setCartCount] = useState(0);
+  const { user } = useAuth();
+
 
   // 🔥 Always read token dynamically
   const getToken = () => localStorage.getItem("token");
@@ -30,19 +33,40 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    const token = getToken();
+useEffect(() => {
+  const token = getToken();
 
-    if (token) {
-      fetchCart();
-    } else {
-      const guestCart = JSON.parse(localStorage.getItem("guestCart")) || [];
+  /* =========================
+     USER LOGGED IN
+  ========================= */
 
-      setCart(guestCart);
+  if (token && user) {
+    localStorage.removeItem("guestCart");
+    setCart([]);
+    setCartCount(0);
+    fetchCart();
+  }
 
-      setCartCount(guestCart.reduce((acc, item) => acc + item.quantity, 0));
-    }
-  }, []);
+  /* =========================
+     USER LOGGED OUT (GUEST)
+  ========================= */
+
+  if (!token && !user) {
+    // 🔥 CLEAR user cart completely
+    setCart([]);
+    setCartCount(0);
+
+    // 🔥 Load guest cart
+    const guestCart = JSON.parse(localStorage.getItem("guestCart")) || [];
+
+    setCart(guestCart);
+
+    setCartCount(
+      guestCart.reduce((acc, item) => acc + item.quantity, 0)
+    );
+  }
+
+}, [user]); 
 
   const addToCart = async (productId, quantity = 1, selectedSize = null) => {
     const token = getToken();
@@ -140,6 +164,10 @@ export const CartProvider = ({ children }) => {
     setCartCount(guestCart.reduce((acc, item) => acc + item.quantity, 0));
   };
 
+    const clearCart = () => {
+  setCart([]);
+  setCartCount(0);
+};
   const removeCartItem = async (productId) => {
     const token = getToken();
 
@@ -177,6 +205,7 @@ export const CartProvider = ({ children }) => {
         updateCartItem,
         removeCartItem,
         fetchCart,
+        clearCart,
       }}
     >
       {children}
