@@ -35,14 +35,7 @@ const AdminLayout = () => {
   return (
     <div className="admin-container">
 
-      {/* MOBILE OVERLAY */}
-
-      {mobileOpen && (
-        <div
-          className="admin-overlay"
-          onClick={() => setMobileOpen(false)}
-        />
-      )}
+      
 
       {/* SIDEBAR */}
 
