@@ -31,8 +31,13 @@ const CheckoutPage = () => {
 
   const closeModal = () => {
     setModalOpen(false);
+
     if (modalType === "success") {
-      window.location.href = "/orders";
+      if (user) {
+        navigate("/orders");
+      } else {
+        navigate("/");
+      }
     }
   };
 
@@ -191,7 +196,10 @@ Shipping: ₦${order.shipping.toLocaleString()}
         "_blank",
       );
 
-      showModal("Order placed successfully 🔥");
+      setTimeout(() => {
+        showModal("Order placed successfully 🔥");
+      }, 1000);
+      localStorage.removeItem("cart");
     } catch (error) {
       console.error(error.response?.data?.message || error.message);
 
