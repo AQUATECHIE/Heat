@@ -86,7 +86,7 @@ const AdminEditProduct = () => {
     } catch (error) {
 
       setErrorMessage(
-        error.response?.data?.message || "Update failed"
+        error.response?.data?.message || "Update fail"
       );
 
     }
