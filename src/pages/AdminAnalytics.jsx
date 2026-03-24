@@ -39,7 +39,7 @@ const AdminAnalytics = () => {
       <div className="stats-grid">
         <div className="stat-card">
           <h4>Total Revenue</h4>
-          <p>₦{data.totalRevenue.toLocaleString()}</p>
+          <p>R{data.totalRevenue.toLocaleString()}</p>
         </div>
 
         <div className="stat-card">

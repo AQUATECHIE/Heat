@@ -130,15 +130,15 @@ const AdminProducts = () => {
                   {hasDiscount ? (
                     <>
                       <span className="old-price">
-                        ₦{product.price.toLocaleString()}
+                        R{product.price.toLocaleString()}
                       </span>
 
                       <span className="new-price">
-                        ₦{product.finalPrice?.toLocaleString()}
+                        R{product.finalPrice?.toLocaleString()}
                       </span>
                     </>
                   ) : (
-                    <>₦{product.price.toLocaleString()}</>
+                    <>R{product.price.toLocaleString()}</>
                   )}
 
                 </p>

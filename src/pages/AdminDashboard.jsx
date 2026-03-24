@@ -60,7 +60,7 @@ const AdminDashboard = () => {
 
         <div className="stat-card">
           <h4>Total Revenue</h4>
-          <p>₦{totalRevenue.toLocaleString()}</p>
+          <p>R{totalRevenue.toLocaleString()}</p>
         </div>
 
         <div className="stat-card">
@@ -92,7 +92,7 @@ const AdminDashboard = () => {
               <p>
                 Total:{" "}
                 <strong>
-                  ₦{order.totalAmount.toLocaleString()}
+                  R{order.totalAmount.toLocaleString()}
                 </strong>
               </p>
 
