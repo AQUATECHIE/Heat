@@ -1,7 +1,6 @@
 .product-details{
 background:white;
 padding-top:70px;
-margin-top: 50px;
 }
 
 /* PRODUCT GALLERY */
@@ -403,6 +402,10 @@ width:100%;
 padding:20px 60px  40px;
 box-sizing:border-box;
 }
+.product-details{
+   margin-top: 50px;
+}
+
 
 /* remove extra padding from sections so they align */
 

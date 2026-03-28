@@ -69,11 +69,13 @@ const NewRelease = () => {
                 <img src={wishIcon} alt="wishlist" />
               </div>
 
-              <img
-                src={product.images?.[0]?.url}
-                alt={product.name}
-                className="product-image"
-              />
+              <div className="product-image-wrapper">
+                <img
+                  src={product.images?.[0]?.url}
+                  alt={product.name}
+                  className="product-image"
+                />
+              </div>
 
               <div className="product-info">
                 <h4>{product.name}</h4>
