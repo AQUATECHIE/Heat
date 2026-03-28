@@ -5,6 +5,7 @@ import "../styles/AdminProducts.css";
 
 const AdminProducts = () => {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -14,6 +15,15 @@ const AdminProducts = () => {
 
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const fetchCategories = async () => {
+    try {
+      const { data } = await api.get("/categories");
+      setCategories(data);
+    } catch (error) {
+      console.error("Failed to load categories");
+    }
+  };
 
   const fetchProducts = async () => {
     try {
@@ -35,6 +45,7 @@ const AdminProducts = () => {
 
   useEffect(() => {
     fetchProducts();
+    fetchCategories();
   }, [page, search, category]);
 
   const confirmDelete = (product) => {
@@ -63,7 +74,6 @@ const AdminProducts = () => {
 
   return (
     <div className="admin-products">
-
       <div className="admin-products-header">
         <h2>Manage Products</h2>
 
@@ -92,27 +102,25 @@ const AdminProducts = () => {
           }}
         >
           <option value="">All Categories</option>
-          <option value="shoes">Shoes</option>
-          <option value="bags">Bags</option>
-          <option value="clothes">Clothes</option>
+
+          {categories.map((cat) => (
+            <option key={cat._id} value={cat._id}>
+              {cat.name}
+            </option>
+          ))}
         </select>
       </div>
 
       {/* PRODUCTS GRID */}
       <div className="products-grid">
         {products.map((product) => {
-
           const hasDiscount = product.discount > 0;
 
           return (
             <div key={product._id} className="admin-product-card">
-
               <div className="product-img">
-
                 {hasDiscount && (
-                  <div className="discount-badge">
-                    -{product.discount}%
-                  </div>
+                  <div className="discount-badge">-{product.discount}%</div>
                 )}
 
                 <img
@@ -122,11 +130,9 @@ const AdminProducts = () => {
               </div>
 
               <div className="product-info">
-
                 <h4>{product.name}</h4>
 
                 <p className="price">
-
                   {hasDiscount ? (
                     <>
                       <span className="old-price">
@@ -140,17 +146,12 @@ const AdminProducts = () => {
                   ) : (
                     <>R{product.price.toLocaleString()}</>
                   )}
-
                 </p>
 
-                <p className="stock">
-                  Stock: {product.stock}
-                </p>
-
+                <p className="stock">Stock: {product.stock}</p>
               </div>
 
               <div className="admin-actions">
-
                 <Link
                   to={`/admin/products/edit/${product._id}`}
                   className="edit-btn"
@@ -164,9 +165,7 @@ const AdminProducts = () => {
                 >
                   Delete
                 </button>
-
               </div>
-
             </div>
           );
         })}
@@ -174,10 +173,7 @@ const AdminProducts = () => {
 
       {/* PAGINATION */}
       <div className="pagination">
-        <button
-          disabled={page === 1}
-          onClick={() => setPage(page - 1)}
-        >
+        <button disabled={page === 1} onClick={() => setPage(page - 1)}>
           Prev
         </button>
 
@@ -196,9 +192,7 @@ const AdminProducts = () => {
       {/* DELETE MODAL */}
       {deleteModal && (
         <div className="modal-overlay">
-
           <div className="delete-modal">
-
             <h3>Delete Product</h3>
 
             <p>
@@ -207,7 +201,6 @@ const AdminProducts = () => {
             </p>
 
             <div className="modal-actions">
-
               <button
                 className="cancel-btn"
                 onClick={() => setDeleteModal(false)}
@@ -215,17 +208,11 @@ const AdminProducts = () => {
                 Cancel
               </button>
 
-              <button
-                className="confirm-delete"
-                onClick={deleteProduct}
-              >
+              <button className="confirm-delete" onClick={deleteProduct}>
                 Delete
               </button>
-
             </div>
-
           </div>
-
         </div>
       )}
     </div>
