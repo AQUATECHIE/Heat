@@ -3,9 +3,12 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
-  margin-top:0 ;
-  padding-top: 0;
+  margin-top:0;
+  padding-top:0;
   overflow: hidden;
+
+  /* remove fixed height */
+  min-height: 400px;
 }
 
 /* Individual Card */
@@ -16,8 +19,8 @@
   flex-direction: column;
   align-items: center;
   padding: 0 20px 20px;
-  height: 100%;
 }
+
 .promo-card img {
   width: 100%;
   max-width: 400px;
@@ -29,11 +32,8 @@
 
 .promo-card h3 {
   font-size: 16px;
-  letter-spacing: 0%;
-  font-weight: 600;
-  margin-bottom: 20px;
   font-weight: 500;
-  
+  margin-bottom: 20px;
 }
 
 .promo-card button {
@@ -51,18 +51,23 @@
   background: #333;
 }
 
-/* Responsive Layout */
+/* Desktop Layout */
 @media (min-width: 768px) {
   .promo-section {
     flex-direction: row;
     justify-content: center;
     align-items: center;
     gap: 40px;
+
+    /* height only for desktop */
+    height: 400px;
   }
 
   .promo-card {
     flex: 1;
+    height: 100%;
   }
+
   .bag {
     height: calc(100% + 50px);
   }

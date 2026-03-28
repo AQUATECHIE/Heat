@@ -1,11 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
 import "../styles/AdminCreateProduct.css";
 
 const AdminCreateProduct = () => {
-
   const navigate = useNavigate();
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    api.get("/categories").then((res) => {
+      setCategories(res.data);
+    });
+  }, []);
 
   const [form, setForm] = useState({
     name: "",
@@ -32,24 +38,19 @@ const AdminCreateProduct = () => {
   };
 
   const handleImageChange = (e) => {
-
     const files = Array.from(e.target.files);
 
     setImages(files);
 
-    const previews = files.map((file) =>
-      URL.createObjectURL(file)
-    );
+    const previews = files.map((file) => URL.createObjectURL(file));
 
     setPreviewImages(previews);
   };
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
 
     try {
-
       const token = localStorage.getItem("token");
 
       const formData = new FormData();
@@ -69,13 +70,8 @@ const AdminCreateProduct = () => {
       });
 
       setSuccessModal(true);
-
     } catch (error) {
-
-      setErrorMessage(
-        error.response?.data?.message || "Something went wrong"
-      );
-
+      setErrorMessage(error.response?.data?.message || "Something went wrong");
     }
   };
 
@@ -85,17 +81,12 @@ const AdminCreateProduct = () => {
   };
 
   return (
-
     <div className="admin-create">
-
       <div className="create-card">
-
         <h2>Create Product</h2>
 
         <form onSubmit={handleSubmit} className="create-form">
-
           <div className="form-grid">
-
             <input
               name="name"
               placeholder="Product Name"
@@ -135,15 +126,15 @@ const AdminCreateProduct = () => {
               required
             />
 
-            <select
-              name="category"
-              onChange={handleChange}
-            >
-              <option value="shoes">Shoes</option>
-              <option value="bags">Bags</option>
-              <option value="clothes">Clothes</option>
-            </select>
+            <select name="category" onChange={handleChange}>
+              <option>Select Category</option>
 
+              {categories.map((cat) => (
+                <option key={cat._id} value={cat._id}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
           </div>
 
           <textarea
@@ -160,65 +151,38 @@ const AdminCreateProduct = () => {
           />
 
           <div className="image-upload">
-
             <label>Upload Images</label>
 
-            <input
-              type="file"
-              multiple
-              onChange={handleImageChange}
-            />
+            <input type="file" multiple onChange={handleImageChange} />
 
             {previewImages.length > 0 && (
-
               <div className="image-preview">
-
                 {previewImages.map((img, index) => (
                   <img key={index} src={img} alt="preview" />
                 ))}
-
               </div>
-
             )}
-
           </div>
 
-          <button type="submit">
-            Create Product
-          </button>
-
+          <button type="submit">Create Product</button>
         </form>
 
-        {errorMessage && (
-          <p className="form-error">{errorMessage}</p>
-        )}
-
+        {errorMessage && <p className="form-error">{errorMessage}</p>}
       </div>
 
       {successModal && (
-
         <div className="modal-overlay">
-
           <div className="success-modal">
-
             <h3>🎉 Product Created Successfully</h3>
 
             <p>Your product has been added.</p>
 
-            <button onClick={handleCloseModal}>
-              Back to Products
-            </button>
-
+            <button onClick={handleCloseModal}>Back to Products</button>
           </div>
-
         </div>
-
       )}
-
     </div>
-
   );
-
 };
 
 export default AdminCreateProduct;

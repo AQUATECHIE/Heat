@@ -40,6 +40,8 @@ import AdminNewsletter from "./pages/AdminNewsletter.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
 import AdminHero from "./pages/AdminHero.jsx";
 import AdminEditProduct from "./pages/AdminEditProduct.jsx";
+import AdminPromos from "./pages/AdminPromos.jsx";
+import AdminCategories from "./pages/AdminCreateCategory.jsx";
 
 function LayoutWrapper() {
   const location = useLocation();
@@ -94,6 +96,9 @@ function LayoutWrapper() {
           <Route path="users" element={<AdminUsers />} />
           <Route path="newsletter" element={<AdminNewsletter />} />
           <Route path="hero" element={<AdminHero />} />
+          <Route path="promo" element={<AdminPromos />} />
+          <Route path="cat" element={<AdminCategories />} />
+
         </Route>
       </Routes>
     </>

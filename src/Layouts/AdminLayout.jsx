@@ -91,6 +91,16 @@ const AdminLayout = () => {
             {!collapsed && <span>Hero section</span>}
             {collapsed && <div className="tooltip">Hero section</div>}
           </NavLink>
+          <NavLink to="/admin/promo" onClick={closeMobile}>
+            <FaChartLine />
+            {!collapsed && <span>Promo section</span>}
+            {collapsed && <div className="tooltip">Promo section</div>}
+          </NavLink>
+          <NavLink to="/admin/cat" onClick={closeMobile}>
+            <FaChartLine />
+            {!collapsed && <span>Category section</span>}
+            {collapsed && <div className="tooltip">Category section</div>}
+          </NavLink>
 
         </nav>
       </aside>

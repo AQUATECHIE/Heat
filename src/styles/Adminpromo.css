@@ -1,0 +1,47 @@
+.admin-promos{
+padding:30px;
+}
+
+.promo-form{
+display:flex;
+gap:10px;
+margin-bottom:30px;
+}
+
+.promo-form input{
+padding:10px;
+border:1px solid #ddd;
+}
+
+.promo-form button{
+padding:10px 20px;
+background:black;
+color:white;
+cursor:pointer;
+}
+
+.promo-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+gap:20px;
+}
+
+.promo-card{
+border:1px solid #eee;
+padding:10px;
+}
+
+.promo-card img{
+width:100%;
+height:180px;
+object-fit:cover;
+}
+
+.delete-btn{
+background:red;
+color:white;
+border:none;
+padding:8px;
+margin-top:10px;
+cursor:pointer;
+}

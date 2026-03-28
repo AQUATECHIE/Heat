@@ -36,6 +36,14 @@ const Navbar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    api.get("/categories").then((res) => {
+      setCategories(res.data);
+    });
+  }, []);
+
   /* =============================
      SEARCH PRODUCTS
   ============================== */
@@ -48,7 +56,9 @@ const Navbar = () => {
       }
 
       try {
-        const { data } = await api.get(`/products?keyword=${searchTerm}&limit=4`);
+        const { data } = await api.get(
+          `/products?keyword=${searchTerm}&limit=4`,
+        );
         setResults(data.products || data);
       } catch (error) {
         console.error(error);
@@ -263,21 +273,15 @@ const Navbar = () => {
           <NavLink to="/products" onClick={() => setSidebarOpen(false)}>
             All Products
           </NavLink>
-          <NavLink to="/sneakers" onClick={() => setSidebarOpen(false)}>
-            Sneakers
-          </NavLink>
-          <NavLink to="/bags" onClick={() => setSidebarOpen(false)}>
-            Bags
-          </NavLink>
-          <NavLink to="/clothes" onClick={() => setSidebarOpen(false)}>
-            Clothes
-          </NavLink>
-          <NavLink to="/collectibles" onClick={() => setSidebarOpen(false)}>
-            Collectible items
-          </NavLink>
-          <NavLink to="/orders" onClick={() => setSidebarOpen(false)}>
-            Order history
-          </NavLink>
+          {categories.map((cat) => (
+            <NavLink
+              key={cat._id}
+              to={`/products?category=${cat._id}`}
+              onClick={() => setSidebarOpen(false)}
+            >
+              {cat.name}
+            </NavLink>
+          ))}
         </div>
 
         <div className="sidebar-divider"></div>
