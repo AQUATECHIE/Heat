@@ -18,10 +18,11 @@ const AdminCreateProduct = () => {
     description: "",
     price: "",
     discount: 0,
-    category: "shoes",
+    category: "",
     brand: "",
     stock: "",
-    specifications: "",
+    sizes: "",
+    colors: "",
   });
 
   const [images, setImages] = useState([]);
@@ -55,9 +56,29 @@ const AdminCreateProduct = () => {
 
       const formData = new FormData();
 
-      Object.keys(form).forEach((key) => {
-        formData.append(key, form[key]);
+      const { sizes, colors, ...rest } = form;
+
+      Object.keys(rest).forEach((key) => {
+        formData.append(key, rest[key]);
       });
+
+      const specifications = {
+        size: sizes
+          ? sizes
+              .split(",")
+              .map((s) => s.trim())
+              .filter((s) => s !== "")
+          : [],
+
+        color: colors
+          ? colors
+              .split(",")
+              .map((c) => c.trim())
+              .filter((c) => c !== "")
+          : [],
+      };
+
+      formData.append("specifications", JSON.stringify(specifications));
 
       images.forEach((img) => {
         formData.append("images", img);
@@ -144,9 +165,15 @@ const AdminCreateProduct = () => {
             required
           />
 
-          <textarea
-            name="specifications"
-            placeholder='{"size":[40,41],"color":["black"]}'
+          <input
+            name="sizes"
+            placeholder="Sizes (e.g. 40,41,42)"
+            onChange={handleChange}
+          />
+
+          <input
+            name="colors"
+            placeholder="Colors (e.g. Black,White)"
             onChange={handleChange}
           />
 

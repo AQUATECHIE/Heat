@@ -82,6 +82,9 @@ const ProductDetails = () => {
     fetchProduct();
   }, [id]);
 
+  console.log(product)
+  // console.log(product.specifications.size);
+
   if (loading) return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
 
   if (!product) return <div>Product not found</div>;

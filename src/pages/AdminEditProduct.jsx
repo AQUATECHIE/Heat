@@ -8,24 +8,37 @@ const AdminEditProduct = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const [categories, setCategories] = useState([]);
+
   const [form, setForm] = useState({
     name: "",
     description: "",
     price: "",
     discount: 0,
-    category: "shoes",
+    category: "",
     brand: "",
     stock: "",
-    specifications: "",
+    sizes: "",
+    colors: ""
   });
 
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
-  // FETCH PRODUCT
+  /* FETCH CATEGORIES */
+
+  useEffect(() => {
+    api.get("/categories").then((res)=>{
+      setCategories(res.data);
+    });
+  }, []);
+
+  /* FETCH PRODUCT */
+
   useEffect(() => {
 
     const fetchProduct = async () => {
+
       try {
 
         const { data } = await api.get(`/products/${id}`);
@@ -38,28 +51,36 @@ const AdminEditProduct = () => {
           category: data.category,
           brand: data.brand,
           stock: data.stock,
-          specifications: JSON.stringify(data.specifications),
+          sizes: data.specifications?.size?.join(", ") || "",
+          colors: data.specifications?.color?.join(", ") || ""
         });
 
         setLoading(false);
 
       } catch (error) {
+
         console.error(error);
+
       }
+
     };
 
     fetchProduct();
 
   }, [id]);
 
+  /* HANDLE INPUT */
+
   const handleChange = (e) => {
 
     setForm({
       ...form,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     });
 
   };
+
+  /* UPDATE PRODUCT */
 
   const handleSubmit = async (e) => {
 
@@ -69,16 +90,30 @@ const AdminEditProduct = () => {
 
       const token = localStorage.getItem("token");
 
-      const formData = new FormData();
+      const specifications = {
+        size: form.sizes
+          ? form.sizes.split(",").map((s)=>s.trim())
+          : [],
+        color: form.colors
+          ? form.colors.split(",").map((c)=>c.trim())
+          : []
+      };
 
-      Object.keys(form).forEach((key) => {
-        formData.append(key, form[key]);
-      });
+      const payload = {
+        name: form.name,
+        description: form.description,
+        price: form.price,
+        discount: form.discount,
+        category: form.category,
+        brand: form.brand,
+        stock: form.stock,
+        specifications
+      };
 
-      await api.put(`/products/${id}`, form, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      await api.put(`/products/${id}`, payload, {
+        headers:{
+          Authorization:`Bearer ${token}`
+        }
       });
 
       navigate("/admin/products");
@@ -86,10 +121,11 @@ const AdminEditProduct = () => {
     } catch (error) {
 
       setErrorMessage(
-        error.response?.data?.message || "Update fail"
+        error.response?.data?.message || "Update failed"
       );
 
     }
+
   };
 
   if (loading) return <p>Loading product...</p>;
@@ -143,14 +179,22 @@ const AdminEditProduct = () => {
               required
             />
 
+            {/* CATEGORY FROM DATABASE */}
+
             <select
               name="category"
               value={form.category}
               onChange={handleChange}
             >
-              <option value="shoes">Shoes</option>
-              <option value="bags">Bags</option>
-              <option value="clothes">Clothes</option>
+
+              <option value="">Select Category</option>
+
+              {categories.map((cat)=>(
+                <option key={cat._id} value={cat._id}>
+                  {cat.name}
+                </option>
+              ))}
+
             </select>
 
           </div>
@@ -162,9 +206,21 @@ const AdminEditProduct = () => {
             required
           />
 
-          <textarea
-            name="specifications"
-            value={form.specifications}
+          {/* SIZE INPUT */}
+
+          <input
+            name="sizes"
+            placeholder="Sizes (e.g. S,M,L,XL)"
+            value={form.sizes}
+            onChange={handleChange}
+          />
+
+          {/* COLOR INPUT */}
+
+          <input
+            name="colors"
+            placeholder="Colors (e.g. Black,White)"
+            value={form.colors}
             onChange={handleChange}
           />
 
