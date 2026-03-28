@@ -16,7 +16,7 @@ const CartPage = () => {
   const total = cart.reduce(
     (sum, item) =>
       sum + item.quantity * (item.product.finalPrice || item.product.price),
-    0
+    0,
   );
 
   /* =========================
@@ -72,6 +72,9 @@ const CartPage = () => {
 
               <div className="cart-info">
                 <h4>{item.product.name}</h4>
+                {item.selectedSize && (
+                  <p className="cart-size">Size: {item.selectedSize}</p>
+                )}
 
                 <div className="quantity-controls">
                   <button
@@ -104,8 +107,7 @@ const CartPage = () => {
             <div className="cart-price">
               R
               {(
-                item.quantity *
-                (item.product.finalPrice || item.product.price)
+                item.quantity * (item.product.finalPrice || item.product.price)
               ).toLocaleString()}
             </div>
           </div>
@@ -125,15 +127,10 @@ const CartPage = () => {
           <div className="cart-login-modal">
             <h3>Sign in required</h3>
 
-            <p>
-              Please sign in or create an account to continue checkout.
-            </p>
+            <p>Please sign in or create an account to continue checkout.</p>
 
             <div className="cart-login-actions">
-              <button
-                className="login-btn"
-                onClick={goToLogin}
-              >
+              <button className="login-btn" onClick={goToLogin}>
                 SIGN IN
               </button>
 

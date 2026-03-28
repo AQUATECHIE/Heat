@@ -20,7 +20,6 @@ import busIcon from "../assets/icon/bus.svg";
 import timeIcon from "../assets/icon/c-times.svg";
 import api from "../api/axios";
 import "../styles/Navbar.css";
-// import { FaTimes } from "react-icons/fa";
 
 const Navbar = () => {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -43,10 +42,6 @@ const Navbar = () => {
       setCategories(res.data);
     });
   }, []);
-
-  /* =============================
-     SEARCH PRODUCTS
-  ============================== */
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -267,21 +262,40 @@ const Navbar = () => {
         </div>
 
         <div className="sidebar-links">
-          <NavLink to="/" onClick={() => setSidebarOpen(false)}>
+          <NavLink
+            to="/"
+            onClick={() => setSidebarOpen(false)}
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
             Home
           </NavLink>
-          <NavLink to="/products" onClick={() => setSidebarOpen(false)}>
+          <NavLink
+            to="/products"
+            onClick={() => setSidebarOpen(false)}
+            className={
+              location.pathname === "/products" && !location.search
+                ? "active"
+                : ""
+            }
+          >
             All Products
           </NavLink>
-          {categories.map((cat) => (
-            <NavLink
-              key={cat._id}
-              to={`/products?category=${cat._id}`}
-              onClick={() => setSidebarOpen(false)}
-            >
-              {cat.name}
-            </NavLink>
-          ))}
+          {categories.map((cat) => {
+            const isActive =
+              location.pathname === "/products" &&
+              location.search === `?category=${cat._id}`;
+
+            return (
+              <NavLink
+                key={cat._id}
+                to={`/products?category=${cat._id}`}
+                onClick={() => setSidebarOpen(false)}
+                className={isActive ? "active" : ""}
+              >
+                {cat.name}
+              </NavLink>
+            );
+          })}
         </div>
 
         <div className="sidebar-divider"></div>
