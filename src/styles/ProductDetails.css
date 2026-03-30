@@ -93,11 +93,9 @@ margin-bottom:10px;
 }
 
 .size-grid{
-width: 100%;
-padding: 20px;
-display: flex;
-justify-content: center;
-/* align-items: center; */
+width:100%;
+padding:8px 0;
+display:block;
 }
 
 .size{
@@ -398,10 +396,8 @@ margin-bottom:6px;
 font-weight:700;
 font-size:14px;
 }
-.size-grid .size-sections {
-   width: 100%;
-   display: flex;
-   justify-content: center;
+.size-grid .size-sections{
+width:100%;
 }
 .size-select-field{
 display:flex;
@@ -410,12 +406,10 @@ justify-content:space-between;
 border:1px solid #ddd;
 height:52px;
 padding:0 18px;
-margin-top:12px;
+margin-top: 0;
 cursor:pointer;
 
 width:100%;
-margin-left:-20px;
-margin-right:-20px;
 }
 
 .size-label{

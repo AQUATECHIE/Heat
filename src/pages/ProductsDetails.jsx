@@ -370,48 +370,35 @@ const ProductDetails = () => {
         open={sizeGuideOpen}
         close={() => setSizeGuideOpen(false)}
       />
-     {sizeModalOpen && (
-  <div
-    className="size-modal-overlay"
-    onClick={() => setSizeModalOpen(false)}
-  >
+      {sizeModalOpen && (
+        <div
+          className="size-modal-overlay"
+          onClick={() => setSizeModalOpen(false)}
+        >
+          <div className="size-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="size-modal-header">
+              <span>Select Size</span>
+            </div>
 
-    <div
-      className="size-modal"
-      onClick={(e) => e.stopPropagation()}
-    >
-
-      <div className="size-modal-header">
-        <span>Select Size</span>
-      </div>
-
-      <select
-        className="size-select-list"
-        size={product.specifications.size.length}
-        value={selectedSize || ""}
-        onChange={(e) => {
-          setSelectedSize(e.target.value);
-          setSizeModalOpen(false);
-          setSizeError(false);
-        }}
-      >
-
-        <option value="" disabled>
-          Choose size
-        </option>
-
-        {product.specifications.size.map((size) => (
-          <option key={size} value={size}>
-            {size}
-          </option>
-        ))}
-
-      </select>
-
-    </div>
-
-  </div>
-)}
+            <select
+              className="size-select-list"
+              size={product.specifications.size.length}
+              value={selectedSize || ""}
+              onChange={(e) => {
+                setSelectedSize(e.target.value);
+                setSizeModalOpen(false);
+                setSizeError(false);
+              }}
+            >
+              {product.specifications.size.map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      )}
       <Footer />
     </>
   );
