@@ -218,8 +218,6 @@ const ProductDetails = () => {
                     className="size-select-field"
                     onClick={() => setSizeModalOpen(true)}
                   >
-                    
-
                     <div className="size-selected">
                       {selectedSize || "Select size"}
                     </div>
@@ -381,7 +379,6 @@ const ProductDetails = () => {
 
             <select
               className="size-select-list"
-              size={product.specifications.size.length}
               value={selectedSize || ""}
               onChange={(e) => {
                 setSelectedSize(e.target.value);
@@ -389,7 +386,10 @@ const ProductDetails = () => {
                 setSizeError(false);
               }}
             >
-              <option value="" disabled hidden></option>
+              <option value="" disabled hidden>
+                
+              </option>
+
               {product.specifications.size.map((size) => (
                 <option key={size} value={size}>
                   {size}
