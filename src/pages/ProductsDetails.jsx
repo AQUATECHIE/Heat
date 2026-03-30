@@ -25,7 +25,7 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const [sizeError, setSizeError] = useState(false);
   const [loading, setLoading] = useState(true);
-
+  const isDesktop = window.innerWidth >= 1024;
   const [cartModal, setCartModal] = useState(false);
 
   /* FETCH PRODUCT */
@@ -169,119 +169,130 @@ const ProductDetails = () => {
             ))}
           </div>
         </div>
+        <div className="product-info">
+          {/* PRODUCT TITLE */}
+          <div className="product-title">
+            <h2>{product.name}</h2>
 
-        {/* PRODUCT TITLE */}
-        <div className="product-title">
-          <h2>{product.name}</h2>
+            <div className="price-box">
+              {product.discount > 0 ? (
+                <>
+                  <span className="old-price">
+                    R{Number(product.price).toLocaleString()}
+                  </span>
 
-          <div className="price-box">
-            {product.discount > 0 ? (
-              <>
-                <span className="old-price">
+                  <span className="discount-price">
+                    R{Number(product.finalPrice).toLocaleString()}
+                  </span>
+
+                  <span className="discount-badge">-{product.discount}%</span>
+                </>
+              ) : (
+                <span className="price">
                   R{Number(product.price).toLocaleString()}
                 </span>
-
-                <span className="discount-price">
-                  R{Number(product.finalPrice).toLocaleString()}
-                </span>
-
-                <span className="discount-badge">-{product.discount}%</span>
-              </>
-            ) : (
-              <span className="price">
-                R{Number(product.price).toLocaleString()}
-              </span>
-            )}
-          </div>
-        </div>
-
-        {/* SIZE SELECTOR */}
-        {/* SIZE SELECTOR */}
-
-        {product.specifications?.size?.length > 0 && (
-          <div className="size-section">
-            <div className="size-header">
-              <span>SIZE:</span>
-
-              <div onClick={() => setSizeGuideOpen(true)}>
-                <img src={sizeIcon} alt="size" className="size-guide" />
-                Size Guide
-              </div>
-            </div>
-
-            <div className="size-grid">
-              {product.specifications?.size?.length > 0 && (
-                <div className="size-sections">
-                  {/* SELECT STYLE FIELD */}
-
-                  <div
-                    className="size-select-field"
-                    onClick={() => setSizeModalOpen(true)}
-                  >
-                    <div className="size-selected">
-                      {selectedSize || "Select size"}
-                    </div>
-
-                    <span
-                      className={`select-arrow ${sizeModalOpen ? "open" : ""}`}
-                    >
-                      ▾
-                    </span>
-                  </div>
-
-                  {sizeError && (
-                    <p className="size-error">
-                      Please select a size before adding to cart.
-                    </p>
-                  )}
-                </div>
               )}
             </div>
-
-            {sizeError && (
-              <p className="size-error">
-                Please select a size before adding to cart.
-              </p>
-            )}
           </div>
-        )}
 
-        {/* QUANTITY + ADD CART */}
-        <div className="cart-section">
-          <span className="qty-label">QUANTITY:</span>
+          {/* SIZE SELECTOR */}
+          {/* SIZE SELECTOR */}
 
-          <div className="cart-row">
-            <div className="qty-box">
-              <button onClick={() => setQuantity(Math.max(1, quantity - 1))}>
-                -
-              </button>
-              <span>{quantity}</span>
-              <button onClick={() => setQuantity(quantity + 1)}>+</button>
+          {product.specifications?.size?.length > 0 && (
+            <div className="size-section">
+              <div className="size-header">
+                <span>SIZE:</span>
+
+                <div onClick={() => setSizeGuideOpen(true)}>
+                  <img src={sizeIcon} alt="size" className="size-guide" />
+                  Size Guide
+                </div>
+              </div>
+
+              <div className="size-grid">
+                {product.specifications?.size?.length > 0 && (
+                  <div className="size-sections">
+                    {/* SELECT STYLE FIELD */}
+
+                    <div className="size-select-field">
+                      {isDesktop ? (
+                        <select
+                          className="size-dropdown"
+                          value={selectedSize || ""}
+                          onChange={(e) => {
+                            setSelectedSize(e.target.value);
+                            setSizeError(false);
+                          }}
+                        >
+                          <option value="" disabled>
+                            Select size
+                          </option>
+
+                          {product.specifications.size.map((size) => (
+                            <option key={size} value={size}>
+                              {size}
+                            </option>
+                          ))}
+                        </select>
+                      ) : (
+                        <div
+                          className="mobile-size-selector"
+                          onClick={() => setSizeModalOpen(true)}
+                        >
+                          {selectedSize || "Select size"}
+                          <span className="select-arrow">▾</span>
+                        </div>
+                      )}
+                    </div>
+
+                    {sizeError && (
+                      <p className="size-error">
+                        Please select a size before adding to cart.
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
+          )}
 
-            <button className="add-cart" onClick={handleAddToCart}>
-              ADD TO CART
-            </button>
+          {/* QUANTITY + ADD CART */}
+          <div className="cart-section">
+            <span className="qty-label">QUANTITY:</span>
+
+            <div className="cart-row">
+              <div className="qty-box">
+                <button onClick={() => setQuantity(Math.max(1, quantity - 1))}>
+                  -
+                </button>
+                <span>{quantity}</span>
+                <button onClick={() => setQuantity(quantity + 1)}>+</button>
+              </div>
+
+              <button className="add-cart" onClick={handleAddToCart}>
+                ADD TO CART
+              </button>
+            </div>
           </div>
-        </div>
 
-        {/* BUY NOW */}
-        <button className="buy-btn" onClick={handleBuyNow}>
-          BUY NOW
-        </button>
+          {/* BUY NOW */}
+          <button className="buy-btn" onClick={handleBuyNow}>
+            BUY NOW
+          </button>
 
-        {/* SHIPPING */}
-        <div className="shipping">
-          <h3>
-            <img src={shipIcon} alt="" />
-            Shipping & Returns
-          </h3>
+          {/* SHIPPING */}
+          <div className="shipping">
+            <h3>
+              <img src={shipIcon} alt="" />
+              Shipping & Returns
+            </h3>
 
-          <ul>
-            <li>Standard Shipping takes 3 working days</li>
-            <li>Express Shipping takes 2 working days</li>
-            <li>Free returns in 30 days</li>
-          </ul>
+            <ul>
+              <li>Standard Shipping takes 3 working days</li>
+              <li>Express Shipping takes 2 working days</li>
+              <li>Free returns in 30 days</li>
+            </ul>
+          </div>
         </div>
       </div>
 
@@ -367,7 +378,7 @@ const ProductDetails = () => {
         open={sizeGuideOpen}
         close={() => setSizeGuideOpen(false)}
       />
-      {sizeModalOpen && (
+      {sizeModalOpen && window.innerWidth < 1024 && (
         <div
           className="size-modal-overlay"
           onClick={() => setSizeModalOpen(false)}
@@ -389,6 +400,10 @@ const ProductDetails = () => {
                   }}
                 >
                   {size}
+
+                  {selectedSize === size && (
+                    <span className="size-check">✓</span>
+                  )}
                 </div>
               ))}
             </div>
