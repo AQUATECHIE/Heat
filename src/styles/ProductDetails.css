@@ -418,7 +418,7 @@
    justify-content: space-between;
    border: 1px solid #ddd;
    height: 52px;
-   padding: 0 18px;
+   padding: 0 8px;
    margin-top: 8px;
    cursor: pointer;
 
@@ -503,37 +503,31 @@
 
 .size-row {
    width: 100%;
-   padding: 20px;
+   padding:12px 20px;
    font-size: 16px;
-   border-bottom: 1px solid #eee;
    cursor: pointer;
    transition: background .2s ease;
-
+   margin-left: -20px;
    display: flex;
-   justify-content: space-between;
+   justify-content: flex-start;
    align-items: center;
 }
 
 .size-row.active {
    background: #efefef;
    font-weight: 600;
+   width: 100%;
 }
 
-/* ACTIVE SIZE */
 
-.size-row.active {
-   background: #efefef;
-   font-weight: 600;
-}
 
 .size-modal-header {
    padding-bottom: 15px;
-   border-bottom: 1px solid #eee;
    margin-bottom: 10px;
 }
 
 .label {
-   font-size: 18px;
+   font-size: 16px;
    font-weight: 600;
 }
 
