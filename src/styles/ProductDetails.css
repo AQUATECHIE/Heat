@@ -425,7 +425,14 @@ font-weight:500;
 }
 
 .select-arrow{
+color:#bbb;
+font-size:20px;
 transition:.25s;
+}
+.size-select-list option:checked{
+background:#efefef;
+color:#000;
+width: 100%;
 }
 
 .select-arrow.open{

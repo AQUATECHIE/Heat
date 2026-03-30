@@ -18,7 +18,6 @@ const ProductDetails = () => {
   const [touchEnd, setTouchEnd] = useState(null);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
   const [relatedProducts, setRelatedProducts] = useState([]);
-  const [sizeSelectorOpen, setSizeSelectorOpen] = useState(false);
   const [sizeModalOpen, setSizeModalOpen] = useState(false);
   const [product, setProduct] = useState(null);
   const [currentImage, setCurrentImage] = useState(0);
@@ -390,6 +389,7 @@ const ProductDetails = () => {
                 setSizeError(false);
               }}
             >
+              <option value="" disabled hidden></option>
               {product.specifications.size.map((size) => (
                 <option key={size} value={size}>
                   {size}
