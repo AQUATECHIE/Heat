@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import "../styles/AdminCreateProduct.css";
 
 const AdminEditProduct = () => {
-
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -19,7 +18,7 @@ const AdminEditProduct = () => {
     brand: "",
     stock: "",
     sizes: "",
-    colors: ""
+    colors: "",
   });
 
   const [loading, setLoading] = useState(true);
@@ -28,7 +27,7 @@ const AdminEditProduct = () => {
   /* FETCH CATEGORIES */
 
   useEffect(() => {
-    api.get("/categories").then((res)=>{
+    api.get("/categories").then((res) => {
       setCategories(res.data);
     });
   }, []);
@@ -36,11 +35,8 @@ const AdminEditProduct = () => {
   /* FETCH PRODUCT */
 
   useEffect(() => {
-
     const fetchProduct = async () => {
-
       try {
-
         const { data } = await api.get(`/products/${id}`);
 
         setForm({
@@ -52,96 +48,86 @@ const AdminEditProduct = () => {
           brand: data.brand,
           stock: data.stock,
           sizes: data.specifications?.size?.join(", ") || "",
-          colors: data.specifications?.color?.join(", ") || ""
+          colors: data.specifications?.color?.join(", ") || "",
         });
 
         setLoading(false);
-
       } catch (error) {
-
         console.error(error);
-
       }
-
     };
 
     fetchProduct();
-
   }, [id]);
 
   /* HANDLE INPUT */
 
   const handleChange = (e) => {
-
     setForm({
       ...form,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
-
   };
 
   /* UPDATE PRODUCT */
 
-  const handleSubmit = async (e) => {
+ const handleSubmit = async (e) => {
 
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
+  try {
 
-      const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");  // ✅ ADD THIS
 
-      const specifications = {
-        size: form.sizes
-          ? form.sizes.split(",").map((s)=>s.trim())
-          : [],
-        color: form.colors
-          ? form.colors.split(",").map((c)=>c.trim())
-          : []
-      };
+    const specifications = {
+      size: form.sizes
+        ? form.sizes.split(",").map((s) => s.trim())
+        : [],
+      color: form.colors
+        ? form.colors.split(",").map((c) => c.trim())
+        : []
+    };
 
-      const payload = {
-        name: form.name,
-        description: form.description,
-        price: form.price,
-        discount: form.discount,
-        category: form.category,
-        brand: form.brand,
-        stock: form.stock,
-        specifications
-      };
+    const payload = {
+      name: form.name,
+      description: form.description,
+      price: form.price,
+      discount: form.discount,
+      category: form.category,
+      brand: form.brand,
+      stock: form.stock,
+      specifications: JSON.stringify(specifications)
+    };
 
-      await api.put(`/products/${id}`, payload, {
-        headers:{
-          Authorization:`Bearer ${token}`
-        }
-      });
+    await api.put(`/products/${id}`, payload, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
 
-      navigate("/admin/products");
+    navigate("/admin/products");
 
-    } catch (error) {
+  } catch (error) {
 
-      setErrorMessage(
-        error.response?.data?.message || "Update failed"
-      );
+    console.log("FULL ERROR:", error);
 
-    }
+    setErrorMessage(
+      error.response?.data?.message || "Update failed"
+    );
 
-  };
+  }
+
+};
 
   if (loading) return <p>Loading product...</p>;
 
   return (
-
     <div className="admin-create">
-
       <div className="create-card">
-
         <h2>Edit Product</h2>
 
         <form onSubmit={handleSubmit} className="create-form">
-
           <div className="form-grid">
-
             <input
               name="name"
               value={form.name}
@@ -186,17 +172,14 @@ const AdminEditProduct = () => {
               value={form.category}
               onChange={handleChange}
             >
-
               <option value="">Select Category</option>
 
-              {categories.map((cat)=>(
+              {categories.map((cat) => (
                 <option key={cat._id} value={cat._id}>
                   {cat.name}
                 </option>
               ))}
-
             </select>
-
           </div>
 
           <textarea
@@ -224,22 +207,13 @@ const AdminEditProduct = () => {
             onChange={handleChange}
           />
 
-          <button type="submit">
-            Update Product
-          </button>
-
+          <button type="submit">Update Product</button>
         </form>
 
-        {errorMessage && (
-          <p className="form-error">{errorMessage}</p>
-        )}
-
+        {errorMessage && <p className="form-error">{errorMessage}</p>}
       </div>
-
     </div>
-
   );
-
 };
 
 export default AdminEditProduct;

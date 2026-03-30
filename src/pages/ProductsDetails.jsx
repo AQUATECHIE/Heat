@@ -18,7 +18,8 @@ const ProductDetails = () => {
   const [touchEnd, setTouchEnd] = useState(null);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
   const [relatedProducts, setRelatedProducts] = useState([]);
-
+  const [sizeSelectorOpen, setSizeSelectorOpen] = useState(false);
+  const [sizeModalOpen, setSizeModalOpen] = useState(false);
   const [product, setProduct] = useState(null);
   const [currentImage, setCurrentImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState(null);
@@ -82,7 +83,7 @@ const ProductDetails = () => {
     fetchProduct();
   }, [id]);
 
-  console.log(product)
+  console.log(product);
   // console.log(product.specifications.size);
 
   if (loading) return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
@@ -210,18 +211,34 @@ const ProductDetails = () => {
             </div>
 
             <div className="size-grid">
-              {product.specifications.size.map((size) => (
-                <button
-                  key={size}
-                  className={selectedSize === size ? "size active" : "size"}
-                  onClick={() => {
-                    setSelectedSize(size);
-                    setSizeError(false);
-                  }}
-                >
-                  {size}
-                </button>
-              ))}
+              {product.specifications?.size?.length > 0 && (
+                <div className="size-sections">
+                  {/* SELECT STYLE FIELD */}
+
+                  <div
+                    className="size-select-field"
+                    onClick={() => setSizeModalOpen(true)}
+                  >
+                    <span className="size-label">SIZE</span>
+
+                    <div className="size-selected">
+                      {selectedSize || "Select size"}
+                    </div>
+
+                    <span
+                      className={`select-arrow ${sizeModalOpen ? "open" : ""}`}
+                    >
+                      ▾
+                    </span>
+                  </div>
+
+                  {sizeError && (
+                    <p className="size-error">
+                      Please select a size before adding to cart.
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
 
             {sizeError && (
@@ -353,6 +370,48 @@ const ProductDetails = () => {
         open={sizeGuideOpen}
         close={() => setSizeGuideOpen(false)}
       />
+     {sizeModalOpen && (
+  <div
+    className="size-modal-overlay"
+    onClick={() => setSizeModalOpen(false)}
+  >
+
+    <div
+      className="size-modal"
+      onClick={(e) => e.stopPropagation()}
+    >
+
+      <div className="size-modal-header">
+        <span>Select Size</span>
+      </div>
+
+      <select
+        className="size-select-list"
+        size={product.specifications.size.length}
+        value={selectedSize || ""}
+        onChange={(e) => {
+          setSelectedSize(e.target.value);
+          setSizeModalOpen(false);
+          setSizeError(false);
+        }}
+      >
+
+        <option value="" disabled>
+          Choose size
+        </option>
+
+        {product.specifications.size.map((size) => (
+          <option key={size} value={size}>
+            {size}
+          </option>
+        ))}
+
+      </select>
+
+    </div>
+
+  </div>
+)}
       <Footer />
     </>
   );
