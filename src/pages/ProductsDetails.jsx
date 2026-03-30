@@ -374,28 +374,24 @@ const ProductDetails = () => {
         >
           <div className="size-modal" onClick={(e) => e.stopPropagation()}>
             <div className="size-modal-header">
-              <span className="label">Select Size</span>
+              <span className="label">Select A Size</span>
             </div>
 
-            <select
-              className="size-select-list"
-              value={selectedSize || ""}
-              onChange={(e) => {
-                setSelectedSize(e.target.value);
-                setSizeModalOpen(false);
-                setSizeError(false);
-              }}
-            >
-              <option value="" disabled hidden>
-                
-              </option>
-
+            <div className="size-list">
               {product.specifications.size.map((size) => (
-                <option key={size} value={size}>
+                <div
+                  key={size}
+                  className={`size-row ${selectedSize === size ? "active" : ""}`}
+                  onClick={() => {
+                    setSelectedSize(size);
+                    setSizeModalOpen(false);
+                    setSizeError(false);
+                  }}
+                >
                   {size}
-                </option>
+                </div>
               ))}
-            </select>
+            </div>
           </div>
         </div>
       )}
