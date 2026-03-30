@@ -219,7 +219,7 @@ const ProductDetails = () => {
                     className="size-select-field"
                     onClick={() => setSizeModalOpen(true)}
                   >
-                    <span className="size-label">SIZE</span>
+                    
 
                     <div className="size-selected">
                       {selectedSize || "Select size"}
@@ -377,7 +377,7 @@ const ProductDetails = () => {
         >
           <div className="size-modal" onClick={(e) => e.stopPropagation()}>
             <div className="size-modal-header">
-              <span>Select Size</span>
+              <span className="label">Select Size</span>
             </div>
 
             <select
