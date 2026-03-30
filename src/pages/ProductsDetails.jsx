@@ -374,7 +374,7 @@ const ProductDetails = () => {
         >
           <div className="size-modal" onClick={(e) => e.stopPropagation()}>
             <div className="size-modal-header">
-              <span className="label">Select A Size</span>
+              <span className="label">SELECT A SIZE</span>
             </div>
 
             <div className="size-list">
