@@ -381,3 +381,38 @@ justify-content:center;
 }
 
 }
+/* DESKTOP WISHLIST POPUP */
+
+@media (min-width:1024px){
+
+.size-modal-overlay.desktop{
+   background:rgba(0,0,0,0.4);
+   align-items:center;
+   justify-content:center;
+}
+
+.size-modal-overlay.desktop .size-modal{
+   width:380px;
+   padding:22px;
+   border-radius:10px;
+   box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+
+/* reduce modal vertical height */
+.size-modal-overlay.desktop .size-options{
+   margin:12px 0;
+}
+
+/* stretch buttons */
+
+.size-modal-overlay.desktop .size-actions{
+   width:100%;
+}
+
+.size-modal-overlay.desktop .size-actions button{
+   flex:1;
+   width:100%;
+   padding:10px;
+}
+
+}

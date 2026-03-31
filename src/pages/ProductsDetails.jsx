@@ -203,53 +203,42 @@ const ProductDetails = () => {
               <div className="size-header">
                 <span>SIZE:</span>
 
-                <div onClick={() => setSizeGuideOpen(true)}>
-                  <img src={sizeIcon} alt="size" className="size-guide" />
-                  Size Guide
+                <div
+                  className="size-guide-link"
+                  onClick={() => setSizeGuideOpen(true)}
+                >
+                  <img src={sizeIcon} alt="size" />
+                  <span>Size Guide</span>
                 </div>
               </div>
 
-              <div className="size-grid">
-                {product.specifications?.size?.length > 0 && (
-                  <div className="size-sections">
-                    {/* SELECT STYLE FIELD */}
+              <div className="size-select-wrapper">
+                {isDesktop ? (
+                  <select
+                    className="size-dropdown"
+                    value={selectedSize || ""}
+                    onChange={(e) => {
+                      setSelectedSize(e.target.value);
+                      setSizeError(false);
+                    }}
+                  >
+                    <option value="" disabled>
+                      Select size
+                    </option>
 
-                    <div className="size-select-field">
-                      {isDesktop ? (
-                        <select
-                          className="size-dropdown"
-                          value={selectedSize || ""}
-                          onChange={(e) => {
-                            setSelectedSize(e.target.value);
-                            setSizeError(false);
-                          }}
-                        >
-                          <option value="" disabled>
-                            Select size
-                          </option>
-
-                          {product.specifications.size.map((size) => (
-                            <option key={size} value={size}>
-                              {size}
-                            </option>
-                          ))}
-                        </select>
-                      ) : (
-                        <div
-                          className="mobile-size-selector"
-                          onClick={() => setSizeModalOpen(true)}
-                        >
-                          {selectedSize || "Select size"}
-                          <span className="select-arrow">▾</span>
-                        </div>
-                      )}
-                    </div>
-
-                    {sizeError && (
-                      <p className="size-error">
-                        Please select a size before adding to cart.
-                      </p>
-                    )}
+                    {product.specifications.size.map((size) => (
+                      <option key={size} value={size}>
+                        {size}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <div
+                    className="mobile-size-selector"
+                    onClick={() => setSizeModalOpen(true)}
+                  >
+                    {selectedSize || "Select size"}
+                    <span className="select-arrow">▾</span>
                   </div>
                 )}
               </div>

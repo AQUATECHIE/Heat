@@ -7,7 +7,6 @@ import filterIcon from "../assets/icon/filter.svg";
 import api from "../api/axios";
 
 const ProductGrid = ({ title, products = [] }) => {
-
   const { toggleWishlist, isInWishlist } = useWishlist();
 
   const [searchParams] = useSearchParams();
@@ -27,6 +26,17 @@ const ProductGrid = ({ title, products = [] }) => {
   const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   /* UPDATE GRID WHEN PRODUCTS CHANGE */
 
@@ -38,9 +48,7 @@ const ProductGrid = ({ title, products = [] }) => {
   /* LOAD MORE PRODUCTS */
 
   const loadMoreProducts = async () => {
-
     try {
-
       setLoadingMore(true);
 
       const nextPage = page + 1;
@@ -50,8 +58,8 @@ const ProductGrid = ({ title, products = [] }) => {
           page: nextPage,
           minPrice,
           maxPrice,
-          category
-        }
+          category,
+        },
       });
 
       if (data.products.length === 0) {
@@ -62,81 +70,57 @@ const ProductGrid = ({ title, products = [] }) => {
       setFilteredProducts((prev) => [...prev, ...data.products]);
 
       setPage(nextPage);
-
     } catch (error) {
-
       console.error("Failed to load more products");
-
     } finally {
-
       setLoadingMore(false);
-
     }
-
   };
 
   /* APPLY PRICE FILTER */
 
   const applyFilter = async () => {
-
     try {
-
       const { data } = await api.get("/products", {
         params: {
           minPrice,
           maxPrice,
           page: 1,
-          category
-        }
+          category,
+        },
       });
 
       setFilteredProducts(data.products);
       setPage(1);
       setHasMore(true);
       setFilterOpen(false);
-
     } catch (error) {
-
       console.error("Filter failed");
-
     }
-
   };
 
   const resetFilter = () => {
-
     setFilteredProducts(products);
     setMinPrice("");
     setMaxPrice("");
-
   };
 
   return (
-
     <section className="product-page">
-
       <div className="product-toolbar">
-
         <h2 className="page-title">{title}</h2>
 
-        <div
-          className="filter-row"
-          onClick={() => setFilterOpen(!filterOpen)}
-        >
+        <div className="filter-row" onClick={() => setFilterOpen(!filterOpen)}>
           <img src={filterIcon} alt="filter" />
           Filter
         </div>
-
       </div>
 
       {/* FILTER PANEL */}
 
       {filterOpen && (
-
         <div className="filter-panel">
-
           <div className="filter-header">
-
             <h4>Filter by Price</h4>
 
             <button
@@ -145,7 +129,6 @@ const ProductGrid = ({ title, products = [] }) => {
             >
               ×
             </button>
-
           </div>
 
           <input
@@ -163,42 +146,26 @@ const ProductGrid = ({ title, products = [] }) => {
           />
 
           <div className="filter-actions">
+            <button onClick={applyFilter}>Apply</button>
 
-            <button onClick={applyFilter}>
-              Apply
-            </button>
-
-            <button onClick={resetFilter}>
-              Reset
-            </button>
-
+            <button onClick={resetFilter}>Reset</button>
           </div>
-
         </div>
-
       )}
 
-      <p className="item-count">
-        {filteredProducts.length} items
-      </p>
+      <p className="item-count">{filteredProducts.length} items</p>
 
       {/* PRODUCT GRID */}
 
       <div className="grid">
-
         {filteredProducts.map((item) => {
-
           const active = isInWishlist(item._id);
           const hasDiscount = item.discount > 0;
 
           return (
-
             <div key={item._id} className="card">
-
               {hasDiscount && (
-                <div className="discount-badge">
-                  -{item.discount}%
-                </div>
+                <div className="discount-badge">-{item.discount}%</div>
               )}
 
               {/* WISHLIST */}
@@ -206,19 +173,14 @@ const ProductGrid = ({ title, products = [] }) => {
               <div
                 className={`wishlist-btn ${active ? "active" : ""}`}
                 onClick={(e) => {
-
                   e.preventDefault();
 
-                  const hasSizes =
-                    item.specifications?.size?.length;
+                  const hasSizes = item.specifications?.size?.length;
 
                   if (hasSizes) {
-
                     setSelectedProduct(item);
                     setSizeModal(true);
-
                   } else {
-
                     toggleWishlist(item);
 
                     setWishlistToast(true);
@@ -226,9 +188,7 @@ const ProductGrid = ({ title, products = [] }) => {
                     setTimeout(() => {
                       setWishlistToast(false);
                     }, 2500);
-
                   }
-
                 }}
               >
                 <img src={wishlistIcon} alt="" />
@@ -236,22 +196,13 @@ const ProductGrid = ({ title, products = [] }) => {
 
               {/* PRODUCT */}
 
-              <Link
-                to={`/product/${item._id}`}
-                className="card-link"
-              >
-
-                <img
-                  src={item.images?.[0]?.url}
-                  alt={item.name}
-                />
+              <Link to={`/product/${item._id}`} className="card-link">
+                <img src={item.images?.[0]?.url} alt={item.name} />
 
                 <p>{item.name}</p>
 
                 <h4 className="price">
-
                   {hasDiscount ? (
-
                     <>
                       <span className="old-price">
                         R{item.price.toLocaleString()}
@@ -261,44 +212,28 @@ const ProductGrid = ({ title, products = [] }) => {
                         R{item.finalPrice?.toLocaleString()}
                       </span>
                     </>
-
                   ) : (
-
                     <>R{item.price.toLocaleString()}</>
-
                   )}
-
                 </h4>
-
               </Link>
-
             </div>
-
           );
-
         })}
-
       </div>
 
       {/* LOAD MORE */}
 
       {hasMore && (
-
-        <button
-          className="see-all-btn"
-          onClick={loadMoreProducts}
-        >
+        <button className="see-all-btn" onClick={loadMoreProducts}>
           {loadingMore ? "Loading..." : "SEE ALL"}
         </button>
-
       )}
 
       {/* TOAST */}
 
       {wishlistToast && (
-
         <div className="wishlist-toast">
-
           <span>Product saved</span>
 
           <button
@@ -307,25 +242,18 @@ const ProductGrid = ({ title, products = [] }) => {
           >
             ×
           </button>
-
         </div>
-
       )}
 
       {/* SIZE MODAL */}
 
       {sizeModal && selectedProduct && (
-
-        <div className="size-modal-overlay">
-
+        <div className={`size-modal-overlay ${isDesktop ? "desktop" : ""}`}>
           <div className="size-modal">
-
             <h3>Select Size</h3>
 
             <div className="size-options">
-
               {selectedProduct.specifications?.size?.map((size) => (
-
                 <button
                   key={size}
                   className={selectedSize === size ? "active" : ""}
@@ -333,22 +261,17 @@ const ProductGrid = ({ title, products = [] }) => {
                 >
                   {size}
                 </button>
-
               ))}
-
             </div>
 
             <div className="size-actions">
-
               <button
                 onClick={() => {
-
-                  if (!selectedSize)
-                    return alert("Please select size");
+                  if (!selectedSize) return alert("Please select size");
 
                   toggleWishlist({
                     ...selectedProduct,
-                    selectedSize
+                    selectedSize,
                   });
 
                   setSizeModal(false);
@@ -359,7 +282,6 @@ const ProductGrid = ({ title, products = [] }) => {
                   setTimeout(() => {
                     setWishlistToast(false);
                   }, 2500);
-
                 }}
               >
                 Add to Wishlist
@@ -373,19 +295,12 @@ const ProductGrid = ({ title, products = [] }) => {
               >
                 Cancel
               </button>
-
             </div>
-
           </div>
-
         </div>
-
       )}
-
     </section>
-
   );
-
 };
 
 export default ProductGrid;
