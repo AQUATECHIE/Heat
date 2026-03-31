@@ -385,34 +385,103 @@ justify-content:center;
 
 @media (min-width:1024px){
 
+/* overlay */
+
 .size-modal-overlay.desktop{
-   background:rgba(0,0,0,0.4);
+   background:rgba(0,0,0,0.45);
    align-items:center;
    justify-content:center;
 }
 
+/* modal card */
+
 .size-modal-overlay.desktop .size-modal{
-   width:380px;
-   padding:22px;
-   border-radius:10px;
-   box-shadow:0 10px 30px rgba(0,0,0,.2);
+   width:420px;
+   padding:26px;
+   border-radius:12px;
+   box-shadow:0 15px 40px rgba(0,0,0,.25);
+   background:white;
+   display:flex;
+   flex-direction:column;
 }
 
-/* reduce modal vertical height */
+/* header */
+
+.size-modal-overlay.desktop .size-modal-header{
+   display:flex;
+   justify-content:space-between;
+   align-items:center;
+   margin-bottom:18px;
+   font-size:12px;
+   letter-spacing:1px;
+   color:#777;
+}
+
+/* close button */
+
+.size-modal-overlay.desktop .size-close{
+   background:none;
+   border:none;
+   font-size:18px;
+   cursor:pointer;
+   color:#777;
+}
+
+/* size grid */
+
 .size-modal-overlay.desktop .size-options{
-   margin:12px 0;
+   display:grid;
+   grid-template-columns:repeat(3,1fr);
+   gap:12px;
+   margin-bottom:24px;
 }
 
-/* stretch buttons */
+/* size buttons */
+
+.size-modal-overlay.desktop .size-options button{
+   height:42px;
+   border:1px solid #ddd;
+   background:white;
+   font-size:13px;
+   cursor:pointer;
+   transition:.2s;
+}
+
+/* active size */
+
+.size-modal-overlay.desktop .size-options button.active{
+   border:1px solid black;
+   background:#f5f5f5;
+}
+
+/* actions container */
 
 .size-modal-overlay.desktop .size-actions{
+   display:flex;
+   gap:12px;
    width:100%;
 }
 
-.size-modal-overlay.desktop .size-actions button{
+/* add to wishlist */
+
+.size-modal-overlay.desktop .size-actions button:first-child{
    flex:1;
-   width:100%;
-   padding:10px;
+   background:#111;
+   color:white;
+   border:none;
+   padding:12px;
+   cursor:pointer;
+}
+
+/* cancel */
+
+.size-modal-overlay.desktop .size-actions button:last-child{
+   flex:1;
+   background:white;
+   border:1px solid #ddd;
+   padding:12px;
+   cursor:pointer;
+   color: black;
 }
 
 }
