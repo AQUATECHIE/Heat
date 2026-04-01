@@ -815,15 +815,19 @@
 .preview-icon{
 position:absolute;
 top:15px;
-right:15px;
+left:50%;
+transform:translateX(-50%);
+
 font-size:18px;
 cursor:pointer;
-background:white;
-padding:6px;
-border-radius:50%;
-box-shadow:0 2px 8px rgba(0,0,0,.2);
-}
 
+background:white;
+padding:6px 8px;
+border-radius:50%;
+
+box-shadow:0 2px 8px rgba(0,0,0,.2);
+z-index:20;
+}
 /* OVERLAY */
 
 .preview-overlay{
