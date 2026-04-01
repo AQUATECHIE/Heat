@@ -189,7 +189,7 @@ Shipping: ₦${order.shipping.toLocaleString()}
 `;
 
       const encodedMessage = encodeURIComponent(message);
-      const whatsappNumber = "2348024962596";
+      const whatsappNumber = "27665394231";
 
       window.open(
         `https://wa.me/${whatsappNumber}?text=${encodedMessage}`,
