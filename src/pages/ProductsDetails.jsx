@@ -6,6 +6,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Footer from "../components/Footer";
 import { useCart } from "../context/CartContext";
 import shipIcon from "../assets/icon/ship.svg";
+import zoomIcon from "../assets/icon/zoom.svg";
 
 import sizeIcon from "../assets/icon/size.svg";
 import SizeGuideModal from "../components/SizeGuideModal";
@@ -171,7 +172,7 @@ const ProductDetails = () => {
             ))}
           </div>
           <div className="preview-icon" onClick={() => setPreviewOpen(true)}>
-            🔍
+            <img src={zoomIcon} alt="zoomIn" />
           </div>
         </div>
         <div className="product-info">
