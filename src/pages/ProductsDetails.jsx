@@ -27,6 +27,8 @@ const ProductDetails = () => {
   const [loading, setLoading] = useState(true);
   const isDesktop = window.innerWidth >= 1024;
   const [cartModal, setCartModal] = useState(false);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [zoom, setZoom] = useState(1);
 
   /* FETCH PRODUCT */
 
@@ -167,6 +169,9 @@ const ProductDetails = () => {
                 className={index === currentImage ? "dot active" : "dot"}
               />
             ))}
+          </div>
+          <div className="preview-icon" onClick={() => setPreviewOpen(true)}>
+            🔍
           </div>
         </div>
         <div className="product-info">
@@ -395,6 +400,43 @@ const ProductDetails = () => {
                   )}
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      )}
+      {previewOpen && (
+        <div className="preview-overlay" onClick={() => setPreviewOpen(false)}>
+          <div
+            className="preview-container"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="preview-close"
+              onClick={() => setPreviewOpen(false)}
+            >
+              ✕
+            </button>
+
+            <FaChevronLeft className="preview-arrow left" onClick={prevImage} />
+
+            <img
+              src={product.images?.[currentImage]?.url}
+              className="preview-image"
+              style={{ transform: `scale(${zoom})` }}
+            />
+
+            <FaChevronRight
+              className="preview-arrow right"
+              onClick={nextImage}
+            />
+
+            <div className="zoom-controls">
+              <button onClick={() => setZoom((z) => Math.min(z + 0.5, 3))}>
+                +
+              </button>
+              <button onClick={() => setZoom((z) => Math.max(z - 0.5, 1))}>
+                -
+              </button>
             </div>
           </div>
         </div>
