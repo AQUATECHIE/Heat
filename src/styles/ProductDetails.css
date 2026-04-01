@@ -425,7 +425,7 @@
    scroll-snap-align: start;
    cursor: pointer;
    transition: transform .2s;
-   border: 1px solid #ddd;
+   /* border: 1px solid #ddd; */
 }
 
 .related-card:hover {
