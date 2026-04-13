@@ -73,7 +73,7 @@ const AdminCreateProduct = () => {
         color: colors
           ? colors
               .split(",")
-              .map((c) => c.trim())
+              .map((c) => c.trim())                    
               .filter((c) => c !== "")
           : [],
       };
