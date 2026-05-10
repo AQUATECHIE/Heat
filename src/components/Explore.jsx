@@ -5,7 +5,7 @@ import api from "../api/axios";
 import { useWishlist } from "../context/WishlistContext";
 import wishIcon from "../assets/icon/wishlist.svg";
 
-const NewRelease = () => {
+const Explore = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const { toggleWishlist, isInWishlist } = useWishlist();
@@ -35,10 +35,10 @@ const NewRelease = () => {
   return (
     <section className="new-release">
       <div className="section-header">
-        <h2>NEW IN</h2>
+        <h2>EXPLORE MORE PRODUCTS</h2>
 
         <span className="see-all" onClick={() => navigate("/products")}>
-          Shop Now →
+          Show All Products →
         </span>
       </div>
 
@@ -103,4 +103,4 @@ const NewRelease = () => {
   );
 };
 
-export default NewRelease;
+export default Explore;

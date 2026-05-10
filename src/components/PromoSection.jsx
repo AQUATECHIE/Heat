@@ -1,56 +1,27 @@
-import "../styles/PromoSection.css";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import api from "../api/axios";
+import "../styles/Showcase.css";
+import showcaseImage from "../assets/hero-img2.png";
+import showcaseImage2 from "../assets/hero-img2.png";
 
-const PromoSection = () => {
-
-  const navigate = useNavigate();
-
-  const [promos, setPromos] = useState([]);
-
-  const fetchPromos = async () => {
-    try {
-
-      const { data } = await api.get("/promos");
-
-      setPromos(data);
-
-    } catch (error) {
-
-      console.error("Failed to fetch promos");
-
-    }
-  };
-
-  useEffect(() => {
-
-    fetchPromos();
-
-  }, []);
-
+const Showcase = () => {
   return (
-    <section className="promo-section">
-
-      {promos.map((promo) => (
-
-        <div key={promo._id} className="promo-card">
-
-          <img src={promo.image?.url} alt={promo.title} />
-
-          <h3>{promo.title}</h3>
-
-          <button onClick={() => navigate(promo.link)}>
-            START SHOPPING
-          </button>
-
+    <section className="showcase">
+      <div className="showcase-grid">
+        <div className="showcase-item">
+          <img
+            src={showcaseImage}
+            alt="Sneaker Lifestyle Showcase"
+          />
         </div>
 
-      ))}
-
+        <div className="showcase-item">
+          <img
+            src={showcaseImage2}
+            alt="Sneaker Lifestyle Showcase"
+          />
+        </div>
+      </div>
     </section>
   );
-
 };
 
-export default PromoSection;
+export default Showcase;

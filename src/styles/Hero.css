@@ -4,89 +4,112 @@
   height: calc(100vh - 70px);
   position: relative;
   overflow: hidden;
+  background: #000;
 }
 
-/* Each slide stacked */
-.hero-slide {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  transition: opacity 1.5s ease-in-out;
-}
+/* IMAGE */
 
-/* Active slide fades in */
-.hero-slide.active {
-  opacity: 1;
-  z-index: 1;
-}
-
-/* Image styling */
-.hero-slide img {
+.hero-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* background: black; */
-  animation: slowZoom 12s ease-in-out infinite;
+  display: block;
 }
 
-/* Dark luxury overlay */
-/* .hero-overlay {
+/* OVERLAY */
+
+.hero-overlay {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.2),
-    rgba(0, 0, 0, 0.6)
-  );
-  top: 0;
-  left: 0;
-} */
+  inset: 0;
+  background: rgba(0, 0, 0, 0.12);
+}
 
-/* Slow Zoom Effect */
-/* @keyframes slowZoom {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
-} */
+/* CONTENT */
 
-/* Tablet */
+.hero-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+/* BUTTON */
+
+.hero-btn {
+  width: 150px;
+  height: 52px;
+  background: #fff;
+  color: #000;
+  text-decoration: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+
+  transition: 0.3s ease;
+}
+
+.hero-btn:hover {
+  background: #000;
+  color: #fff;
+}
+
+/* MOBILE */
+
+@media (max-width: 767px) {
+  .hero {
+    height: calc(75vh - 70px);
+  }
+
+  .hero-image {
+    object-position: center;
+  }
+
+  .hero-btn {
+    width: 135px;
+    height: 48px;
+    font-size: 12px;
+  }
+}
+
+/* TABLET */
+
 @media (min-width: 768px) {
-
-.hero{
-  height: calc(95vh - 70px);
+  .hero {
+    height: calc(90vh - 70px);
+  }
 }
 
-}
+/* DESKTOP */
 
-/* Desktop */
 @media (min-width: 1024px) {
+  .hero {
+    height: calc(100vh - 85px);
+    margin-top: 85px;
+  }
 
-.hero{
-  height: calc(90vh - 70px);
-}
-.hero img{
-  object-fit: contain;
-  background: black;
-}
-}
+  .hero-image {
+    object-fit: cover;
+    object-position: center;
+  }
 
-/* Large Screens */
-@media (min-width: 1400px) {
-
-.hero{
-  height: calc(85vh - 70px);
-}
-.hero img {
-  object-fit: contain;
-  background: black;
+  .hero-btn {
+    width: 165px;
+    height: 55px;
+    font-size: 13px;
+  }
 }
 
+/* LARGE SCREENS */
+
+@media (min-width: 1440px) {
+  .hero {
+    height: calc(95vh - 85px);
+  }
 }

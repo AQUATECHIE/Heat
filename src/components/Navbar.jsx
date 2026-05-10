@@ -27,6 +27,7 @@ const Navbar = () => {
   const [profileOpen, setProfileOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const location = useLocation();
+  const [desktopDropdownOpen, setDesktopDropdownOpen] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
@@ -73,55 +74,160 @@ const Navbar = () => {
   return (
     <>
       <nav className="navbar">
-        <div className="nav-left">
-          <img
-            src={menuIcon}
-            alt="menu"
-            className="icon"
-            onClick={() => setSidebarOpen(true)}
-          />
-          <img
-            src={serachIcon}
-            alt="search"
-            className="icon"
-            onClick={() => setSearchOpen(true)}
-          />
-        </div>
-
-        <Link to="/" className="nav-logo">
-          <img src={logo} alt="Brand Logo" />
-        </Link>
-
-        <div className="nav-right">
-          {/* USER ICON */}
-          <div className="icon-link">
+        {/* MOBILE NAVBAR */}
+        <div className="mobile-navbar">
+          <div className="nav-left">
             <img
-              src={userIcon}
-              alt="user"
+              src={menuIcon}
+              alt="menu"
               className="icon"
-              onClick={() => {
-                if (!user) {
-                  navigate("/auth");
-                } else {
-                  setProfileOpen(!profileOpen);
-                }
-              }}
+              onClick={() => setSidebarOpen(true)}
+            />
+
+            <img
+              src={serachIcon}
+              alt="search"
+              className="icon"
+              onClick={() => setSearchOpen(true)}
             />
           </div>
 
-          {/* CART */}
-          <div
-            className="cart-wrapper"
-            onClick={() => {
-              if (location.pathname === "/checkout") {
-                navigate("/cart");
-              } else {
-                setCartOpen(true);
-              }
-            }}
-          >
-            <img src={cartIcon} alt="cart" className="icon" />
-            {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+          <Link to="/" className="nav-logo">
+            <img src={logo} alt="Brand Logo" />
+          </Link>
+
+          <div className="nav-right">
+            <div className="icon-link">
+              <img
+                src={userIcon}
+                alt="user"
+                className="icon"
+                onClick={() => {
+                  if (!user) {
+                    navigate("/auth");
+                  } else {
+                    setProfileOpen(!profileOpen);
+                  }
+                }}
+              />
+            </div>
+
+            <div
+              className="cart-wrapper"
+              onClick={() => {
+                if (location.pathname === "/checkout") {
+                  navigate("/cart");
+                } else {
+                  setCartOpen(true);
+                }
+              }}
+            >
+              <img src={cartIcon} alt="cart" className="icon" />
+
+              {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+            </div>
+          </div>
+        </div>
+
+        {/* DESKTOP NAVBAR */}
+        <div className="desktop-navbar">
+          <div className="desktop-left">
+            <Link to="/">HOME</Link>
+
+            <div className="desktop-shop">
+              <div
+                className="desktop-shop-trigger"
+                onClick={() => setDesktopDropdownOpen(!desktopDropdownOpen)}
+              >
+                <span className="shop-text">SHOP</span>
+
+                <span
+                  className={`dropdown-arrow ${
+                    desktopDropdownOpen ? "rotate" : ""
+                  }`}
+                >
+                  ⌄
+                </span>
+              </div>
+
+              <div
+                className={`desktop-dropdown ${
+                  desktopDropdownOpen ? "show-dropdown" : ""
+                }`}
+              >
+                <NavLink
+                  to="/products"
+                  onClick={() => setDesktopDropdownOpen(false)}
+                  className={
+                    location.pathname === "/products" && !location.search
+                      ? "active"
+                      : ""
+                  }
+                >
+                  All Products
+                </NavLink>
+
+                {categories.map((cat) => {
+                  const isActive =
+                    location.pathname === "/products" &&
+                    location.search === `?category=${cat._id}`;
+
+                  return (
+                    <NavLink
+                      key={cat._id}
+                      to={`/products?category=${cat._id}`}
+                      onClick={() => setDesktopDropdownOpen(false)}
+                      className={isActive ? "active" : ""}
+                    >
+                      {cat.name}
+                    </NavLink>
+                  );
+                })}
+              </div>
+            </div>
+
+            <Link to="/about">ABOUT US</Link>
+          </div>
+
+          <Link to="/" className="desktop-logo">
+            <img src={logo} alt="Brand Logo" />
+          </Link>
+
+          <div className="desktop-right">
+            {!user ? (
+              <Link to="/auth" className="desktop-login">
+                LOGIN
+              </Link>
+            ) : (
+              <div
+                className="desktop-login"
+                onClick={() => setProfileOpen(!profileOpen)}
+              >
+                ACCOUNT
+              </div>
+            )}
+
+            <img
+              src={serachIcon}
+              alt="search"
+              className="desktop-icon"
+              onClick={() => setSearchOpen(true)}
+            />
+
+            <div
+              className="cart-wrapper"
+              onClick={() => {
+                if (location.pathname === "/checkout") {
+                  navigate("/cart");
+                } else {
+                  setCartOpen(true);
+                }
+              }}
+            >
+              <img src={cartIcon} alt="cart" className="desktop-icon" />
+
+              {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+            </div>
           </div>
         </div>
 

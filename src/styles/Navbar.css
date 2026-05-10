@@ -349,3 +349,161 @@ margin-top:3px;
 .close-profile{
   cursor:pointer;
 }
+
+
+
+
+/* MOBILE / DESKTOP CONTROL */
+
+.mobile-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.desktop-navbar {
+  display: none;
+}
+
+/* DESKTOP NAVBAR */
+
+@media (min-width: 992px) {
+  .navbar {
+    height: 85px;
+    padding: 0 60px;
+  }
+
+  .mobile-navbar {
+    display: none;
+  }
+
+  .desktop-navbar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .desktop-left,
+  .desktop-right {
+    display: flex;
+    align-items: center;
+    gap: 38px;
+    flex: 1;
+  }
+
+  .desktop-left {
+    justify-content: flex-start;
+  }
+
+  .desktop-right {
+    justify-content: flex-end;
+  }
+
+
+  .desktop-left a,
+  .desktop-login {
+    text-decoration: none;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    cursor: pointer;
+  }
+
+/* SHOP DROPDOWN */
+
+.desktop-shop {
+  position: relative;
+  height: 85px;
+  display: flex;
+  align-items: center;
+}
+
+.desktop-shop-trigger {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.shop-text {
+  color: #fff;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.dropdown-arrow {
+  color: #fff;
+  font-size: 10px;
+  transition: 0.3s ease;
+}
+
+.dropdown-arrow.rotate {
+  transform: rotate(180deg);
+}
+
+/* DROPDOWN */
+
+.desktop-dropdown {
+  position: absolute;
+  top: 70px;
+  left: -15px;
+  min-width: 140px;
+  background: #000;
+  padding: 14px 0;
+  display: flex;
+  flex-direction: column;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+
+  transition: 0.25s ease;
+  z-index: 999;
+}
+
+/* SHOW */
+
+.desktop-dropdown.show-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* LINKS */
+
+.desktop-dropdown a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 12px;
+  padding: 10px 16px;
+  transition: 0.25s ease;
+}
+
+.desktop-dropdown a:hover,
+.desktop-dropdown a.active {
+  background: rgba(255,255,255,0.05);
+  padding-left: 20px;
+}
+
+  .desktop-logo {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+  }
+
+  .desktop-logo img {
+    height: 42px;
+    object-fit: contain;
+  }
+
+  .desktop-icon {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+  }
+}
+

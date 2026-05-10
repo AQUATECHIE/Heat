@@ -4,6 +4,7 @@ import NewRelease from '../components/NewRelease'
 import Showcase from '../components/ShowCase'
 import PromoSection from '../components/PromoSection'
 import Footer from '../components/Footer'
+import Explore from '../components/Explore'
 
 const Home = () => {
   return (
@@ -11,6 +12,7 @@ const Home = () => {
         <Hero />
        <NewRelease />
        <Showcase />
+       <Explore />
        <PromoSection />
        <Footer />
     </>
