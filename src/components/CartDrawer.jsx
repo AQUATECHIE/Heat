@@ -112,8 +112,6 @@ const CartDrawer = ({ open, onClose }) => {
 
         {cart.length > 0 && (
           <div className="cart-footer">
-            <p>Shipping calculated at checkout</p>
-
             <button
               className="checkout-btn"
               onClick={() => {
@@ -122,6 +120,16 @@ const CartDrawer = ({ open, onClose }) => {
               }}
             >
               CHECKOUT • R{total.toLocaleString()}
+            </button>
+
+            <button
+              className="view-cart-btn"
+              onClick={() => {
+                onClose();
+                navigate("/cart");
+              }}
+            >
+              VIEW CART
             </button>
           </div>
         )}

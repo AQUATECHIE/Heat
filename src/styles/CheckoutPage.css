@@ -452,55 +452,395 @@
 
 
 
-@media (min-width:1024px) {
+@media (min-width:1024px){
 
-   /* CENTER CHECKOUT PAGE */
+/* =========================
+   PAGE LAYOUT
+========================= */
 
-   .checkout-page {
-      padding-top: 70px;
-      max-width: 720px;
-      margin: auto;
-   }
+/* =========================
+   MAIN LAYOUT
+========================= */
 
-   .guest-checkout {
-      max-width: 720px;
-      margin: auto;
-      padding-top: 70px;
-   }
+.checkout-page,
+.guest-checkout{
+display:grid;
+grid-template-columns: 52% 48%;
 
-   /* SECTIONS KEEP SAME INTERNAL SPACING */
+min-height:100vh;
+padding-top:80px;
 
-   .checkout-user,
-   .ship-section,
-   .payment-section,
-   .guest-section {
-      padding: 20px 0;
-   }
+background:#f5f5f5;
+}
 
-   .order-summary {
-      padding: 20px;
-   }
+/* EVERYTHING LEFT */
 
-   /* FIX HEADER ALIGNMENT */
+.checkout-user,
+.ship-section,
+.payment-section,
+.guest-section{
+grid-column:1;
 
-   .section-header h3 {
-      margin: 0;
-   }
+background:#f6f6f6;
 
-   /* ADDRESS MODAL POPUP (DESKTOP) */
+padding-left:110px;
+padding-right:55px;
+}
 
-   .address-overlay {
-      align-items: center;
-      justify-content: center;
-   }
+/* ORDER SUMMARY RIGHT */
 
-   .address-modal {
-      width: 520px;
-      max-width: 90%;
-      border-radius: 12px;
-      padding: 25px;
-      max-height: 85vh;
-      animation: fadeInScale .25s ease;
-   }
+.order-summary{
+grid-column:2;
+grid-row:1 / span 20;
+background:#f3f3f3;
 
+border-left:1px solid #e3e3e3;
+
+padding:70px 70px 40px;
+
+min-height:100vh;
+}
+
+/* =========================
+   USER HEADER
+========================= */
+
+.checkout-user{
+border:none;
+
+padding-top:55px;
+padding-bottom:34px;
+}
+
+.user-left{
+gap:14px;
+font-size:16px;
+font-weight:500;
+}
+
+.avatar{
+width:40px;
+height:40px;
+
+font-size:15px;
+}
+
+/* =========================
+   GUEST CONTACT
+========================= */
+
+.section-header{
+margin-bottom:16px;
+}
+
+.section-header h3,
+.guest-title{
+font-size:22px;
+font-weight:700;
+color:#111;
+}
+
+.section-header span{
+font-size:14px;
+color:#444;
+text-decoration:underline;
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+.guest-section{
+border:none;
+padding-top:0;
+padding-bottom:38px;
+}
+
+.guest-section input:not([type="checkbox"]){
+height:50px;
+
+padding:0 14px;
+
+border-radius:6px;
+border:1px solid #d8d8d8;
+
+font-size:15px;
+
+background:#f6f6f6;
+
+margin-bottom:12px;
+}
+
+/* DELIVERY GRID */
+
+.guest-section input[name="firstName"],
+.guest-section input[name="lastName"]{
+width:48.8%;
+display:inline-block;
+}
+
+.guest-section input[name="firstName"]{
+margin-right:2%;
+}
+
+.guest-section input[placeholder="City"],
+.guest-section input[placeholder="State"],
+.guest-section input[placeholder="Postal code (optional)"]{
+width:31.5%;
+display:inline-block;
+}
+
+.guest-section input[placeholder="City"],
+.guest-section input[placeholder="State"]{
+margin-right:2%;
+}
+
+/* CHECKBOX */
+
+.checkbox{
+font-size:14px;
+margin-top:2px;
+}
+
+/* =========================
+   SHIP SECTION
+========================= */
+
+.ship-section{
+padding-top:0;
+padding-bottom:40px;
+
+border-bottom:1px solid #ddd;
+}
+
+.ship-header{
+margin-bottom:18px;
+}
+
+.ship-header button{
+font-size:14px;
+color:#555;
+}
+
+.A{
+font-size:16px;
+line-height:1.6;
+margin-bottom:2px;
+}
+
+/* =========================
+   PAYMENT
+========================= */
+
+.payment-section{
+padding-top:38px;
+}
+
+.payment-section h3{
+font-size:22px;
+font-weight:700;
+margin-bottom:6px;
+}
+
+.payment-section p{
+font-size:14px;
+color:#777;
+margin-bottom:20px;
+}
+
+/* PAYMENT BUTTONS */
+
+.payment-option,
+.stripe-box{
+height:60px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+border-radius:6px;
+
+font-size:15px;
+font-weight:500;
+
+margin-bottom:16px;
+}
+
+/* WHATSAPP */
+
+.payment-option:first-of-type{
+background:black;
+color:white;
+border:none;
+}
+
+/* STRIPE */
+
+.stripe-box{
+background:#f6f6f6;
+border:1px solid #d8d8d8;
+
+font-size:18px;
+font-weight:700;
+color:#635bff;
+}
+
+/* CARD OPTION */
+
+.payment-option{
+background:#f6f6f6;
+border:1px solid #d8d8d8;
+}
+
+/* HIDE MOBILE PAY BTN */
+
+.pay-btn{
+display:none;
+}
+
+/* =========================
+   ORDER SUMMARY
+========================= */
+
+.order-summary h3{
+display:none;
+}
+
+/* ITEM */
+
+.summary-item{
+display:flex;
+align-items:flex-start;
+
+gap:16px;
+
+margin-bottom:30px;
+}
+
+/* IMAGE */
+
+.summary-image img{
+width:66px;
+height:66px;
+
+padding:8px;
+
+background:white;
+
+border-radius:10px;
+}
+
+/* BADGE */
+
+.quantity-badge{
+width:24px;
+height:24px;
+
+font-size:12px;
+
+top:-8px;
+right:-8px;
+}
+
+/* INFO */
+
+.summary-info{
+padding-top:2px;
+}
+
+.product-name{
+font-size:16px;
+line-height:1.2;
+
+max-width:260px;
+
+margin-bottom:8px;
+}
+
+.product-size{
+font-size:14px;
+color:#666;
+}
+
+/* PRICE */
+
+.summary-price{
+margin-left:auto;
+
+font-size:16px;
+font-weight:500;
+
+padding-top:4px;
+}
+
+/* =========================
+   SUMMARY TOTALS
+========================= */
+
+.summary-total{
+margin-top:38px;
+
+display:flex;
+flex-direction:column;
+gap:18px;
+
+width:100%;
+}
+
+/* EACH ROW */
+
+.summary-total div{
+width:100%;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+/* SUBTOTAL + SHIPPING */
+
+.summary-total div span{
+font-size:16px;
+font-weight:400;
+color:#111;
+}
+
+/* TOTAL ROW */
+
+.total-row{
+padding-top:22px;
+margin-top:4px;
+
+border-top:1px solid #ddd;
+}
+
+/* TOTAL TEXT */
+
+.total-row strong{
+font-size:22px;
+font-weight:700;
+color:#111;
+}
+
+/* =========================
+   ADDRESS MODAL
+========================= */
+
+.address-overlay{
+align-items:center;
+justify-content:center;
+}
+
+.address-modal{
+width:520px;
+max-width:90%;
+
+border-radius:12px;
+
+padding:28px;
+
+max-height:85vh;
+
+animation:fadeInScale .25s ease;
+}
 }

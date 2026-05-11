@@ -301,7 +301,15 @@ const ProductDetails = () => {
                 key={item._id}
                 className="related-card"
                 to={`/product/${item._id}`}
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                onClick={() => {
+                  setPreviewOpen(false);
+                  setZoom(1);
+
+                  window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                  });
+                }}
               >
                 <img src={item.images?.[0]?.url} alt={item.name} />
 

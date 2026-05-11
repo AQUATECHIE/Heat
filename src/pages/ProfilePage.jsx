@@ -1,25 +1,43 @@
 import { useState } from "react";
+import { useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
-import "../styles/ProfilePage.css";
-import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
-import api from "../api/axios"; // ✅ IMPORTED
+import { FiEdit2 } from "react-icons/fi";
+import Footer from "../components/Footer";
+import api from "../api/axios";
+import "../styles/ProfilePage.css";
 
 const ProfilePage = () => {
   const { user, login, logout } = useAuth();
+
   const navigate = useNavigate();
 
   const [phone, setPhone] = useState(user?.phone || "");
-  const [passwordEdit, setPasswordEdit] = useState(false);
+  const [address, setAddress] = useState(null);
+
+  useEffect(() => {
+    const fetchAddress = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        const { data } = await api.get("/address", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        setAddress(data);
+      } catch (error) {
+        console.log("No saved address");
+      }
+    };
+
+    fetchAddress();
+  }, []);
 
   const handleSave = async () => {
     try {
       const token = localStorage.getItem("token");
-
-      if (!token) {
-        alert("Please login first");
-        return;
-      }
 
       const { data } = await api.put(
         "/auth/update-profile",
@@ -39,59 +57,92 @@ const ProfilePage = () => {
         token,
       );
 
-      alert("Profile updated successfully");
+      alert("Profile updated");
     } catch (error) {
-      alert(error.response?.data?.message || "Failed to update profile");
+      alert(error.response?.data?.message);
     }
   };
 
-  if (!user) return <div>Please login</div>;
+  if (!user) return null;
 
   return (
     <>
       <div className="profile-page">
-        <h2>My Profile</h2>
+        <div className="profile-wrapper">
+          <h1>My Profile</h1>
 
-        <input value={user.name} disabled />
-        <input value={user.role || "Designer"} disabled />
-        <input value={user.email} disabled />
+          {/* USER CARD */}
 
-        <input
-          type="text"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          placeholder="Phone number"
-        />
+          <div className="profile-card">
+            <div className="card-head">
+              <h3>{user.name}</h3>
 
-        <hr />
+              <FiEdit2 className="edit-icon" />
+            </div>
 
-        <div className="password-section">
-          <span>Password</span>
+            <div className="profile-grid">
+              <div>
+                <span>Email</span>
 
-          <div className="password-box">
-            <input type="password" value="********" disabled={!passwordEdit} />
-            <span
-              className="edit-text"
-              onClick={() => setPasswordEdit(!passwordEdit)}
+                <p>{user.email}</p>
+              </div>
+
+              <div>
+                <span>Phone Number</span>
+
+                {(address?.phone || phone) && <p>{address?.phone || phone}</p>}
+              </div>
+            </div>
+          </div>
+
+          {/* ADDRESS CARD */}
+
+          <div className="profile-card address-card">
+            <div className="card-head">
+              <h3>Address</h3>
+
+              <FiEdit2 className="edit-icon" />
+            </div>
+
+            <div className="address-info">
+              <span>Default Address</span>
+
+              {address?.address && <p>{address.address}</p>}
+
+              {address?.apartment && <p>{address.apartment}</p>}
+
+              {(address?.city || address?.state) && (
+                <p>
+                  {address?.city} {address?.state}
+                </p>
+              )}
+
+              {address?.country && <p>{address.country}</p>}
+
+              {address?.postalCode && <p>{address.postalCode}</p>}
+
+              {(address?.phone || phone) && <p>{address?.phone || phone}</p>}
+            </div>
+          </div>
+
+          {/* ACTIONS */}
+
+          <div className="profile-actions">
+            <button className="save-btn" onClick={handleSave}>
+              Save
+            </button>
+
+            <button
+              className="logout-btn"
+              onClick={() => {
+                logout();
+                navigate("/");
+              }}
             >
-              Edit
-            </span>
+              Logout
+            </button>
           </div>
         </div>
-
-        <button className="save-btn" onClick={handleSave}>
-          SAVE CHANGES
-        </button>
-
-        <button
-          className="logout-profile-btn"
-          onClick={() => {
-            logout();
-            navigate("/");
-          }}
-        >
-          LOGOUT
-        </button>
       </div>
 
       <Footer />

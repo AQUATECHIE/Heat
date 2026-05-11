@@ -370,8 +370,8 @@ margin-top:3px;
 
 @media (min-width: 992px) {
   .navbar {
-    height: 85px;
-    padding: 0 60px;
+    height: 80px;
+    padding: 20px 60px;
   }
 
   .mobile-navbar {

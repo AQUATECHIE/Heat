@@ -84,12 +84,11 @@ const OrdersHistory = () => {
                     {item.name} (x{item.quantity})
                   </span>
 
-                  <span className="item-price">
-                    R{item.price.toLocaleString()}
-                  </span>
-
                   <span className="item-size">
                     Size - {item.size || item.selectedSize}
+                  </span>
+                  <span className="item-price">
+                    R{item.price.toLocaleString()}
                   </span>
                 </div>
 
