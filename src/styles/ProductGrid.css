@@ -372,7 +372,7 @@ justify-content:center;
     grid-template-columns: repeat(4, 1fr);
   }
   .product-page {
-  padding: 90px 20px 40px;
+  padding: 90px 70px 40px;
   background: white;
   position: relative;
   width: 100%;

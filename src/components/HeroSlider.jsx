@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../api/axios";
 import "../styles/Hero.css";
+import hero from "../assets/hero-img2.png"
 
 const Hero = () => {
   const [heroImage, setHeroImage] = useState(null);
@@ -27,7 +28,10 @@ const Hero = () => {
       {heroImage && (
         <>
           <img
-            src={heroImage.url}
+            src={ hero
+              // heroImage.url
+
+            }
             alt="hero"
             className="hero-image"
           />

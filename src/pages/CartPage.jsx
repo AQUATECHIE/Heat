@@ -131,7 +131,7 @@ const CartPage = () => {
 
           {cart.length > 0 && (
             <div className="order-summary">
-              <h2>Order Summary</h2>
+              <h2 style={{marginTop: "-70px"}}>Order Summary</h2>
 
               <div className="summary-row">
                 <span>Subtotal</span>
@@ -147,7 +147,7 @@ const CartPage = () => {
 
               <div className="summary-divider"></div>
 
-              <div className="summary-total">
+              <div className="summary-row" style={{fontSize: '22px', fontWeight: "700"}}>
                 <span>Total</span>
 
                 <span>R{total.toLocaleString()}</span>
