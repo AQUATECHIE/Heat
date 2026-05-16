@@ -25,11 +25,6 @@ const CartPage = () => {
   const total = subtotal + shipping;
 
   const handleCheckout = () => {
-    if (!token) {
-      setLoginModal(true);
-      return;
-    }
-
     navigate("/checkout");
   };
 
@@ -77,25 +72,19 @@ const CartPage = () => {
                       R
                       {(
                         item.quantity *
-                        (item.product.finalPrice ||
-                          item.product.price)
+                        (item.product.finalPrice || item.product.price)
                       ).toLocaleString()}
                     </span>
                   </div>
 
                   {item.selectedSize && (
-                    <p className="cart-size">
-                      Size - {item.selectedSize}
-                    </p>
+                    <p className="cart-size">Size - {item.selectedSize}</p>
                   )}
 
                   <div className="quantity-controls">
                     <button
                       onClick={() =>
-                        updateCartItem(
-                          item.product._id,
-                          item.quantity - 1,
-                        )
+                        updateCartItem(item.product._id, item.quantity - 1)
                       }
                       disabled={item.quantity <= 1}
                     >
@@ -106,10 +95,7 @@ const CartPage = () => {
 
                     <button
                       onClick={() =>
-                        updateCartItem(
-                          item.product._id,
-                          item.quantity + 1,
-                        )
+                        updateCartItem(item.product._id, item.quantity + 1)
                       }
                     >
                       +
@@ -117,9 +103,7 @@ const CartPage = () => {
 
                     <FaTrash
                       className="delete-icon"
-                      onClick={() =>
-                        removeCartItem(item.product._id)
-                      }
+                      onClick={() => removeCartItem(item.product._id)}
                     />
                   </div>
                 </div>
@@ -131,7 +115,7 @@ const CartPage = () => {
 
           {cart.length > 0 && (
             <div className="order-summary">
-              <h2 style={{marginTop: "-70px"}}>Order Summary</h2>
+              <h2 style={{ marginTop: "-70px" }}>Order Summary</h2>
 
               <div className="summary-row">
                 <span>Subtotal</span>
@@ -147,16 +131,16 @@ const CartPage = () => {
 
               <div className="summary-divider"></div>
 
-              <div className="summary-row" style={{fontSize: '22px', fontWeight: "700"}}>
+              <div
+                className="summary-row"
+                style={{ fontSize: "22px", fontWeight: "700" }}
+              >
                 <span>Total</span>
 
                 <span>R{total.toLocaleString()}</span>
               </div>
 
-              <button
-                className="checkout-btn"
-                onClick={handleCheckout}
-              >
+              <button className="checkout-btn" onClick={handleCheckout}>
                 CHECKOUT • R{total.toLocaleString()}
               </button>
             </div>
@@ -185,8 +169,7 @@ const CartPage = () => {
                 <span>
                   R
                   {Number(
-                    item.product.finalPrice ||
-                      item.product.price,
+                    item.product.finalPrice || item.product.price,
                   ).toLocaleString()}
                 </span>
               </Link>
@@ -202,10 +185,7 @@ const CartPage = () => {
           <div className="cart-login-modal">
             <h3>Sign in required</h3>
 
-            <p>
-              Please sign in or create an account to continue
-              checkout.
-            </p>
+            <p>Please sign in or create an account to continue checkout.</p>
 
             <div className="cart-login-actions">
               <button className="login-btn" onClick={goToLogin}>
