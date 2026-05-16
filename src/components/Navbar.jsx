@@ -260,14 +260,14 @@ const Navbar = () => {
               Delivery Address
             </Link>
 
-            <Link to="/wishlist" onClick={() => setProfileOpen(false)}>
+            {/* <Link to="/wishlist" onClick={() => setProfileOpen(false)}>
               <img
                 src={wishlistIcon}
                 alt="wishlist"
                 style={{ color: "black" }}
               />{" "}
               Wishlist
-            </Link>
+            </Link> */}
 
             <button onClick={handleLogout}>
               <img src={logoutIcon} alt="logout" style={{ color: "black" }} />{" "}
