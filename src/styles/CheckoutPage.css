@@ -844,3 +844,24 @@ max-height:85vh;
 animation:fadeInScale .25s ease;
 }
 }
+
+
+@media (max-width:768px){
+
+.order-summary{
+grid-column:auto !important;
+grid-row:auto !important;
+
+position:relative;
+
+z-index:1;
+margin-top: -120px;
+margin-bottom: 120px;
+}
+
+.checkout-page,
+.guest-checkout{
+overflow:visible;
+}
+
+}
