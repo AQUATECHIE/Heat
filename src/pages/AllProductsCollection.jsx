@@ -1,24 +1,23 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import ProductGrid from "../components/ProductGrid";
 import Footer from "../components/Footer";
 import { useSearchParams } from "react-router-dom";
+import api from "../api/axios";
 
 const AllProductsCollection = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [categoryName, setCategoryName] = useState("");
 
-  
-
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+
   const [searchParams] = useSearchParams();
   const category = searchParams.get("category");
 
   const fetchProducts = async () => {
     try {
-      const { data } = await axios.get("/api/products", {
+      const { data } = await api.get("/products", {
         params: {
           page,
           limit: 10,
@@ -47,9 +46,11 @@ const AllProductsCollection = () => {
 
     const fetchCategory = async () => {
       try {
-        const { data } = await axios.get(`/api/categories`);
+        const { data } = await api.get("/categories");
 
-        const currentCategory = data.find((cat) => cat._id === category);
+        const currentCategory = data.find(
+          (cat) => cat._id === category
+        );
 
         setCategoryName(currentCategory?.name || "");
       } catch (error) {
@@ -67,7 +68,11 @@ const AllProductsCollection = () => {
   return (
     <>
       <ProductGrid
-        title={categoryName ? categoryName.toUpperCase() : "ALL PRODUCTS"}
+        title={
+          categoryName
+            ? categoryName.toUpperCase()
+            : "ALL PRODUCTS"
+        }
         products={products}
       />
 
