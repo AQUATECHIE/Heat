@@ -38,7 +38,7 @@ const NewRelease = () => {
         <h2>NEW IN</h2>
 
         <span className="see-all" onClick={() => navigate("/products")}>
-          Shop Now →
+          Shop New In
         </span>
       </div>
 

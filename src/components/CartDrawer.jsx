@@ -79,6 +79,8 @@ const CartDrawer = ({ open, onClose }) => {
                 )}
 
                 <div className="cart-qty">
+                  <div className="cart-qty-n">
+
                   <button
                     onClick={() =>
                       updateCartItem(item.product._id, item.quantity - 1)
@@ -97,6 +99,7 @@ const CartDrawer = ({ open, onClose }) => {
                   >
                     +
                   </button>
+                  </div>
 
                   <FaTrash
                     className="delete-icon"

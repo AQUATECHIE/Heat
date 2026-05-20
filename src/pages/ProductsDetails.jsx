@@ -330,8 +330,8 @@ const ProductDetails = () => {
       {cartModal && (
         <div className="cart-overlay">
           <div className="cart-popup">
-            <div className="cart-popup-header">
-              <span>ADDED TO SHOPPING CART</span>
+            <div className="cart-popup-header" >
+              <span >ADDED TO CART</span>
 
               <button
                 className="close-popup"
@@ -362,6 +362,7 @@ const ProductDetails = () => {
               <button
                 className="checkout-btn"
                 onClick={() => navigate("/checkout")}
+                style={{height:"50px"}}
               >
                 CHECKOUT
               </button>

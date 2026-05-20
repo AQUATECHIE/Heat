@@ -1,6 +1,8 @@
 .new-release {
    background: #f2f2f2;
-   padding-top: 10px;
+   padding-top: 80px;
+   padding-bottom: 80px;
+   padding-left: 20px;
 
 }
 
@@ -57,7 +59,7 @@ scroll-behavior:smooth;
 .product-card {
    flex: 0 0 160px; /* fixed width */
    width: 160px;
-   background: #fff;
+   background: transparent;
    border-radius: 12px;
    position: relative;
    transition: transform .3s ease;

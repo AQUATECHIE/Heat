@@ -28,8 +28,9 @@ const Hero = () => {
       {heroImage && (
         <>
           <img
-            src={ hero
-              // heroImage.url
+            src={ 
+              
+              heroImage.url
 
             }
             alt="hero"
