@@ -448,6 +448,9 @@
    font-weight: 500;
 }
 
+.what:hover{
+   background: white;
+}
 /* DESKTOP CENTERED CHECKOUT */
 
 
@@ -634,12 +637,14 @@ margin-bottom:2px;
 
 .payment-section{
 padding-top:38px;
+margin-top: -35px;
 }
 
 .payment-section h3{
 font-size:22px;
 font-weight:700;
 margin-bottom:6px;
+
 }
 
 .payment-section p{
@@ -695,7 +700,14 @@ border:1px solid #d8d8d8;
 /* HIDE MOBILE PAY BTN */
 
 .pay-btn{
-display:none;
+margin-bottom: 15px;
+}
+.pay-btn:hover {
+   background: white;
+   color: #111;
+   display: flex;
+   justify-content: center;
+   align-items: center;
 }
 
 /* =========================

@@ -265,8 +265,8 @@ Shipping: ₦${order.shipping.toLocaleString()}
 
           {/* CONTACT */}
 
-          <div className="guest-section">
-            <div className="section-header">
+          <div className="guest-section" >
+            <div className="section-header" style={{marginTop: '20px'}}>
               <h3 style={{ marginLeft: "-15px" }}>Contact</h3>
               <span
                 onClick={() => navigate("/auth")}
@@ -283,6 +283,7 @@ Shipping: ₦${order.shipping.toLocaleString()}
               onChange={(e) =>
                 setFormData({ ...formData, email: e.target.value })
               }
+              style={{marginTop: "-30px"}}
             />
 
             <label className="checkbox">
@@ -296,7 +297,7 @@ Shipping: ₦${order.shipping.toLocaleString()}
           <div className="guest-section">
             <h3 className="guest-title">Delivery</h3>
 
-            <input placeholder="Country or region" />
+            <input placeholder="Country or region"  style={{marginTop: "-10px"}}/>
             <input
               name="firstName"
               placeholder="First name"
@@ -353,21 +354,21 @@ Shipping: ₦${order.shipping.toLocaleString()}
             <h3>Payment</h3>
             <p>All transactions are secured and encrypted.</p>
 
+            <button className="pay-btn" onClick={handleWhatsAppCheckout}>
+              <img src={payIcon}  style={{marginLeft: "10px"}}/> 
+              Complete order via whatsapp
+            </button>
+            {/* <div className="payment-option what" >
+              
+            </div> */}
             <div className="stripe-box">stripe</div>
 
-            <div className="payment-option">
-              <img src={payIcon} />
-              Complete order via whatsapp
-            </div>
 
             <div className="payment-option">
               <img src={cardIcon} />
               Credit or Debit card
             </div>
 
-            <button className="pay-btn" onClick={handleWhatsAppCheckout}>
-              PAY NOW
-            </button>
           </div>
         </div>
       ) : (
