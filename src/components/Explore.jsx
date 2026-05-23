@@ -38,13 +38,13 @@ const Explore = () => {
         <h2>EXPLORE MORE PRODUCTS</h2>
 
         <span className="see-all" onClick={() => navigate("/products")}>
-          Show All Products →
+          Show All Products 
         </span>
       </div>
 
       <div className="product-slider">
         {products.map((product) => {
-          const active = isInWishlist(product._id);
+          // const active = isInWishlist(product._id);
 
           return (
             <div
@@ -52,7 +52,7 @@ const Explore = () => {
               key={product._id}
               onClick={() => navigate(`/product/${product._id}`)}
             >
-              <div
+              {/* <div
                 className={`bookmark ${active ? "active" : ""}`}
                 onClick={(e) => {
                   e.stopPropagation(); // prevent card navigation
@@ -67,7 +67,7 @@ const Explore = () => {
                 }}
               >
                 <img src={wishIcon} alt="wishlist" />
-              </div>
+              </div> */}
 
               <div className="product-image-wrapper">
                 <img

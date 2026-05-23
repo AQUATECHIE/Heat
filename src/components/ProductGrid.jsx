@@ -170,7 +170,7 @@ const ProductGrid = ({ title, products = [] }) => {
 
               {/* WISHLIST */}
 
-              <div
+              {/* <div
                 className={`wishlist-btn ${active ? "active" : ""}`}
                 onClick={(e) => {
                   e.preventDefault();
@@ -192,7 +192,7 @@ const ProductGrid = ({ title, products = [] }) => {
                 }}
               >
                 <img src={wishlistIcon} alt="" />
-              </div>
+              </div> */}
 
               {/* PRODUCT */}
 

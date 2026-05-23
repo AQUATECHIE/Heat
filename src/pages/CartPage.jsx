@@ -82,24 +82,26 @@ const CartPage = () => {
                   )}
 
                   <div className="quantity-controls">
-                    <button
-                      onClick={() =>
-                        updateCartItem(item.product._id, item.quantity - 1)
-                      }
-                      disabled={item.quantity <= 1}
-                    >
-                      −
-                    </button>
+                    <div className="qty-box">
+                      <button
+                        onClick={() =>
+                          updateCartItem(item.product._id, item.quantity - 1)
+                        }
+                        disabled={item.quantity <= 1}
+                      >
+                        −
+                      </button>
 
-                    <span>{item.quantity}</span>
+                      <span>{item.quantity}</span>
 
-                    <button
-                      onClick={() =>
-                        updateCartItem(item.product._id, item.quantity + 1)
-                      }
-                    >
-                      +
-                    </button>
+                      <button
+                        onClick={() =>
+                          updateCartItem(item.product._id, item.quantity + 1)
+                        }
+                      >
+                        +
+                      </button>
+                    </div>
 
                     <FaTrash
                       className="delete-icon"

@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../api/axios";
 import { useWishlist } from "../context/WishlistContext";
-import wishIcon from "../assets/icon/wishlist.svg";
+// import wishIcon from "../assets/icon/wishlist.svg";
 
 const NewRelease = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
-  const { toggleWishlist, isInWishlist } = useWishlist();
+  // const { toggleWishlist, isInWishlist } = useWishlist();
   const [wishlistToast, setWishlistToast] = useState(false);
 
   /* FETCH PRODUCTS */
@@ -44,7 +44,7 @@ const NewRelease = () => {
 
       <div className="product-slider">
         {products.map((product) => {
-          const active = isInWishlist(product._id);
+          // const active = isInWishlist(product._id);
 
           return (
             <div
@@ -52,7 +52,7 @@ const NewRelease = () => {
               key={product._id}
               onClick={() => navigate(`/product/${product._id}`)}
             >
-              <div
+              {/* <div
                 className={`bookmark ${active ? "active" : ""}`}
                 onClick={(e) => {
                   e.stopPropagation(); // prevent card navigation
@@ -67,7 +67,7 @@ const NewRelease = () => {
                 }}
               >
                 <img src={wishIcon} alt="wishlist" />
-              </div>
+              </div> */}
 
               <div className="product-image-wrapper">
                 <img

@@ -27,6 +27,10 @@ const Navbar = () => {
   const [profileOpen, setProfileOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const location = useLocation();
+  const isAccountPage =
+    location.pathname === "/orders" ||
+    location.pathname === "/profile" ||
+    location.pathname === "/address";
   const [desktopDropdownOpen, setDesktopDropdownOpen] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -131,104 +135,142 @@ const Navbar = () => {
 
         {/* DESKTOP NAVBAR */}
         <div className="desktop-navbar">
-          <div className="desktop-left">
-            <Link to="/">HOME</Link>
+          {isAccountPage && user ? (
+            <>
+              <div className="account-nav-left">
+                <Link to="/" className="desktop-logo-small">
+                  <img src={logo} alt="Brand Logo" />
+                </Link>
 
-            <div className="desktop-shop">
-              <div
-                className="desktop-shop-trigger"
-                onClick={() => setDesktopDropdownOpen(!desktopDropdownOpen)}
-              >
-                <span className="shop-text">SHOP</span>
-
-                <span
-                  className={`dropdown-arrow ${
-                    desktopDropdownOpen ? "rotate" : ""
-                  }`}
-                >
-                  ⌄
-                </span>
-              </div>
-
-              <div
-                className={`desktop-dropdown ${
-                  desktopDropdownOpen ? "show-dropdown" : ""
-                }`}
-              >
-                <NavLink
-                  to="/products"
-                  onClick={() => setDesktopDropdownOpen(false)}
+                <Link
+                  to="/orders"
                   className={
-                    location.pathname === "/products" && !location.search
-                      ? "active"
-                      : ""
+                    location.pathname === "/orders" ? "account-active" : ""
                   }
                 >
-                  All Products
-                </NavLink>
+                  My Orders
+                </Link>
 
-                {categories.map((cat) => {
-                  const isActive =
-                    location.pathname === "/products" &&
-                    location.search === `?category=${cat._id}`;
+                <Link
+                  to="/profile"
+                  className={
+                    location.pathname === "/profile" ? "account-active" : ""
+                  }
+                >
+                  Profile
+                </Link>
+              </div>
 
-                  return (
-                    <NavLink
-                      key={cat._id}
-                      to={`/products?category=${cat._id}`}
-                      onClick={() => setDesktopDropdownOpen(false)}
-                      className={isActive ? "active" : ""}
+              <div className="account-nav-right">
+                <div
+                  className="account-avatar"
+                  onClick={() => setProfileOpen(!profileOpen)}
+                >
+                  {user?.name?.charAt(0)?.toUpperCase()}
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="desktop-left">
+                <Link to="/">HOME</Link>
+
+                <div className="desktop-shop">
+                  <div
+                    className="desktop-shop-trigger"
+                    onClick={() => setDesktopDropdownOpen(!desktopDropdownOpen)}
+                  >
+                    <span className="shop-text">SHOP</span>
+
+                    <span
+                      className={`dropdown-arrow ${
+                        desktopDropdownOpen ? "rotate" : ""
+                      }`}
                     >
-                      {cat.name}
+                      ⌄
+                    </span>
+                  </div>
+
+                  <div
+                    className={`desktop-dropdown ${
+                      desktopDropdownOpen ? "show-dropdown" : ""
+                    }`}
+                  >
+                    <NavLink
+                      to="/products"
+                      onClick={() => setDesktopDropdownOpen(false)}
+                      className={
+                        location.pathname === "/products" && !location.search
+                          ? "active"
+                          : ""
+                      }
+                    >
+                      All Products
                     </NavLink>
-                  );
-                })}
+
+                    {categories.map((cat) => {
+                      const isActive =
+                        location.pathname === "/products" &&
+                        location.search === `?category=${cat._id}`;
+
+                      return (
+                        <NavLink
+                          key={cat._id}
+                          to={`/products?category=${cat._id}`}
+                          onClick={() => setDesktopDropdownOpen(false)}
+                          className={isActive ? "active" : ""}
+                        >
+                          {cat.name}
+                        </NavLink>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <Link to="/about">ABOUT US</Link>
               </div>
-            </div>
 
-            <Link to="/about">ABOUT US</Link>
-          </div>
-
-          <Link to="/" className="desktop-logo">
-            <img src={logo} alt="Brand Logo" />
-          </Link>
-
-          <div className="desktop-right">
-            {!user ? (
-              <Link to="/auth" className="desktop-login">
-                LOGIN
+              <Link to="/" className="desktop-logo">
+                <img src={logo} alt="Brand Logo" />
               </Link>
-            ) : (
-              <div
-                className="desktop-login"
-                onClick={() => setProfileOpen(!profileOpen)}
-              >
-                ACCOUNT
+
+              <div className="desktop-right">
+                {!user ? (
+                  <Link to="/auth" className="desktop-login">
+                    LOGIN
+                  </Link>
+                ) : (
+                  <Link to="/orders" className="desktop-login">
+                    ACCOUNT
+                  </Link>
+                )}
+
+                <img
+                  src={serachIcon}
+                  alt="search"
+                  className="desktop-icon"
+                  onClick={() => setSearchOpen(true)}
+                />
+
+                <div
+                  className="cart-wrapper"
+                  onClick={() => {
+                    if (location.pathname === "/checkout") {
+                      navigate("/cart");
+                    } else {
+                      setCartOpen(true);
+                    }
+                  }}
+                >
+                  <img src={cartIcon} alt="cart" className="desktop-icon" />
+
+                  {cartCount > 0 && (
+                    <span className="cart-badge">{cartCount}</span>
+                  )}
+                </div>
               </div>
-            )}
-
-            <img
-              src={serachIcon}
-              alt="search"
-              className="desktop-icon"
-              onClick={() => setSearchOpen(true)}
-            />
-
-            <div
-              className="cart-wrapper"
-              onClick={() => {
-                if (location.pathname === "/checkout") {
-                  navigate("/cart");
-                } else {
-                  setCartOpen(true);
-                }
-              }}
-            >
-              <img src={cartIcon} alt="cart" className="desktop-icon" />
-
-              {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
-            </div>
-          </div>
+            </>
+          )}
         </div>
 
         {/* PROFILE MODAL */}
@@ -407,13 +449,7 @@ const Navbar = () => {
         <div className="sidebar-divider"></div>
 
         <div className="sidebar-extra">
-          <NavLink
-            to="/wishlist"
-            onClick={() => setSidebarOpen(false)}
-            style={{ display: "flex", alignItems: "center", gap: "10px" }}
-          >
-            <img src={wishlistIcon} alt="" /> Wishlist
-          </NavLink>
+          
           <NavLink
             to="/about"
             onClick={() => setSidebarOpen(false)}
