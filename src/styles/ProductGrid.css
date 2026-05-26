@@ -496,3 +496,45 @@ justify-content:center;
 }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* TOOLBAR ACTIONS */
+
+.toolbar-actions{
+display:flex;
+justify-content:space-between;
+align-items:center;
+width:100%;
+}
+
+/* SORT */
+
+.sort-row{
+display:flex;
+align-items:center;
+gap:6px;
+cursor:pointer;
+font-size:13px;
+font-weight:500;
+color:#555;
+position:relative;
+}
+
+.sort-row span{
+transition:.25s ease;
+}
+
+.sort-row span.rotate{
+transform:rotate(180deg);
+}

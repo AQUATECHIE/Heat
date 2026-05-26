@@ -30,6 +30,7 @@ const ProductDetails = () => {
   const [cartModal, setCartModal] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [zoom, setZoom] = useState(1);
+  const [imageAnimating, setImageAnimating] = useState(false);
 
   /* FETCH PRODUCT */
 
@@ -95,15 +96,27 @@ const ProductDetails = () => {
   /* IMAGE NAVIGATION */
 
   const nextImage = () => {
-    setCurrentImage((prev) =>
-      prev === (product.images?.length || 1) - 1 ? 0 : prev + 1,
-    );
+    setImageAnimating(true);
+
+    setTimeout(() => {
+      setCurrentImage((prev) =>
+        prev === (product.images?.length || 1) - 1 ? 0 : prev + 1,
+      );
+
+      setImageAnimating(false);
+    }, 200);
   };
 
   const prevImage = () => {
-    setCurrentImage((prev) =>
-      prev === 0 ? (product.images?.length || 1) - 1 : prev - 1,
-    );
+    setImageAnimating(true);
+
+    setTimeout(() => {
+      setCurrentImage((prev) =>
+        prev === 0 ? (product.images?.length || 1) - 1 : prev - 1,
+      );
+
+      setImageAnimating(false);
+    }, 200);
   };
 
   /* ADD TO CART */
@@ -156,7 +169,7 @@ const ProductDetails = () => {
           <FaChevronLeft className="arrow left" onClick={prevImage} />
 
           <img
-            className="product-image"
+            className={`product-image ${imageAnimating ? "fade-out" : "fade-in"}`}
             src={product.images?.[currentImage]?.url}
             alt={product.name}
           />
@@ -330,8 +343,8 @@ const ProductDetails = () => {
       {cartModal && (
         <div className="cart-overlay">
           <div className="cart-popup">
-            <div className="cart-popup-header" >
-              <span >ADDED TO CART</span>
+            <div className="cart-popup-header">
+              <span>ADDED TO CART</span>
 
               <button
                 className="close-popup"
@@ -362,7 +375,7 @@ const ProductDetails = () => {
               <button
                 className="checkout-btn"
                 onClick={() => navigate("/checkout")}
-                style={{height:"50px"}}
+                style={{ height: "50px" }}
               >
                 CHECKOUT
               </button>

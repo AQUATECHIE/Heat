@@ -22,6 +22,7 @@ const ProductGrid = ({ title, products = [] }) => {
   const [maxPrice, setMaxPrice] = useState("");
 
   const [filteredProducts, setFilteredProducts] = useState(products);
+  
 
   const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);

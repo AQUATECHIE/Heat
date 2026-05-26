@@ -426,6 +426,7 @@ margin-top:3px;
 .desktop-shop-trigger {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 5px;
   cursor: pointer;
   user-select: none;
@@ -433,19 +434,20 @@ margin-top:3px;
 
 .shop-text {
   color: #fff;
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 1px;
 }
 
 .dropdown-arrow {
   color: #fff;
-  font-size: 10px;
+  font-size: 20px;
   transition: 0.3s ease;
+  margin-top: -12px;
 }
 
-.dropdown-arrow.rotate {
+/* .dropdown-arrow.rotate {
   transform: rotate(180deg);
-}
+} */
 
 /* DROPDOWN */
 

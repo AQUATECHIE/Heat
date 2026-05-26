@@ -164,7 +164,7 @@ const Navbar = () => {
               <div className="account-nav-right">
                 <div
                   className="account-avatar"
-                  onClick={() => setProfileOpen(!profileOpen)}
+                  // onClick={() => setProfileOpen(!profileOpen)}
                 >
                   {user?.name?.charAt(0)?.toUpperCase()}
                 </div>
