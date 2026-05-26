@@ -4,7 +4,7 @@
 position:fixed;
 top:0;
 right:-100%;
-width:30px; /* added */
+width:290px; /* added */
 height:100vh;
 background:white;
 z-index:2000;
@@ -22,7 +22,7 @@ right:0;
 /* HEADER */
 
 .cart-head{
-height:80px;
+height:70px;
 background:black;
 
 display:flex;
@@ -206,6 +206,7 @@ font-weight:500;
 text-decoration:underline;
 
 cursor:pointer;
+border: none !important;
 color:#333;
 }
 
@@ -234,6 +235,10 @@ padding:25px 24px 180px;
 .cart-drawer{
 width:480px;
 right:-560px;
+}
+
+.cart-head {
+    height: 80px;
 }
 
 
