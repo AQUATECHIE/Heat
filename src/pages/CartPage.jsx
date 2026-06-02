@@ -4,6 +4,7 @@ import { useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import Footer from "../components/Footer";
 import "../styles/CartPage.css";
+import deleteIcon from "../assets/icon/delete.svg";
 
 const CartPage = () => {
   const { cart, updateCartItem, removeCartItem } = useCart();
@@ -103,9 +104,12 @@ const CartPage = () => {
                       </button>
                     </div>
 
-                    <FaTrash
+                    <img
+                      src={deleteIcon}
+                      alt=""
                       className="delete-icon"
                       onClick={() => removeCartItem(item.product._id)}
+                      width={20}
                     />
                   </div>
                 </div>

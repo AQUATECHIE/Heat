@@ -444,7 +444,7 @@ const ProductDetails = () => {
 
             <img
               src={product.images?.[currentImage]?.url}
-              className="preview-image"
+              className={`preview-image ${imageAnimating ? "preview-changing" : ""}`}
               style={{ transform: `scale(${zoom})` }}
             />
 

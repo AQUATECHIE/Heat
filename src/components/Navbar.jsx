@@ -8,6 +8,7 @@ import CartDrawer from "../components/CartDrawer";
 import menuIcon from "../assets/icon/MenuIcon (2).svg";
 import serachIcon from "../assets/icon/search.svg";
 import userIcon from "../assets/icon/user.svg";
+import dropIcon from "../assets/icon/drops.svg"
 import aboutIcon from "../assets/icon/Frame.svg";
 import callIcon from "../assets/icon/call.svg";
 import mailIcon from "../assets/icon/Frame1.svg";
@@ -180,15 +181,10 @@ const Navbar = () => {
                     className="desktop-shop-trigger"
                     onClick={() => setDesktopDropdownOpen(!desktopDropdownOpen)}
                   >
-                    <span className="shop-text">SHOP</span>
+                    <span>SHOP</span>
+                    <img src={dropIcon} alt="filter" />
 
-                    <span
-                      className={`dropdown-arrow ${
-                        desktopDropdownOpen ? "rotate" : ""
-                      }`}
-                    >
-                      ⌄
-                    </span>
+                    
                   </div>
 
                   <div

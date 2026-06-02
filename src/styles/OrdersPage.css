@@ -1,5 +1,5 @@
 .orders-page{
-background:#f2f2f2;
+background:#f8f8f8 !important;
 padding:20px;
 padding-top:80px;
 min-height:100vh;
@@ -114,12 +114,15 @@ gap:4px;
 }
 
 .item-name{
-font-size:14px;
+font-size:12px;
 font-weight:500;
+word-wrap:break-word;
+overflow-wrap:break-word;
+white-space:normal;
 }
 
 .item-price{
-font-size:14px;
+font-size:12px;
 font-weight:500;
 }
 
@@ -168,4 +171,13 @@ text-align:center;
 .no-orders p{
 font-size:14px;
 color:#666;
+}
+
+.orders-page h2,
+.search-bar,
+.order-card{
+max-width:550px;
+width:100%;
+margin-left:auto;
+margin-right:auto;
 }

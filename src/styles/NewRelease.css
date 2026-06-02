@@ -1,5 +1,5 @@
 .new-release {
-   background: #f2f2f2;
+   background: white;
    padding-top: 80px;
    padding-bottom: 80px;
    padding-left: 20px;
@@ -22,11 +22,12 @@
    font-weight: 600;
 }
 
-.see-all {
-   cursor: pointer;
-   font-weight: 500;
-   transition: opacity .2s;
-   font-size: 13px;
+.see-all{
+cursor:pointer;
+font-weight:500;
+transition:opacity .2s;
+font-size:13px;
+margin-right:50px;
 }
 
 .see-all:hover {
@@ -124,8 +125,7 @@ transform:scale(1.08);
 
 .product-info h4 {
    font-size: 11px;
-   margin-bottom: 6px;
-   color: #666;
+   color: #434343;
    line-height: 1.3;
    font-weight: 500;
 
@@ -138,6 +138,7 @@ transform:scale(1.08);
 .product-info p {
    font-size: 14px;
    font-weight: 600;
+   margin-top: -8px;
 }
 
 .product-info{

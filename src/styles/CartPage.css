@@ -1,6 +1,6 @@
 .cart-page{
 background:#f3f3f3;
-padding:120px 80px 80px;
+padding:120px 170px 80px;
 min-height:80vh;
 }
 
@@ -57,7 +57,7 @@ flex:1;
 display:grid;
 grid-template-columns:1fr auto;
 align-items:start;
-column-gap:12px;
+column-gap:10px;
 }
 
 .cart-top h4{
@@ -360,6 +360,7 @@ cursor:pointer;
 grid-template-columns:1fr;
 gap:60px;
 }
+
 
 .related-grid{
 grid-template-columns:repeat(2,1fr);

@@ -3,6 +3,7 @@ import { useCart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
 import "../styles/CartDrawer.css";
+import deleteIcon from "../assets/icon/delete.svg";
 
 const CartDrawer = ({ open, onClose }) => {
   const { cart, updateCartItem, removeCartItem } = useCart();
@@ -24,6 +25,7 @@ const CartDrawer = ({ open, onClose }) => {
 
   return (
     <>
+      {open && <div className="cart-overlay" onClick={onClose} />}
       <div
         className={`cart-drawer ${open ? "open" : ""}`}
         onClick={(e) => e.stopPropagation()}
@@ -80,30 +82,31 @@ const CartDrawer = ({ open, onClose }) => {
 
                 <div className="cart-qty">
                   <div className="cart-qty-n">
+                    <button
+                      onClick={() =>
+                        updateCartItem(item.product._id, item.quantity - 1)
+                      }
+                      disabled={item.quantity <= 1}
+                    >
+                      −
+                    </button>
 
-                  <button
-                    onClick={() =>
-                      updateCartItem(item.product._id, item.quantity - 1)
-                    }
-                    disabled={item.quantity <= 1}
-                  >
-                    −
-                  </button>
+                    <span>{item.quantity}</span>
 
-                  <span>{item.quantity}</span>
-
-                  <button
-                    onClick={() =>
-                      updateCartItem(item.product._id, item.quantity + 1)
-                    }
-                  >
-                    +
-                  </button>
+                    <button
+                      onClick={() =>
+                        updateCartItem(item.product._id, item.quantity + 1)
+                      }
+                    >
+                      +
+                    </button>
                   </div>
-
-                  <FaTrash
+                  <img
+                    src={deleteIcon}
+                    alt=""
                     className="delete-icon"
                     onClick={() => removeCartItem(item.product._id)}
+                    width={20}
                   />
                 </div>
               </div>

@@ -69,7 +69,7 @@ const ProfilePage = () => {
     <>
       <div className="profile-page">
         <div className="profile-wrapper">
-          <h1>My Profile</h1>
+          
 
           {/* USER CARD */}
 
@@ -128,9 +128,9 @@ const ProfilePage = () => {
           {/* ACTIONS */}
 
           <div className="profile-actions">
-            <button className="save-btn" onClick={handleSave}>
+            {/* <button className="save-btn" onClick={handleSave}>
               Save
-            </button>
+            </button> */}
 
             <button
               className="logout-btn"

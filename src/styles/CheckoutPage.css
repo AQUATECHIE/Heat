@@ -12,7 +12,7 @@
    align-items: center;
    padding: 18px;
    border-bottom: 1px solid #ccc;
-   background: #fff;
+   background: white !important;
 }
 
 .user-left {
@@ -38,6 +38,7 @@
 
 .ship-section {
    padding: 20px;
+   background: white !important;
    
 }
 
@@ -105,8 +106,8 @@
    right: -6px;
    background: black;
    color: white;
-   width: 20px;
-   height: 20px;
+   width: 17px !important;
+   height: 17px !important;
    border-radius: 50%;
    display: flex;
    align-items: center;
@@ -134,6 +135,7 @@
 .summary-price {
    font-size: 14px;
    font-weight: 500;
+   margin-left: -30px;
 }
 
 /* TOTALS */
@@ -159,6 +161,7 @@
 
 .payment-section {
    padding: 20px;
+   background-color: white !important;
 }
 
 .payment-section h3 {

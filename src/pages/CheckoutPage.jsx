@@ -469,22 +469,23 @@ Shipping: ₦${order.shipping.toLocaleString()}
           <div className="payment-section">
             <h3>Payment method</h3>
             <p>All transactions are secured and encrypted.</p>
+            <button className="pay-btn" onClick={handleWhatsAppCheckout}>
+              PAY VIA WHATSAPP
+            </button>
 
             <div className="stripe-box">stripe</div>
 
-            <div className="payment-option">
+            {/* <div className="payment-option">
               <img src={payIcon} alt="" />
               Complete order via whatsapp
-            </div>
+            </div> */}
 
             <div className="payment-option">
               <img src={cardIcon} alt="" />
               Credit or Debit card
             </div>
 
-            <button className="pay-btn" onClick={handleWhatsAppCheckout}>
-              PAY VIA WHATSAPP
-            </button>
+            
           </div>
         </div>
       )}

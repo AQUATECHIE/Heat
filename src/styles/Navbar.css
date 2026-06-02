@@ -20,7 +20,7 @@
 
 .icon {
   color: #fff;
-  font-size: 18px;
+  font-size: 14px;
   cursor: pointer;
 }
 
@@ -69,14 +69,14 @@ color:#333;
 /* ICON */
 
 .search-icon{
-width:  50px;
-height: 50px;
+width:  30px;
+height: 30px;
 cursor: pointer;
 }
 
 .close-icon{
-width: 50px;
-height: 50px;
+width: 30px;
+height: 30px;
 cursor:pointer;
 }
 
@@ -265,6 +265,8 @@ margin-top:3px;
   font-size: 10px;
   padding: 3px 6px;
   border-radius: 50%;
+  width: 17px;
+  height: 17px;
 }
 
 .user-wrapper {
@@ -385,11 +387,16 @@ margin-top:3px;
     justify-content: space-between;
   }
 
-  .desktop-left,
+  .desktop-left{
+     display: flex;
+    align-items: center;
+    gap: 28px;
+    flex: 1;
+  }
   .desktop-right {
     display: flex;
     align-items: center;
-    gap: 38px;
+    gap: 20px;
     flex: 1;
   }
 
@@ -430,6 +437,13 @@ margin-top:3px;
   gap: 5px;
   cursor: pointer;
   user-select: none;
+  font-size: 12px;
+  color: white;
+  font-weight: 500;
+}
+.desktop-shop-trigger img{
+  font-size: 12px;
+  color: white;
 }
 
 .shop-text {
@@ -445,11 +459,7 @@ margin-top:3px;
   margin-top: -12px;
 }
 
-/* .dropdown-arrow.rotate {
-  transform: rotate(180deg);
-} */
 
-/* DROPDOWN */
 
 .desktop-dropdown {
   position: absolute;
@@ -482,9 +492,11 @@ margin-top:3px;
 .desktop-dropdown a {
   color: #fff;
   text-decoration: none;
-  font-size: 12px;
+  font-size: 10px;
   padding: 10px 16px;
+  font-weight: 500;
   transition: 0.25s ease;
+
 }
 
 .desktop-dropdown a:hover,
@@ -505,8 +517,8 @@ margin-top:3px;
   }
 
   .desktop-icon {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     cursor: pointer;
   }
 }

@@ -650,8 +650,9 @@ transform:translateX(0);
    /* title */
 
    .product-title h2 {
-      font-size: 16px;
+      font-size: 24px;
       font-weight: 500;
+
 
    }
 
@@ -923,14 +924,14 @@ position:absolute;
 top:20px;
 right:20px;
 
-width:42px;
-height:42px;
+width:25px;
+height:25px;
 
 border:none;
 border-radius:50%;
 
 background:rgba(255,255,255,.95);
-color:black;
+color:#242424;
 margin-top: 80px;
 font-size:22px;
 font-weight:500;
@@ -962,4 +963,20 @@ padding:8px 12px;
 border:none;
 background:white;
 cursor:pointer;
+}
+
+.preview-image{
+position:relative;
+z-index:1;
+max-width:100%;
+max-height:85vh;
+object-fit:contain;
+transition:
+transform .4s ease,
+opacity .4s ease;
+}
+
+.preview-changing{
+opacity:0;
+transform:scale(1.15);
 }

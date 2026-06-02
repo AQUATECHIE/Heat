@@ -3,7 +3,8 @@ import "../styles/ProductGrid.css";
 import wishlistIcon from "../assets/icon/wishlist.svg";
 import { Link, useSearchParams } from "react-router-dom";
 import { useWishlist } from "../context/WishlistContext";
-import filterIcon from "../assets/icon/filter.svg";
+import filterIcon from "../assets/icon/filters.svg";
+import dropIcon from "../assets/icon/drop.svg"
 import api from "../api/axios";
 
 const ProductGrid = ({ title, products = [] }) => {
@@ -18,11 +19,12 @@ const ProductGrid = ({ title, products = [] }) => {
   const [selectedSize, setSelectedSize] = useState(null);
 
   const [filterOpen, setFilterOpen] = useState(false);
+  const [sortOpen, setSortOpen] = useState(false);
+  const [sortBy, setSortBy] = useState("Best Selling");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
 
   const [filteredProducts, setFilteredProducts] = useState(products);
-  
 
   const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -111,9 +113,20 @@ const ProductGrid = ({ title, products = [] }) => {
       <div className="product-toolbar">
         <h2 className="page-title">{title}</h2>
 
-        <div className="filter-row" onClick={() => setFilterOpen(!filterOpen)}>
-          <img src={filterIcon} alt="filter" />
-          Filter
+        <div className="toolbar-actions">
+          <div
+            className="filter-row"
+            onClick={() => setFilterOpen(!filterOpen)}
+          >
+            <img src={filterIcon} alt="filter" />
+            FILTER
+          </div>
+
+          <div className="sort-row" onClick={() => setSortOpen(!sortOpen)}>
+           
+            SORT BY
+             <img src={dropIcon} alt="drop" />
+          </div>
         </div>
       </div>
 
@@ -150,6 +163,74 @@ const ProductGrid = ({ title, products = [] }) => {
             <button onClick={applyFilter}>Apply</button>
 
             <button onClick={resetFilter}>Reset</button>
+          </div>
+        </div>
+      )}
+      {sortOpen && (
+        <div className="sort-dropdown">
+          <div
+            onClick={() => {
+              setSortBy("Best Selling");
+              setSortOpen(false);
+            }}
+          >
+            Best Selling
+          </div>
+
+          <div
+            onClick={() => {
+              const sorted = [...filteredProducts].sort(
+                (a, b) => (a.finalPrice || a.price) - (b.finalPrice || b.price),
+              );
+
+              setFilteredProducts(sorted);
+              setSortBy("Price, low to high");
+              setSortOpen(false);
+            }}
+          >
+            Price, low to high
+          </div>
+
+          <div
+            onClick={() => {
+              const sorted = [...filteredProducts].sort(
+                (a, b) => (b.finalPrice || b.price) - (a.finalPrice || a.price),
+              );
+
+              setFilteredProducts(sorted);
+              setSortBy("Price, high to low");
+              setSortOpen(false);
+            }}
+          >
+            Price, high to low
+          </div>
+
+          <div
+            onClick={() => {
+              const sorted = [...filteredProducts].sort(
+                (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
+              );
+
+              setFilteredProducts(sorted);
+              setSortBy("Date, old to new");
+              setSortOpen(false);
+            }}
+          >
+            Date, old to new
+          </div>
+
+          <div
+            onClick={() => {
+              const sorted = [...filteredProducts].sort(
+                (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+              );
+
+              setFilteredProducts(sorted);
+              setSortBy("Date, new to old");
+              setSortOpen(false);
+            }}
+          >
+            Date, new to old
           </div>
         </div>
       )}
