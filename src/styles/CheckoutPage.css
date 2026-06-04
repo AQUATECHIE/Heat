@@ -387,13 +387,14 @@
 ======================= */
 
 .guest-checkout {
-   background: #fff;
+   background: white!;
    padding-top: 70px;
 }
 
 .guest-section {
    padding: 20px;
    border-bottom: 1px solid #dcdcdc;
+   background: white !important;
 }
 
 .section-header {
@@ -708,9 +709,9 @@ margin-bottom: 15px;
 .pay-btn:hover {
    background: white;
    color: #111;
-   display: flex;
+   /* display: flex;
    justify-content: center;
-   align-items: center;
+   align-items: center; */
 }
 
 /* =========================

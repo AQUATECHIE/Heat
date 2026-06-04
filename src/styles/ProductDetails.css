@@ -3,7 +3,7 @@
 }
 
 .product-details {
-   background: white;
+   background: white !important;
    padding-top: 70px;
 }
 
@@ -291,7 +291,7 @@ transform:translateX(0);
 
 .cart-popup {
    background: white;
-   width: 70%;
+   width: 84%;
    max-width: 340px;
    border-radius: 16px;
    overflow: hidden;
@@ -329,7 +329,7 @@ transform:translateX(0);
    align-items: center;
    gap: 15px;
    padding: 20px;
-   border-top: 1px solid black;
+   border-top: 1px solid #888;
    border-bottom: 1px solid #888;
 }
 
@@ -412,7 +412,7 @@ transform:translateX(0);
 
 .related-products {
    padding: 30px 20px 10px;
-   /* background: white; */
+   background: white !important;
 }
 
 .related-title {

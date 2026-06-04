@@ -6,9 +6,9 @@
   text-decoration: none;
   
 }
-body {
+/* body {
   background-color: #f8f8f8;
-}
+} */
 .pagination {
   display: flex;
   justify-content: center;

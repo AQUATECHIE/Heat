@@ -37,14 +37,31 @@ const CartPage = () => {
   return (
     <>
       <section className="cart-page">
-        <div className="cart-layout">
+        
+        {cart.length === 0 ? (
+        <div className="empty-cart">
+          <div className="cart-wheel">🛒</div>
+
+          <h3>Your cart is currently empty</h3>
+
+          <button
+            className="start-shopping-btn"
+            onClick={() => navigate("/products")}
+          >
+            START SHOPPING
+          </button>
+        </div>
+      ) : (
+        <div className={`cart-layout ${cart.length === 0 ? "empty-layout" : ""}`}>
           {/* LEFT */}
 
           <div className="cart-left-section">
             <h2>Your Shopping Cart</h2>
 
-            {cart.length === 0 && (
+            {/* {cart.length === 0 && (
+              
               <div className="empty-cart">
+                
                 <div className="cart-wheel">🛒</div>
 
                 <h3>Your cart is currently empty</h3>
@@ -56,7 +73,7 @@ const CartPage = () => {
                   START SHOPPING
                 </button>
               </div>
-            )}
+            )} */}
 
             {cart.map((item) => (
               <div key={item.product._id} className="cart-item">
@@ -151,7 +168,7 @@ const CartPage = () => {
               </button>
             </div>
           )}
-        </div>
+        </div>)}
 
         {/* RELATED */}
 
